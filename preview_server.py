@@ -213,6 +213,231 @@ MODULES = [
     },
 ]
 
+# ── Quiz Data ──────────────────────────────────────────────────
+
+QUIZZES = {
+    ("module-1-foundations", "curriculum.md"): {
+        "title": "Foundations Knowledge Check",
+        "questions": [
+            {
+                "q": "What is the key difference between a chatbot and an AI agent?",
+                "options": [
+                    "An agent uses a newer LLM model",
+                    "An agent autonomously decides what to do next",
+                    "An agent has a graphical user interface",
+                    "An agent responds faster than a chatbot"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What are the four core components of an AI agent?",
+                "options": [
+                    "Input, Output, Database, API",
+                    "Frontend, Backend, Database, Cache",
+                    "Brain (LLM), Tools, Memory, Planning",
+                    "Prompt, Response, Context, History"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "When should you NOT use an AI agent?",
+                "options": [
+                    "When the task requires judgment and external systems",
+                    "When the task is deterministic and follows the same steps every time",
+                    "When the task involves multiple steps with decisions",
+                    "When the task requires interacting with APIs"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What does 'stop_reason: tool_use' mean in a Claude API response?",
+                "options": [
+                    "The agent has finished and returned its answer",
+                    "The agent encountered an error",
+                    "The agent wants to call a tool and is waiting for the result",
+                    "The agent ran out of tokens"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "Which type of memory persists across agent sessions?",
+                "options": [
+                    "Conversation memory (message history)",
+                    "Short-term memory (context window)",
+                    "Long-term memory (files, databases, vector stores)",
+                    "System prompt memory"
+                ],
+                "answer": 2
+            }
+        ]
+    },
+    ("module-1-foundations", "labs/lab_01_hello_agent.ipynb"): {
+        "title": "Lab 1 Check",
+        "questions": [
+            {
+                "q": "What function do you call to make a Claude API request?",
+                "options": [
+                    "client.chat.completions()",
+                    "client.messages.create()",
+                    "client.generate()",
+                    "client.send_message()"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What is the purpose of the system prompt?",
+                "options": [
+                    "To authenticate with the API",
+                    "To define the agent's identity, expertise, and behavioral rules",
+                    "To set the maximum token limit",
+                    "To specify the output format"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "How does Claude 'remember' previous messages in a conversation?",
+                "options": [
+                    "Claude has built-in session memory",
+                    "You send the full conversation history with every API call",
+                    "Claude stores messages on Anthropic's servers",
+                    "The system prompt contains the history"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What does stop_reason 'end_turn' indicate?",
+                "options": [
+                    "The model hit the token limit",
+                    "An error occurred",
+                    "The model finished its response naturally",
+                    "The model wants to use a tool"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "Which message role is invisible to end users but shapes agent behavior?",
+                "options": [
+                    "user",
+                    "assistant",
+                    "system",
+                    "tool"
+                ],
+                "answer": 2
+            }
+        ]
+    },
+    ("module-1-foundations", "labs/lab_02_tool_use_agent.ipynb"): {
+        "title": "Lab 2 Check",
+        "questions": [
+            {
+                "q": "How does Claude know which tools are available?",
+                "options": [
+                    "Tools are hardcoded in the model",
+                    "You pass tool definitions as JSON schemas in the API call",
+                    "Claude discovers tools automatically",
+                    "Tools are defined in the system prompt"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What happens after Claude returns a tool_use response?",
+                "options": [
+                    "The conversation ends",
+                    "Your code executes the tool and sends the result back as tool_result",
+                    "Claude executes the tool itself",
+                    "The user must approve the tool call"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Why is tool description quality more important than prompt engineering?",
+                "options": [
+                    "Descriptions are longer than prompts",
+                    "Claude reads tool descriptions to decide which tool to use autonomously",
+                    "Descriptions are required, prompts are optional",
+                    "Tool descriptions affect pricing"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What should your tool function return when an error occurs?",
+                "options": [
+                    "Raise an exception to crash the program",
+                    "Return None",
+                    "Return an error message string so the agent can handle it gracefully",
+                    "Return the original input unchanged"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "If Claude can answer a question without any tool, what happens?",
+                "options": [
+                    "It calls a random tool anyway",
+                    "It returns stop_reason 'end_turn' with a text response (no tool call)",
+                    "It returns an error",
+                    "It asks the user which tool to use"
+                ],
+                "answer": 1
+            }
+        ]
+    },
+    ("module-1-foundations", "labs/lab_03_multi_step_agent.ipynb"): {
+        "title": "Lab 3 Check",
+        "questions": [
+            {
+                "q": "What controls how long the agent loop runs?",
+                "options": [
+                    "A timer set in seconds",
+                    "The loop continues while stop_reason == 'tool_use', with a max_iterations safety limit",
+                    "The user manually stops it",
+                    "It always runs exactly 10 iterations"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "How is persistent memory implemented in Lab 3?",
+                "options": [
+                    "A cloud database",
+                    "A vector store",
+                    "A JSON file on disk that survives across sessions",
+                    "Redis cache"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "Why is max_iterations important in the agent loop?",
+                "options": [
+                    "It makes the agent faster",
+                    "It reduces API costs",
+                    "It prevents infinite loops if the agent never reaches end_turn",
+                    "It's required by the Claude API"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "What's the difference between conversation memory and persistent memory?",
+                "options": [
+                    "There is no difference",
+                    "Conversation memory is the message list within one run; persistent memory survives across sessions",
+                    "Persistent memory is faster",
+                    "Conversation memory uses a database"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Can Claude call multiple tools in a single response?",
+                "options": [
+                    "No, only one tool per response",
+                    "Yes, a response can contain multiple tool_use blocks",
+                    "Only if you enable multi-tool mode",
+                    "Only with GPT-4, not Claude"
+                ],
+                "answer": 1
+            }
+        ]
+    },
+}
+
 GITHUB_REPO = "moltbot47/agentic-ai-course"
 COLAB_BASE = f"https://colab.research.google.com/github/{GITHUB_REPO}/blob/main"
 
@@ -240,6 +465,146 @@ EXTRA_SCRIPTS = """
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+"""
+
+PROGRESS_QUIZ_JS = """
+<script>
+// ── Progress Tracking (localStorage) ────────────────────────
+const STORAGE_KEY = 'agenticCourseProgress';
+const SCORE_KEY = 'agenticCourseScores';
+
+function getProgress() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveProgress(p) { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+function getScores() {
+    try { return JSON.parse(localStorage.getItem(SCORE_KEY) || '{}'); } catch { return {}; }
+}
+function saveScores(s) { localStorage.setItem(SCORE_KEY, JSON.stringify(s)); }
+
+// Update progress bars on module cards (landing page)
+document.querySelectorAll('.module-card[data-module-id]').forEach(card => {
+    const mid = card.dataset.moduleId;
+    const total = parseInt(card.dataset.totalFiles || '0');
+    if (total === 0) return;
+    const progress = getProgress();
+    const done = Object.keys(progress).filter(k => k.startsWith(mid + '/') && progress[k]).length;
+    const pct = Math.round((done / total) * 100);
+    const bar = card.querySelector('.student-progress-fill');
+    const label = card.querySelector('.student-progress-label');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = done + '/' + total + ' complete';
+});
+
+// Update progress bar on module detail page
+(function() {
+    const header = document.querySelector('.progress-header[data-module-id]');
+    if (!header) return;
+    const mid = header.dataset.moduleId;
+    const total = parseInt(header.dataset.totalFiles || '0');
+    const progress = getProgress();
+    const done = Object.keys(progress).filter(k => k.startsWith(mid + '/') && progress[k]).length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const fill = header.querySelector('.progress-fill');
+    const text = header.querySelector('.progress-text');
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = done + '/' + total + ' sections complete (' + pct + '%)';
+
+    // Update checkboxes
+    document.querySelectorAll('.completion-check[data-file-id]').forEach(cb => {
+        const key = mid + '/' + cb.dataset.fileId;
+        if (progress[key]) cb.classList.add('done'), cb.textContent = '\\u2713';
+        cb.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const p = getProgress();
+            p[key] = !p[key];
+            saveProgress(p);
+            if (p[key]) { this.classList.add('done'); this.textContent = '\\u2713'; }
+            else { this.classList.remove('done'); this.textContent = ''; }
+            // Update header
+            const newDone = Object.keys(p).filter(k => k.startsWith(mid + '/') && p[k]).length;
+            const newPct = total > 0 ? Math.round((newDone / total) * 100) : 0;
+            if (fill) fill.style.width = newPct + '%';
+            if (text) text.textContent = newDone + '/' + total + ' sections complete (' + newPct + '%)';
+        });
+    });
+})();
+
+// Mark complete button on content pages
+(function() {
+    const btn = document.querySelector('.mark-complete-btn[data-file-key]');
+    if (!btn) return;
+    const key = btn.dataset.fileKey;
+    const p = getProgress();
+    if (p[key]) { btn.classList.add('completed'); btn.textContent = '\\u2713 Completed'; }
+    btn.addEventListener('click', function() {
+        const p = getProgress();
+        p[key] = !p[key];
+        saveProgress(p);
+        if (p[key]) { this.classList.add('completed'); this.textContent = '\\u2713 Completed'; }
+        else { this.classList.remove('completed'); this.textContent = 'Mark as Complete'; }
+    });
+})();
+
+// ── Quiz System ─────────────────────────────────────────────
+(function() {
+    const dataEl = document.getElementById('quiz-data');
+    if (!dataEl) return;
+    const quiz = JSON.parse(dataEl.textContent);
+    const container = document.getElementById('quiz-container');
+    if (!container) return;
+
+    let html = '<h3>' + quiz.title + '</h3>';
+    quiz.questions.forEach((q, qi) => {
+        html += '<div class="quiz-question" data-qi="' + qi + '">';
+        html += '<p>' + (qi + 1) + '. ' + q.q + '</p>';
+        q.options.forEach((opt, oi) => {
+            html += '<label class="quiz-option" data-oi="' + oi + '">';
+            html += '<input type="radio" name="q' + qi + '" value="' + oi + '"> ' + opt;
+            html += '</label>';
+        });
+        html += '</div>';
+    });
+    html += '<button class="quiz-btn" id="quiz-submit">Check Answers</button>';
+    html += '<span class="quiz-score" id="quiz-score"></span>';
+    container.innerHTML = html;
+
+    document.getElementById('quiz-submit').addEventListener('click', function() {
+        let correct = 0;
+        quiz.questions.forEach((q, qi) => {
+            const selected = document.querySelector('input[name="q' + qi + '"]:checked');
+            const qDiv = document.querySelector('.quiz-question[data-qi="' + qi + '"]');
+            qDiv.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                const oi = parseInt(opt.dataset.oi);
+                if (oi === q.answer) opt.classList.add('correct');
+                else if (selected && parseInt(selected.value) === oi) opt.classList.add('incorrect');
+            });
+            if (selected && parseInt(selected.value) === q.answer) correct++;
+        });
+        const total = quiz.questions.length;
+        const pct = Math.round((correct / total) * 100);
+        const scoreEl = document.getElementById('quiz-score');
+        scoreEl.textContent = correct + '/' + total + ' — ' + pct + '%';
+        scoreEl.className = 'quiz-score ' + (pct >= 70 ? 'pass' : 'fail');
+
+        // Save score
+        const scores = getScores();
+        const fileKey = document.querySelector('.mark-complete-btn')?.dataset?.fileKey || '';
+        if (fileKey) scores[fileKey] = { score: correct, total: total, date: new Date().toISOString().slice(0, 10) };
+        saveScores(scores);
+
+        this.textContent = 'Retry';
+        this.addEventListener('click', function retry() {
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('correct', 'incorrect'));
+            document.querySelectorAll('.quiz-question input').forEach(i => i.checked = false);
+            scoreEl.textContent = '';
+            this.textContent = 'Check Answers';
+        }, { once: true });
+    });
+})();
+</script>
 """
 
 # ── HTML Templates ─────────────────────────────────────────────
@@ -755,6 +1120,163 @@ code[class*="language-"] {
 }
 .progress-stats strong { color: var(--color-text); }
 
+/* ── Student Progress ── */
+.student-progress-bar {
+    background: #edf2f7;
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-top: 0.8rem;
+}
+.student-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--color-accent);
+    transition: width 0.4s;
+}
+.student-progress-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.3rem;
+}
+.progress-header {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.progress-header .progress-track {
+    flex: 1;
+    background: #edf2f7;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+.progress-header .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-success));
+    transition: width 0.4s;
+}
+.progress-header .progress-text {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+.file-link .completion-check {
+    width: 22px; height: 22px;
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 0.75rem;
+    color: transparent;
+    background: white;
+}
+.file-link .completion-check:hover {
+    border-color: var(--color-accent);
+}
+.file-link .completion-check.done {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+}
+
+/* ── Quiz System ── */
+.quiz-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--color-border);
+}
+.quiz-section h3 {
+    font-family: var(--font-serif);
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+.quiz-question {
+    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+.quiz-question p {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.8rem;
+}
+.quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    margin: 0.3rem 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+.quiz-option:hover { background: #e2e8f0; }
+.quiz-option input[type="radio"] { accent-color: var(--color-accent); }
+.quiz-option.correct { background: #c6f6d5; }
+.quiz-option.incorrect { background: #fecaca; }
+.quiz-btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: var(--font-sans);
+    margin-top: 1rem;
+}
+.quiz-btn:hover { background: var(--color-secondary); }
+.quiz-score {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+.quiz-score.pass { color: var(--color-success); }
+.quiz-score.fail { color: #e53e3e; }
+.mark-complete-btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 2rem;
+    background: white;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-sans);
+    text-align: center;
+}
+.mark-complete-btn:hover {
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+.mark-complete-btn.completed {
+    background: #f0fff4;
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+
 @media (max-width: 768px) {
     html { font-size: 16px; }
     .hero h1 { font-size: 2.2rem; }
@@ -773,8 +1295,15 @@ def landing_page() -> str:
         clickable = m["status"] == "complete"
         href = f'/module/{m["id"]}' if clickable else "#"
         opacity = "" if clickable else "opacity: 0.5; pointer-events: none;"
+        total_f = len(m["files"])
+        progress_html = ""
+        if clickable and total_f > 0:
+            progress_html = (
+                f'<div class="student-progress-bar"><div class="student-progress-fill" style="width:0%"></div></div>'
+                f'<div class="student-progress-label">0/{total_f} complete</div>'
+            )
         cards.append(f'''
-        <a href="{href}" class="module-card" style="{opacity}">
+        <a href="{href}" class="module-card" style="{opacity}" data-module-id="{m['id']}" data-total-files="{total_f}">
             <div class="card-accent" style="background: {m['color']};"></div>
             <div class="icon">{m['icon']}</div>
             <div class="module-num">Module {m['number']}</div>
@@ -784,6 +1313,7 @@ def landing_page() -> str:
                 <span class="duration">{m['duration']}</span>
                 <span class="status {status_class}">{status_label}</span>
             </div>
+            {progress_html}
         </a>''')
 
     completed = sum(1 for m in MODULES if m["status"] == "complete")
@@ -860,6 +1390,7 @@ def landing_page() -> str:
         Powered by Claude API &bull; Anthropic Python SDK
     </footer>
 {EXTRA_SCRIPTS}
+{PROGRESS_QUIZ_JS}
 </body>
 </html>'''
 
@@ -888,6 +1419,7 @@ def module_page(module_id: str) -> str:
             )
         file_links.append(f'''
         <a href="{href}" class="file-link">
+            <div class="completion-check" data-file-id="{fname}" onclick="event.preventDefault();"></div>
             <span class="file-icon">{icon}</span>
             <div class="file-info">
                 <div class="file-title">{title}</div>
@@ -932,6 +1464,11 @@ def module_page(module_id: str) -> str:
                 <div style="margin-top:0.8rem;color:var(--text-dim);font-size:0.9rem;">Duration: {mod["duration"]} &bull; {len(mod["files"])} files</div>
             </div>
 
+            <div class="progress-header" data-module-id="{module_id}" data-total-files="{len(mod['files'])}">
+                <div class="progress-text">0/{len(mod['files'])} sections complete (0%)</div>
+                <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+            </div>
+
             <div class="file-list">
                 {"".join(file_links)}
             </div>
@@ -942,6 +1479,7 @@ def module_page(module_id: str) -> str:
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
 {EXTRA_SCRIPTS}
+{PROGRESS_QUIZ_JS}
 </body>
 </html>'''
 
@@ -964,6 +1502,19 @@ def content_page(module_id: str, filename: str) -> str:
         body = md_to_html(filepath.read_text())
     else:
         body = f"<pre>{filepath.read_text()}</pre>"
+
+    # Quiz embed
+    file_key = f"{module_id}/{filename}"
+    quiz = QUIZZES.get((module_id, filename))
+    quiz_html = ""
+    if quiz:
+        quiz_json = json.dumps(quiz).replace("</", "<\\/")
+        quiz_html = (
+            f'<script type="application/json" id="quiz-data">{quiz_json}</script>'
+            f'<div class="quiz-section" id="quiz-container"></div>'
+        )
+
+    mark_btn = f'<button class="mark-complete-btn" data-file-key="{file_key}">Mark as Complete</button>'
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -991,6 +1542,8 @@ def content_page(module_id: str, filename: str) -> str:
 
             <div class="content-body">
                 {body}
+                {quiz_html}
+                {mark_btn}
             </div>
         </div>
     </div>
@@ -999,6 +1552,7 @@ def content_page(module_id: str, filename: str) -> str:
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
 {EXTRA_SCRIPTS}
+{PROGRESS_QUIZ_JS}
 </body>
 </html>'''
 

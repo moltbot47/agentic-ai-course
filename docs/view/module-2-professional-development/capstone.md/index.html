@@ -516,6 +516,163 @@ code[class*="language-"] {
 }
 .progress-stats strong { color: var(--color-text); }
 
+/* ── Student Progress ── */
+.student-progress-bar {
+    background: #edf2f7;
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-top: 0.8rem;
+}
+.student-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--color-accent);
+    transition: width 0.4s;
+}
+.student-progress-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.3rem;
+}
+.progress-header {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.progress-header .progress-track {
+    flex: 1;
+    background: #edf2f7;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+.progress-header .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-success));
+    transition: width 0.4s;
+}
+.progress-header .progress-text {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+.file-link .completion-check {
+    width: 22px; height: 22px;
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 0.75rem;
+    color: transparent;
+    background: white;
+}
+.file-link .completion-check:hover {
+    border-color: var(--color-accent);
+}
+.file-link .completion-check.done {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+}
+
+/* ── Quiz System ── */
+.quiz-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--color-border);
+}
+.quiz-section h3 {
+    font-family: var(--font-serif);
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+.quiz-question {
+    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+.quiz-question p {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.8rem;
+}
+.quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    margin: 0.3rem 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+.quiz-option:hover { background: #e2e8f0; }
+.quiz-option input[type="radio"] { accent-color: var(--color-accent); }
+.quiz-option.correct { background: #c6f6d5; }
+.quiz-option.incorrect { background: #fecaca; }
+.quiz-btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: var(--font-sans);
+    margin-top: 1rem;
+}
+.quiz-btn:hover { background: var(--color-secondary); }
+.quiz-score {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+.quiz-score.pass { color: var(--color-success); }
+.quiz-score.fail { color: #e53e3e; }
+.mark-complete-btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 2rem;
+    background: white;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-sans);
+    text-align: center;
+}
+.mark-complete-btn:hover {
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+.mark-complete-btn.completed {
+    background: #f0fff4;
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+
 @media (max-width: 768px) {
     html { font-size: 16px; }
     .hero h1 { font-size: 2.2rem; }
@@ -653,6 +810,8 @@ code[class*="language-"] {
 <li><strong>Documentation & reflection:</strong> 15 minutes</li>
 <li><strong>Total:</strong> ~3 hours</li>
 
+                
+                <button class="mark-complete-btn" data-file-key="module-2-professional-development/capstone.md">Mark as Complete</button>
             </div>
         </div>
     </div>
@@ -669,6 +828,145 @@ code[class*="language-"] {
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
+<script>
+// ── Progress Tracking (localStorage) ────────────────────────
+const STORAGE_KEY = 'agenticCourseProgress';
+const SCORE_KEY = 'agenticCourseScores';
+
+function getProgress() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveProgress(p) { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+function getScores() {
+    try { return JSON.parse(localStorage.getItem(SCORE_KEY) || '{}'); } catch { return {}; }
+}
+function saveScores(s) { localStorage.setItem(SCORE_KEY, JSON.stringify(s)); }
+
+// Update progress bars on module cards (landing page)
+document.querySelectorAll('.module-card[data-module-id]').forEach(card => {
+    const mid = card.dataset.moduleId;
+    const total = parseInt(card.dataset.totalFiles || '0');
+    if (total === 0) return;
+    const progress = getProgress();
+    const done = Object.keys(progress).filter(k => k.startsWith(mid + '/') && progress[k]).length;
+    const pct = Math.round((done / total) * 100);
+    const bar = card.querySelector('.student-progress-fill');
+    const label = card.querySelector('.student-progress-label');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = done + '/' + total + ' complete';
+});
+
+// Update progress bar on module detail page
+(function() {
+    const header = document.querySelector('.progress-header[data-module-id]');
+    if (!header) return;
+    const mid = header.dataset.moduleId;
+    const total = parseInt(header.dataset.totalFiles || '0');
+    const progress = getProgress();
+    const done = Object.keys(progress).filter(k => k.startsWith(mid + '/') && progress[k]).length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const fill = header.querySelector('.progress-fill');
+    const text = header.querySelector('.progress-text');
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = done + '/' + total + ' sections complete (' + pct + '%)';
+
+    // Update checkboxes
+    document.querySelectorAll('.completion-check[data-file-id]').forEach(cb => {
+        const key = mid + '/' + cb.dataset.fileId;
+        if (progress[key]) cb.classList.add('done'), cb.textContent = '\u2713';
+        cb.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const p = getProgress();
+            p[key] = !p[key];
+            saveProgress(p);
+            if (p[key]) { this.classList.add('done'); this.textContent = '\u2713'; }
+            else { this.classList.remove('done'); this.textContent = ''; }
+            // Update header
+            const newDone = Object.keys(p).filter(k => k.startsWith(mid + '/') && p[k]).length;
+            const newPct = total > 0 ? Math.round((newDone / total) * 100) : 0;
+            if (fill) fill.style.width = newPct + '%';
+            if (text) text.textContent = newDone + '/' + total + ' sections complete (' + newPct + '%)';
+        });
+    });
+})();
+
+// Mark complete button on content pages
+(function() {
+    const btn = document.querySelector('.mark-complete-btn[data-file-key]');
+    if (!btn) return;
+    const key = btn.dataset.fileKey;
+    const p = getProgress();
+    if (p[key]) { btn.classList.add('completed'); btn.textContent = '\u2713 Completed'; }
+    btn.addEventListener('click', function() {
+        const p = getProgress();
+        p[key] = !p[key];
+        saveProgress(p);
+        if (p[key]) { this.classList.add('completed'); this.textContent = '\u2713 Completed'; }
+        else { this.classList.remove('completed'); this.textContent = 'Mark as Complete'; }
+    });
+})();
+
+// ── Quiz System ─────────────────────────────────────────────
+(function() {
+    const dataEl = document.getElementById('quiz-data');
+    if (!dataEl) return;
+    const quiz = JSON.parse(dataEl.textContent);
+    const container = document.getElementById('quiz-container');
+    if (!container) return;
+
+    let html = '<h3>' + quiz.title + '</h3>';
+    quiz.questions.forEach((q, qi) => {
+        html += '<div class="quiz-question" data-qi="' + qi + '">';
+        html += '<p>' + (qi + 1) + '. ' + q.q + '</p>';
+        q.options.forEach((opt, oi) => {
+            html += '<label class="quiz-option" data-oi="' + oi + '">';
+            html += '<input type="radio" name="q' + qi + '" value="' + oi + '"> ' + opt;
+            html += '</label>';
+        });
+        html += '</div>';
+    });
+    html += '<button class="quiz-btn" id="quiz-submit">Check Answers</button>';
+    html += '<span class="quiz-score" id="quiz-score"></span>';
+    container.innerHTML = html;
+
+    document.getElementById('quiz-submit').addEventListener('click', function() {
+        let correct = 0;
+        quiz.questions.forEach((q, qi) => {
+            const selected = document.querySelector('input[name="q' + qi + '"]:checked');
+            const qDiv = document.querySelector('.quiz-question[data-qi="' + qi + '"]');
+            qDiv.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                const oi = parseInt(opt.dataset.oi);
+                if (oi === q.answer) opt.classList.add('correct');
+                else if (selected && parseInt(selected.value) === oi) opt.classList.add('incorrect');
+            });
+            if (selected && parseInt(selected.value) === q.answer) correct++;
+        });
+        const total = quiz.questions.length;
+        const pct = Math.round((correct / total) * 100);
+        const scoreEl = document.getElementById('quiz-score');
+        scoreEl.textContent = correct + '/' + total + ' — ' + pct + '%';
+        scoreEl.className = 'quiz-score ' + (pct >= 70 ? 'pass' : 'fail');
+
+        // Save score
+        const scores = getScores();
+        const fileKey = document.querySelector('.mark-complete-btn')?.dataset?.fileKey || '';
+        if (fileKey) scores[fileKey] = { score: correct, total: total, date: new Date().toISOString().slice(0, 10) };
+        saveScores(scores);
+
+        this.textContent = 'Retry';
+        this.addEventListener('click', function retry() {
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('correct', 'incorrect'));
+            document.querySelectorAll('.quiz-question input').forEach(i => i.checked = false);
+            scoreEl.textContent = '';
+            this.textContent = 'Check Answers';
+        }, { once: true });
+    });
+})();
+</script>
 
 </body>
 </html>
