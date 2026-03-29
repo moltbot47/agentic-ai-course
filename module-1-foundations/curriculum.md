@@ -18,7 +18,7 @@ flowchart LR
     A["Chatbot\n(reactive)"] --> B["Copilot\n(suggests)"]
     B --> C["Assistant\n(executes w/ approval)"]
     C --> D["Agent\n(autonomous decisions)"]
-    D --> E["Multi-Agent System\n(agents coordinating)"]
+    D --> E["Multi-Agent\nSystem"]
     style A fill:#e2e8f0,color:#1a202c
     style B fill:#bee3f8,color:#1a202c
     style C fill:#90cdf4,color:#1a202c

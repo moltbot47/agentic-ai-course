@@ -421,10 +421,15 @@ code[class*="language-"] {
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
     border-radius: 10px;
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     margin: 1.5rem 0;
     text-align: center;
     overflow-x: auto;
+    overflow-y: hidden;
+}
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
 }
 
 /* ── Notebook Cells ── */
@@ -821,19 +826,17 @@ final_response = client.messages.create(
 print(f"\nFinal answer: {final_response.content[0].text}")
 print(f"Stop reason: {final_response.stop_reason}")</code></pre></div>
 <div class="nb-cell nb-markdown"><strong>The complete flow:</strong>
-<pre class="line-numbers"><code>User: "What is 1847 * 293 + 17?"
-<p>│</p>
-<p>▼</p>
-<p>Claude REASONS: "I need the calculator tool"</p>
-<p>│</p>
-<p>▼</p>
-<p>Claude returns: tool_use(calculator, {expression: "1847 * 293 + 17"})</p>
-<p>│</p>
-<p>▼</p>
-<p>Your code EXECUTES: calculator("1847 * 293 + 17") → "541388"</p>
-<p>│</p>
-<p>▼</p>
-<p>Claude OBSERVES the result and gives the final answer</code></pre></p></div>
+<div class="mermaid">sequenceDiagram
+    participant U as User
+    participant C as Claude
+    participant T as Your Code
+    U->>C: "What is 1847 * 293 + 17?"
+    Note over C: REASONS: I need the calculator
+    C-->>T: tool_use(calculator, "1847*293+17")
+    T->>T: calculator("1847*293+17") = 541388
+    T-->>C: tool_result: "541388"
+    Note over C: OBSERVES the result
+    C-->>U: "The answer is 541,388"</div></div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Step 6: Autonomous Tool Selection</h2>
 

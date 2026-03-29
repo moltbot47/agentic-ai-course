@@ -660,10 +660,15 @@ code[class*="language-"] {
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
     border-radius: 10px;
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     margin: 1.5rem 0;
     text-align: center;
     overflow-x: auto;
+    overflow-y: hidden;
+}
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
 }
 
 /* ── Notebook Cells ── */

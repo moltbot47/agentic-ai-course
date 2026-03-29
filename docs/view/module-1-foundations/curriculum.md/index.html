@@ -421,10 +421,15 @@ code[class*="language-"] {
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
     border-radius: 10px;
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
     margin: 1.5rem 0;
     text-align: center;
     overflow-x: auto;
+    overflow-y: hidden;
+}
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
 }
 
 /* ── Notebook Cells ── */
@@ -569,7 +574,7 @@ code[class*="language-"] {
     A["Chatbot\n(reactive)"] --> B["Copilot\n(suggests)"]
     B --> C["Assistant\n(executes w/ approval)"]
     C --> D["Agent\n(autonomous decisions)"]
-    D --> E["Multi-Agent System\n(agents coordinating)"]
+    D --> E["Multi-Agent\nSystem"]
     style A fill:#e2e8f0,color:#1a202c
     style B fill:#bee3f8,color:#1a202c
     style C fill:#90cdf4,color:#1a202c
