@@ -14,11 +14,11 @@
 **The Autonomy Spectrum:**
 
 ```mermaid
-flowchart LR
-    A["Chatbot\n(reactive)"] --> B["Copilot\n(suggests)"]
-    B --> C["Assistant\n(executes w/ approval)"]
-    C --> D["Agent\n(autonomous decisions)"]
-    D --> E["Multi-Agent\nSystem"]
+flowchart TD
+    A["Chatbot — reactive, waits for input"] --> B["Copilot — suggests actions"]
+    B --> C["Assistant — executes with approval"]
+    C --> D["Agent — autonomous decisions"]
+    D --> E["Multi-Agent System — agents coordinating with each other"]
     style A fill:#e2e8f0,color:#1a202c
     style B fill:#bee3f8,color:#1a202c
     style C fill:#90cdf4,color:#1a202c
