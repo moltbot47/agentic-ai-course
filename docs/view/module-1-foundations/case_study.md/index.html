@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -791,6 +813,7 @@ code[class*="language-"] {
 <table><thead><tr><th>Module 1 Concept</th><th>OpenClaw Implementation</th></tr></thead><tbody><tr><td>Agent Loop</td><td>Spirit agent runs perceive → reason → act → observe continuously</td></tr><tr><td>Tool-Use</td><td>13 MCP servers providing real-world capabilities</td></tr><tr><td>Memory</td><td>Workspace files + conversation history + SOUL.md instructions</td></tr><tr><td>Planning</td><td>Claude reasons about pipeline steps before executing</td></tr><tr><td>Evaluation</td><td>Output validation at each step, error handling, retry logic</td></tr><tr><td>When NOT to agent</td><td>Simple file moves use scripts, not agent reasoning</td></tr></tbody></table>
                 
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/case_study.md">Mark as Complete</button>
+                <a href="/agentic-ai-course/module/module-1-foundations/index.html" class="next-section-btn">Back to Module 1 Overview &rarr;</a>
             </div>
         </div>
     </div>

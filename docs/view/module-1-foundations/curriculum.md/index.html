@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -923,6 +945,7 @@ code[class*="language-"] {
 
                 <script type="application/json" id="quiz-data">{"title": "Foundations Knowledge Check", "questions": [{"q": "What is the key difference between a chatbot and an AI agent?", "options": ["An agent uses a newer LLM model", "An agent autonomously decides what to do next", "An agent has a graphical user interface", "An agent responds faster than a chatbot"], "answer": 1}, {"q": "What are the four core components of an AI agent?", "options": ["Input, Output, Database, API", "Frontend, Backend, Database, Cache", "Brain (LLM), Tools, Memory, Planning", "Prompt, Response, Context, History"], "answer": 2}, {"q": "When should you NOT use an AI agent?", "options": ["When the task requires judgment and external systems", "When the task is deterministic and follows the same steps every time", "When the task involves multiple steps with decisions", "When the task requires interacting with APIs"], "answer": 1}, {"q": "What does 'stop_reason: tool_use' mean in a Claude API response?", "options": ["The agent has finished and returned its answer", "The agent encountered an error", "The agent wants to call a tool and is waiting for the result", "The agent ran out of tokens"], "answer": 2}, {"q": "Which type of memory persists across agent sessions?", "options": ["Conversation memory (message history)", "Short-term memory (context window)", "Long-term memory (files, databases, vector stores)", "System prompt memory"], "answer": 2}]}</script><div class="quiz-section" id="quiz-container"></div>
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/curriculum.md">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_01_hello_agent.ipynb/index.html" class="next-section-btn">Next: Lab 1: Hello Agent &rarr;</a>
             </div>
         </div>
     </div>

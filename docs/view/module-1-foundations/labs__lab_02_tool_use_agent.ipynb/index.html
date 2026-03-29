@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -1233,6 +1255,7 @@ print(agent.run("How many seconds are in a year? (365 days)"))</code></pre></div
 <em>Lab 2 Complete — Module 1: Foundations of Agentic AI</em></div>
                 <script type="application/json" id="quiz-data">{"title": "Lab 2 Check", "questions": [{"q": "How does Claude know which tools are available?", "options": ["Tools are hardcoded in the model", "You pass tool definitions as JSON schemas in the API call", "Claude discovers tools automatically", "Tools are defined in the system prompt"], "answer": 1}, {"q": "What happens after Claude returns a tool_use response?", "options": ["The conversation ends", "Your code executes the tool and sends the result back as tool_result", "Claude executes the tool itself", "The user must approve the tool call"], "answer": 1}, {"q": "Why is tool description quality more important than prompt engineering?", "options": ["Descriptions are longer than prompts", "Claude reads tool descriptions to decide which tool to use autonomously", "Descriptions are required, prompts are optional", "Tool descriptions affect pricing"], "answer": 1}, {"q": "What should your tool function return when an error occurs?", "options": ["Raise an exception to crash the program", "Return None", "Return an error message string so the agent can handle it gracefully", "Return the original input unchanged"], "answer": 2}, {"q": "If Claude can answer a question without any tool, what happens?", "options": ["It calls a random tool anyway", "It returns stop_reason 'end_turn' with a text response (no tool call)", "It returns an error", "It asks the user which tool to use"], "answer": 1}]}</script><div class="quiz-section" id="quiz-container"></div>
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/labs/lab_02_tool_use_agent.ipynb">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_03_multi_step_agent.ipynb/index.html" class="next-section-btn">Next: Lab 3: Multi-Step Agent &rarr;</a>
             </div>
         </div>
     </div>

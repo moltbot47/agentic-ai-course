@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -1347,6 +1369,7 @@ for f in ["investment_report.txt", "savings_plan.txt", "agent_memory.json"]:
 print("✓ Cleanup complete")</code></pre></div>
                 <script type="application/json" id="quiz-data">{"title": "Lab 3 Check", "questions": [{"q": "What controls how long the agent loop runs?", "options": ["A timer set in seconds", "The loop continues while stop_reason == 'tool_use', with a max_iterations safety limit", "The user manually stops it", "It always runs exactly 10 iterations"], "answer": 1}, {"q": "How is persistent memory implemented in Lab 3?", "options": ["A cloud database", "A vector store", "A JSON file on disk that survives across sessions", "Redis cache"], "answer": 2}, {"q": "Why is max_iterations important in the agent loop?", "options": ["It makes the agent faster", "It reduces API costs", "It prevents infinite loops if the agent never reaches end_turn", "It's required by the Claude API"], "answer": 2}, {"q": "What's the difference between conversation memory and persistent memory?", "options": ["There is no difference", "Conversation memory is the message list within one run; persistent memory survives across sessions", "Persistent memory is faster", "Conversation memory uses a database"], "answer": 1}, {"q": "Can Claude call multiple tools in a single response?", "options": ["No, only one tool per response", "Yes, a response can contain multiple tool_use blocks", "Only if you enable multi-tool mode", "Only with GPT-4, not Claude"], "answer": 1}]}</script><div class="quiz-section" id="quiz-container"></div>
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/labs/lab_03_multi_step_agent.ipynb">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/labs__capstone_starter.ipynb/index.html" class="next-section-btn">Next: Capstone Starter &rarr;</a>
             </div>
         </div>
     </div>

@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -1074,6 +1096,7 @@ print(result)</code></pre></div>
 #     print(f"Removed {f}")</code></pre></div>
                 
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/labs/capstone_starter.ipynb">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/capstone.md/index.html" class="next-section-btn">Next: Capstone Brief &rarr;</a>
             </div>
         </div>
     </div>

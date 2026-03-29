@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -804,6 +826,7 @@ code[class*="language-"] {
 
                 
                 <button class="mark-complete-btn" data-file-key="module-2-professional-development/case_study.md">Mark as Complete</button>
+                <a href="/agentic-ai-course/module/module-2-professional-development/index.html" class="next-section-btn">Back to Module 2 Overview &rarr;</a>
             </div>
         </div>
     </div>

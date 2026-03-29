@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -1031,6 +1053,7 @@ def calculate_cost(response) -&gt; dict:
 <em>Lab 1 Complete — Module 1: Foundations of Agentic AI</em></div>
                 <script type="application/json" id="quiz-data">{"title": "Lab 1 Check", "questions": [{"q": "What function do you call to make a Claude API request?", "options": ["client.chat.completions()", "client.messages.create()", "client.generate()", "client.send_message()"], "answer": 1}, {"q": "What is the purpose of the system prompt?", "options": ["To authenticate with the API", "To define the agent's identity, expertise, and behavioral rules", "To set the maximum token limit", "To specify the output format"], "answer": 1}, {"q": "How does Claude 'remember' previous messages in a conversation?", "options": ["Claude has built-in session memory", "You send the full conversation history with every API call", "Claude stores messages on Anthropic's servers", "The system prompt contains the history"], "answer": 1}, {"q": "What does stop_reason 'end_turn' indicate?", "options": ["The model hit the token limit", "An error occurred", "The model finished its response naturally", "The model wants to use a tool"], "answer": 2}, {"q": "Which message role is invisible to end users but shapes agent behavior?", "options": ["user", "assistant", "system", "tool"], "answer": 2}]}</script><div class="quiz-section" id="quiz-container"></div>
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/labs/lab_01_hello_agent.ipynb">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_02_tool_use_agent.ipynb/index.html" class="next-section-btn">Next: Lab 2: Tool-Use Agent &rarr;</a>
             </div>
         </div>
     </div>

@@ -672,6 +672,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -783,6 +805,7 @@ code[class*="language-"] {
 <table><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><code class="inline">curriculum.md</code></td><td>Full lesson plan with instructor notes and talking points</td></tr><tr><td><code class="inline">labs/lab_01_hello_agent.ipynb</code></td><td>Guided: First Claude API call and response parsing</td></tr><tr><td><code class="inline">labs/lab_02_tool_use_agent.ipynb</code></td><td>Guided: Agent with tool-use (calculator, web search)</td></tr><tr><td><code class="inline">labs/lab_03_multi_step_agent.ipynb</code></td><td>Guided: Multi-step reasoning agent with memory</td></tr><tr><td><code class="inline">capstone.md</code></td><td>Capstone project brief, requirements, and rubric</td></tr><tr><td><code class="inline">solutions/</code></td><td>Instructor answer keys for all labs</td></tr><tr><td><code class="inline">diagrams/</code></td><td>Architecture diagrams (Mermaid source + rendered)</td></tr><tr><td><code class="inline">case_study.md</code></td><td>Real-world case study: OpenClaw multi-agent framework</td></tr></tbody></table>
                 
                 <button class="mark-complete-btn" data-file-key="module-1-foundations/README.md">Mark as Complete</button>
+                <a href="/agentic-ai-course/view/module-1-foundations/curriculum.md/index.html" class="next-section-btn">Next: Full Curriculum &rarr;</a>
             </div>
         </div>
     </div>

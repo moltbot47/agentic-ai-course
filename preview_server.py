@@ -1276,6 +1276,28 @@ code[class*="language-"] {
     border-color: var(--color-success);
     color: var(--color-success);
 }
+.next-section-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    font-family: var(--font-sans);
+}
+.next-section-btn:hover {
+    background: var(--color-secondary);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: white;
+}
 
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -1516,6 +1538,17 @@ def content_page(module_id: str, filename: str) -> str:
 
     mark_btn = f'<button class="mark-complete-btn" data-file-key="{file_key}">Mark as Complete</button>'
 
+    # Next section navigation
+    files = mod["files"]
+    current_idx = next((i for i, f in enumerate(files) if f[0] == filename), -1)
+    next_btn = ""
+    if current_idx >= 0 and current_idx < len(files) - 1:
+        next_fname, next_title, _ = files[current_idx + 1]
+        next_href = f'/view/{module_id}/{urllib.parse.quote(next_fname)}'
+        next_btn = f'<a href="{next_href}" class="next-section-btn">Next: {next_title} &rarr;</a>'
+    elif current_idx == len(files) - 1:
+        next_btn = f'<a href="/module/{module_id}" class="next-section-btn">Back to Module {mod["number"]} Overview &rarr;</a>'
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1544,6 +1577,7 @@ def content_page(module_id: str, filename: str) -> str:
                 {body}
                 {quiz_html}
                 {mark_btn}
+                {next_btn}
             </div>
         </div>
     </div>
