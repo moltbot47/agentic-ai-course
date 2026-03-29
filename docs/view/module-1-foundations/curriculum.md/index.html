@@ -565,10 +565,16 @@ code[class*="language-"] {
 
 <strong>The Autonomy Spectrum:</strong>
 
-<pre class="line-numbers"><code>Low Autonomy ──────────────────────────────── High Autonomy
-<p>Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Agent System</p>
-<p>(reactive)    (suggests)    (executes w/    (autonomous    (agents coordinating</p>
-<p>approval)       decisions)     with each other)</code></pre></p>
+<div class="mermaid">flowchart LR
+<p>A["Chatbot\n(reactive)"] --> B["Copilot\n(suggests)"]</p>
+<p>B --> C["Assistant\n(executes w/ approval)"]</p>
+<p>C --> D["Agent\n(autonomous decisions)"]</p>
+<p>D --> E["Multi-Agent System\n(agents coordinating)"]</p>
+<p>style A fill:#e2e8f0,color:#1a202c</p>
+<p>style B fill:#bee3f8,color:#1a202c</p>
+<p>style C fill:#90cdf4,color:#1a202c</p>
+<p>style D fill:#3182ce,color:#fff</p>
+<p>style E fill:#1a365d,color:#fff</div></p>
 
 <strong>Discussion Question:</strong> "Think about your daily work. Name one task where you follow the exact same steps every time (automation candidate) and one where you have to make judgment calls (agent candidate)."
 
@@ -578,29 +584,18 @@ code[class*="language-"] {
 
 <strong>Key Concept:</strong> Every AI agent follows the same fundamental loop, regardless of complexity.
 
-<pre class="line-numbers"><code>┌─────────────┐
-<p>│   PERCEIVE  │ ← Receive input (user request, data, event)</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│   REASON    │ ← LLM thinks about what to do (chain-of-thought)</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│     ACT     │ ← Execute a tool, API call, or produce output</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│   OBSERVE   │ ← Check the result of the action</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│   REPEAT    │ ← Decide: done, or loop again with new info?</p>
-<p>└─────────────┘</code></pre></p>
+<div class="mermaid">flowchart TD
+<p>A["PERCEIVE\nReceive input"] --> B["REASON\nLLM thinks via chain-of-thought"]</p>
+<p>B --> C["ACT\nExecute tool, API call, or output"]</p>
+<p>C --> D["OBSERVE\nCheck the result"]</p>
+<p>D --> E{"Done?"}</p>
+<p>E -->|No| A</p>
+<p>E -->|Yes| F["COMPLETE"]</p>
+<p>style A fill:#bee3f8,color:#1a202c</p>
+<p>style B fill:#c4b5fd,color:#1a202c</p>
+<p>style C fill:#fed7aa,color:#1a202c</p>
+<p>style D fill:#bbf7d0,color:#1a202c</p>
+<p>style F fill:#38a169,color:#fff</div></p>
 
 <strong>Instructor Note:</strong> Draw this on the whiteboard. Every lab in this module maps back to this loop. Students should be able to identify each phase in their own agents by the end.
 
@@ -622,23 +617,25 @@ code[class*="language-"] {
 
 <strong>The Four Pillars of an AI Agent:</strong>
 
-<pre class="line-numbers"><code>┌──────────────────────────────────────────┐
-<p>│              AI AGENT                     │</p>
-<p>│                                           │</p>
-<p>│  ┌─────────┐  ┌─────────┐  ┌─────────┐  │</p>
-<p>│  │  BRAIN   │  │  TOOLS  │  │ MEMORY  │  │</p>
-<p>│  │  (LLM)   │  │         │  │         │  │</p>
-<p>│  │          │  │ - APIs   │  │ - Short │  │</p>
-<p>│  │ Claude,  │  │ - Files  │  │ - Long  │  │</p>
-<p>│  │ GPT-4o,  │  │ - DBs    │  │ - Conv. │  │</p>
-<p>│  │ etc.     │  │ - Web    │  │         │  │</p>
-<p>│  └─────────┘  └─────────┘  └─────────┘  │</p>
-<p>│                                           │</p>
-<p>│  ┌───────────────────────────────────┐   │</p>
-<p>│  │           PLANNING                 │   │</p>
-<p>│  │  ReAct, Chain-of-Thought, etc.     │   │</p>
-<p>│  └───────────────────────────────────┘   │</p>
-<p>└──────────────────────────────────────────┘</code></pre></p>
+<div class="mermaid">flowchart TB
+<p>subgraph Agent["AI AGENT"]</p>
+<p>direction TB</p>
+<p>subgraph row1[" "]</p>
+<p>direction LR</p>
+<p>Brain["BRAIN\n(LLM)\nClaude, GPT-4o"]</p>
+<p>Tools["TOOLS\nAPIs, Files,\nDBs, Web"]</p>
+<p>Memory["MEMORY\nShort-term,\nLong-term,\nConversation"]</p>
+<p>end</p>
+<p>Planning["PLANNING\nReAct, Chain-of-Thought, Tree-of-Thought"]</p>
+<p>end</p>
+<p>User["User"] -->|Task| Agent</p>
+<p>Agent -->|Result| User</p>
+<p>Tools <-->|Actions| World["External World"]</p>
+<p>style Brain fill:#c4b5fd,color:#1a202c</p>
+<p>style Tools fill:#fed7aa,color:#1a202c</p>
+<p>style Memory fill:#bbf7d0,color:#1a202c</p>
+<p>style Planning fill:#bee3f8,color:#1a202c</p>
+<p>style row1 fill:transparent,stroke:none</div></p>
 
 <li><strong>Brain (LLM):</strong> The reasoning engine. Claude, GPT-4o, Gemini — this is what thinks.</li>
 <li><strong>Tools:</strong> How the agent interacts with the outside world. APIs, file systems, databases, web browsers.</li>
@@ -653,12 +650,16 @@ code[class*="language-"] {
 
 <strong>How Tool-Use Works (Claude API):</strong>
 
-<pre class="line-numbers"><code>1. You define tools (functions) the agent can call
-<li>Agent receives a task</li>
-<li>Agent REASONS about which tool to use</li>
-<li>Agent generates a tool_use request (structured JSON)</li>
-<li>Your code EXECUTES the tool and returns the result</li>
-<li>Agent OBSERVES the result and decides next step</code></pre></li>
+<div class="mermaid">sequenceDiagram
+<p>participant You as Your Code</p>
+<p>participant Claude as Claude API</p>
+<p>You->>Claude: Define tools + send task</p>
+<p>Claude->>Claude: REASON about which tool to use</p>
+<p>Claude-->>You: tool_use request (JSON)</p>
+<p>You->>You: EXECUTE the tool</p>
+<p>You-->>Claude: tool_result</p>
+<p>Claude->>Claude: OBSERVE result, decide next step</p>
+<p>Claude-->>You: Final response (or another tool_use)</div></p>
 
 <strong>Example Tools an Agent Might Have:</strong>
 <li><code class="inline">search_web(query)</code> — Find information online</li>
@@ -732,13 +733,17 @@ code[class*="language-"] {
 
 <strong>The Decision Framework:</strong>
 
-<pre class="line-numbers"><code>Does the task require JUDGMENT?
-<p>├── No  → Use traditional automation (script, workflow, API)</p>
-<p>└── Yes → Does it need to interact with external systems?</p>
-<p>├── No  → Use a simple LLM prompt (no agent needed)</p>
-<p>└── Yes → Does it require multiple steps with decisions between them?</p>
-<p>├── No  → Use a single tool-use call</p>
-<p>└── Yes → BUILD AN AGENT ✓</code></pre></p>
+<div class="mermaid">flowchart TD
+<p>A{"Does the task\nrequire JUDGMENT?"} -->|No| B["Use traditional automation\n(script, workflow, API)"]</p>
+<p>A -->|Yes| C{"Does it need to interact\nwith external systems?"}</p>
+<p>C -->|No| D["Use a simple LLM prompt\n(no agent needed)"]</p>
+<p>C -->|Yes| E{"Does it require multiple steps\nwith decisions between them?"}</p>
+<p>E -->|No| F["Use a single tool-use call"]</p>
+<p>E -->|Yes| G["BUILD AN AGENT"]</p>
+<p>style B fill:#e2e8f0,color:#1a202c</p>
+<p>style D fill:#e2e8f0,color:#1a202c</p>
+<p>style F fill:#bee3f8,color:#1a202c</p>
+<p>style G fill:#38a169,color:#fff,stroke:#2f855a,stroke-width:3px</div></p>
 
 <hr>
 

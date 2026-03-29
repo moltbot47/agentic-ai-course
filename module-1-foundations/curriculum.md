@@ -13,12 +13,17 @@
 
 **The Autonomy Spectrum:**
 
-```
-Low Autonomy ──────────────────────────────── High Autonomy
-
-Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Agent System
-(reactive)    (suggests)    (executes w/    (autonomous    (agents coordinating
-                             approval)       decisions)     with each other)
+```mermaid
+flowchart LR
+    A["Chatbot\n(reactive)"] --> B["Copilot\n(suggests)"]
+    B --> C["Assistant\n(executes w/ approval)"]
+    C --> D["Agent\n(autonomous decisions)"]
+    D --> E["Multi-Agent System\n(agents coordinating)"]
+    style A fill:#e2e8f0,color:#1a202c
+    style B fill:#bee3f8,color:#1a202c
+    style C fill:#90cdf4,color:#1a202c
+    style D fill:#3182ce,color:#fff
+    style E fill:#1a365d,color:#fff
 ```
 
 **Discussion Question:** "Think about your daily work. Name one task where you follow the exact same steps every time (automation candidate) and one where you have to make judgment calls (agent candidate)."
@@ -29,30 +34,19 @@ Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Ag
 
 **Key Concept:** Every AI agent follows the same fundamental loop, regardless of complexity.
 
-```
-┌─────────────┐
-│   PERCEIVE  │ ← Receive input (user request, data, event)
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│   REASON    │ ← LLM thinks about what to do (chain-of-thought)
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│     ACT     │ ← Execute a tool, API call, or produce output
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│   OBSERVE   │ ← Check the result of the action
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│   REPEAT    │ ← Decide: done, or loop again with new info?
-└─────────────┘
+```mermaid
+flowchart TD
+    A["PERCEIVE\nReceive input"] --> B["REASON\nLLM thinks via chain-of-thought"]
+    B --> C["ACT\nExecute tool, API call, or output"]
+    C --> D["OBSERVE\nCheck the result"]
+    D --> E{"Done?"}
+    E -->|No| A
+    E -->|Yes| F["COMPLETE"]
+    style A fill:#bee3f8,color:#1a202c
+    style B fill:#c4b5fd,color:#1a202c
+    style C fill:#fed7aa,color:#1a202c
+    style D fill:#bbf7d0,color:#1a202c
+    style F fill:#38a169,color:#fff
 ```
 
 **Instructor Note:** Draw this on the whiteboard. Every lab in this module maps back to this loop. Students should be able to identify each phase in their own agents by the end.
@@ -89,24 +83,26 @@ Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Ag
 
 **The Four Pillars of an AI Agent:**
 
-```
-┌──────────────────────────────────────────┐
-│              AI AGENT                     │
-│                                           │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  │
-│  │  BRAIN   │  │  TOOLS  │  │ MEMORY  │  │
-│  │  (LLM)   │  │         │  │         │  │
-│  │          │  │ - APIs   │  │ - Short │  │
-│  │ Claude,  │  │ - Files  │  │ - Long  │  │
-│  │ GPT-4o,  │  │ - DBs    │  │ - Conv. │  │
-│  │ etc.     │  │ - Web    │  │         │  │
-│  └─────────┘  └─────────┘  └─────────┘  │
-│                                           │
-│  ┌───────────────────────────────────┐   │
-│  │           PLANNING                 │   │
-│  │  ReAct, Chain-of-Thought, etc.     │   │
-│  └───────────────────────────────────┘   │
-└──────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Agent["AI AGENT"]
+        direction TB
+        subgraph row1[" "]
+            direction LR
+            Brain["BRAIN\n(LLM)\nClaude, GPT-4o"]
+            Tools["TOOLS\nAPIs, Files,\nDBs, Web"]
+            Memory["MEMORY\nShort-term,\nLong-term,\nConversation"]
+        end
+        Planning["PLANNING\nReAct, Chain-of-Thought, Tree-of-Thought"]
+    end
+    User["User"] -->|Task| Agent
+    Agent -->|Result| User
+    Tools <-->|Actions| World["External World"]
+    style Brain fill:#c4b5fd,color:#1a202c
+    style Tools fill:#fed7aa,color:#1a202c
+    style Memory fill:#bbf7d0,color:#1a202c
+    style Planning fill:#bee3f8,color:#1a202c
+    style row1 fill:transparent,stroke:none
 ```
 
 1. **Brain (LLM):** The reasoning engine. Claude, GPT-4o, Gemini — this is what thinks.
@@ -122,13 +118,17 @@ Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Ag
 
 **How Tool-Use Works (Claude API):**
 
-```
-1. You define tools (functions) the agent can call
-2. Agent receives a task
-3. Agent REASONS about which tool to use
-4. Agent generates a tool_use request (structured JSON)
-5. Your code EXECUTES the tool and returns the result
-6. Agent OBSERVES the result and decides next step
+```mermaid
+sequenceDiagram
+    participant You as Your Code
+    participant Claude as Claude API
+    You->>Claude: Define tools + send task
+    Claude->>Claude: REASON about which tool to use
+    Claude-->>You: tool_use request (JSON)
+    You->>You: EXECUTE the tool
+    You-->>Claude: tool_result
+    Claude->>Claude: OBSERVE result, decide next step
+    Claude-->>You: Final response (or another tool_use)
 ```
 
 **Example Tools an Agent Might Have:**
@@ -213,14 +213,18 @@ Chatbot    →    Copilot    →    Assistant    →    Agent    →    Multi-Ag
 
 **The Decision Framework:**
 
-```
-Does the task require JUDGMENT?
-  ├── No  → Use traditional automation (script, workflow, API)
-  └── Yes → Does it need to interact with external systems?
-              ├── No  → Use a simple LLM prompt (no agent needed)
-              └── Yes → Does it require multiple steps with decisions between them?
-                          ├── No  → Use a single tool-use call
-                          └── Yes → BUILD AN AGENT ✓
+```mermaid
+flowchart TD
+    A{"Does the task\nrequire JUDGMENT?"} -->|No| B["Use traditional automation\n(script, workflow, API)"]
+    A -->|Yes| C{"Does it need to interact\nwith external systems?"}
+    C -->|No| D["Use a simple LLM prompt\n(no agent needed)"]
+    C -->|Yes| E{"Does it require multiple steps\nwith decisions between them?"}
+    E -->|No| F["Use a single tool-use call"]
+    E -->|Yes| G["BUILD AN AGENT"]
+    style B fill:#e2e8f0,color:#1a202c
+    style D fill:#e2e8f0,color:#1a202c
+    style F fill:#bee3f8,color:#1a202c
+    style G fill:#38a169,color:#fff,stroke:#2f855a,stroke-width:3px
 ```
 
 ---
