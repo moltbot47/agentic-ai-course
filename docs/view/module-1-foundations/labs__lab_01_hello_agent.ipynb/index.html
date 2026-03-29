@@ -255,6 +255,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -363,6 +369,64 @@ p { color: var(--color-text); }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
 
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
 .nb-markdown { }
@@ -456,6 +520,20 @@ p { color: var(--color-text); }
     .hero { padding: 4rem 1.5rem 3rem; }
 }
 </style>
+
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+
 </head>
 <body>
     <nav class="topnav">
@@ -472,7 +550,8 @@ p { color: var(--color-text); }
             </div>
 
             <div class="content-body">
-                <div class="nb-cell nb-markdown"><h1>Lab 1: Hello Agent — Your First Claude API Call</h1>
+                <div class="colab-banner"><a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_01_hello_agent.ipynb" target="_blank" class="colab-btn"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="28"></a><span class="colab-hint">Run this notebook interactively in Google Colab — free, no setup required</span></div>
+<div class="nb-cell nb-markdown"><h1>Lab 1: Hello Agent — Your First Claude API Call</h1>
 
 <strong>Module 1: Foundations of Agentic AI</strong>  
 <strong>Duration:</strong> 30 minutes  
@@ -491,7 +570,7 @@ p { color: var(--color-text); }
 
 <h2>How This Connects to the Agent Loop</h2>
 
-<pre><code>┌─────────────┐
+<pre class="line-numbers"><code>┌─────────────┐
 <p>│   PERCEIVE  │ ← You send a message (user role)</p>
 <p>└──────┬──────┘</p>
 <p>│</p>
@@ -510,13 +589,13 @@ p { color: var(--color-text); }
 <h2>Step 1: Install the Anthropic SDK</h2>
 
 <p>Run this cell to install the official Anthropic Python library. If you're on Google Colab, this is all you need.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">!pip install -q anthropic</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Step 2: Set Up Your API Key</h2>
 
 <p>You need a Claude API key from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a>.</p>
 
 <strong>Security best practice:</strong> Never hardcode API keys in notebooks. We'll use <code class="inline">getpass</code> so your key stays hidden.</div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import os
 from getpass import getpass
 
 # Prompt for API key (won't display on screen)
@@ -527,7 +606,7 @@ print("✓ API key set successfully")</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Step 3: Initialize the Client</h2>
 
 <p>The <code class="inline">Anthropic</code> client automatically reads <code class="inline">ANTHROPIC_API_KEY</code> from your environment. One line of code — you're connected.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import anthropic
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import anthropic
 
 client = anthropic.Anthropic()
 
@@ -542,7 +621,7 @@ print(f"✓ Client initialized. Using model: {MODEL}")</code></pre></div>
 
 <table><thead><tr><th>Role</th><th>Who's Talking</th><th>Purpose</th></tr></thead><tbody><tr><td><code class="inline">user</code></td><td>You (the human)</td><td>Asks questions, gives instructions</td></tr><tr><td><code class="inline">assistant</code></td><td>Claude (the AI)</td><td>Responds, reasons, takes actions</td></tr><tr><td><code class="inline">system</code></td><td>The developer</td><td>Sets behavior rules (invisible to end users)</td></tr></tbody></table>
 <p>Let's make our first call:</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">response = client.messages.create(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">response = client.messages.create(
     model=MODEL,
     max_tokens=256,
     messages=[
@@ -554,7 +633,7 @@ print(response.content[0].text)</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Understanding the Response Object</h3>
 
 <p>The API returns a rich response object, not just text. Let's explore it:</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">print("=== Response Anatomy ===")
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">print("=== Response Anatomy ===")
 print(f"Model used:    {response.model}")
 print(f"Stop reason:   {response.stop_reason}")
 print(f"Input tokens:  {response.usage.input_tokens}")
@@ -571,7 +650,7 @@ print(f"Content text:  {response.content[0].text[:100]}...")</code></pre></div>
 <p>The <strong>system prompt</strong> is the most powerful lever you have. It defines who the agent IS — its personality, expertise, constraints, and rules.</p>
 
 <p>Think of it as the agent's <strong>job description</strong>. A chatbot says "I'm a helpful assistant." An agent says "I'm a senior financial analyst who uses these specific tools to produce quarterly reports."</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Without a system prompt — generic response
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Without a system prompt — generic response
 generic_response = client.messages.create(
     model=MODEL,
     max_tokens=256,
@@ -606,7 +685,7 @@ print(expert_response.content[0].text[:500])</code></pre></div>
 <p>A single API call has no memory. Claude doesn't remember what you said before. To create a conversation, <strong>you</strong> manage the message history.</p>
 
 <p>This is a critical concept: <strong>the LLM is stateless</strong>. Memory is YOUR responsibility.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def chat(user_message: str, conversation_history: list[dict], system_prompt: str = "") -&gt; str:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def chat(user_message: str, conversation_history: list[dict], system_prompt: str = "") -&gt; str:
     """Send a message and get a response, maintaining conversation history.
     
     Args:
@@ -634,7 +713,7 @@ print(expert_response.content[0].text[:500])</code></pre></div>
     conversation_history.append({"role": "assistant", "content": assistant_message})
     
     return assistant_message</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Start a conversation
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Start a conversation
 history = []
 system = "You are a helpful AI tutor teaching someone about agentic AI. Be concise."
 
@@ -649,7 +728,7 @@ print(f"Turn 2: {reply}\n")
 # Turn 3 — Claude remembers Turns 1 AND 2
 reply = chat("Which one would you use for automating expense reports?", history, system)
 print(f"Turn 3: {reply}")</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Let's peek at the conversation history
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Let's peek at the conversation history
 print(f"Messages in history: {len(history)}\n")
 for i, msg in enumerate(history):
     role = msg['role'].upper()
@@ -660,7 +739,7 @@ for i, msg in enumerate(history):
 <h2>Step 7: Structured Output — Getting Useful Data from Claude</h2>
 
 <p>Agents don't just chat — they produce structured output that other systems can consume. Let's ask Claude to return JSON.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import json
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import json
 
 response = client.messages.create(
     model=MODEL,
@@ -690,7 +769,7 @@ print(f"Skills: {', '.join(data['skills'])}")</code></pre></div>
 <h2>Step 8: Putting It Together — A Simple Q&A Agent</h2>
 
 <p>Let's combine everything into a reusable agent class. This is a <strong>brain-only</strong> agent (no tools yet — that's Lab 2), but it demonstrates the pattern.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">class SimpleAgent:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">class SimpleAgent:
     """A basic conversational agent with memory and a configurable persona."""
     
     def __init__(self, system_prompt: str, model: str = MODEL):
@@ -757,13 +836,13 @@ print(agent.send("What happens if the agent gets stuck in the loop?"))</code></p
 <li>Suggest specific improvements</li>
 
 <p>Test it with a Python function.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 # Hint: Create a SimpleAgent with a code-reviewer system prompt,
 # then send it a code snippet to review.</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Exercise 2: Token Cost Calculator</h3>
 <p>Write a function that takes a response object and calculates the estimated cost in USD.</p>
 <strong>Pricing (Claude Sonnet):</strong> $3.00 per 1M input tokens, $15.00 per 1M output tokens.</div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 def calculate_cost(response) -&gt; dict:
     """Calculate the cost of a Claude API response.
     
@@ -776,7 +855,7 @@ def calculate_cost(response) -&gt; dict:
     pass  # Implement this</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Exercise 3: Conversation Summary</h3>
 <p>After a multi-turn conversation, ask Claude to summarize the conversation so far. This is a primitive form of <strong>memory compression</strong> — a real technique used in production agents when conversations get too long.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 # Hint: Use the `history` variable from Step 6, add a message asking for a summary.</code></pre></div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Key Takeaways</h2>
@@ -800,5 +879,15 @@ def calculate_cost(response) -&gt; dict:
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
 </body>
 </html>

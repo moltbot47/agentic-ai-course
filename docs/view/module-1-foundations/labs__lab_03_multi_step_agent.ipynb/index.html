@@ -255,6 +255,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -363,6 +369,64 @@ p { color: var(--color-text); }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
 
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
 .nb-markdown { }
@@ -456,6 +520,20 @@ p { color: var(--color-text); }
     .hero { padding: 4rem 1.5rem 3rem; }
 }
 </style>
+
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+
 </head>
 <body>
     <nav class="topnav">
@@ -472,7 +550,8 @@ p { color: var(--color-text); }
             </div>
 
             <div class="content-body">
-                <div class="nb-cell nb-markdown"><h1>Lab 3: Multi-Step Agent — Chain Reasoning and Actions</h1>
+                <div class="colab-banner"><a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_03_multi_step_agent.ipynb" target="_blank" class="colab-btn"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="28"></a><span class="colab-hint">Run this notebook interactively in Google Colab — free, no setup required</span></div>
+<div class="nb-cell nb-markdown"><h1>Lab 3: Multi-Step Agent — Chain Reasoning and Actions</h1>
 
 <strong>Module 1: Foundations of Agentic AI</strong>  
 <strong>Duration:</strong> 30 minutes  
@@ -491,7 +570,7 @@ p { color: var(--color-text); }
 
 <h2>The Complete Agent Loop</h2>
 
-<pre><code>          ┌─────────────────────────────┐
+<pre class="line-numbers"><code>          ┌─────────────────────────────┐
 <p>│       USER TASK             │</p>
 <p>└──────────┬──────────────────┘</p>
 <p>│</p>
@@ -519,8 +598,8 @@ p { color: var(--color-text); }
 <strong>The key insight:</strong> The loop continues as long as Claude returns <code class="inline">stop_reason == "tool_use"</code>. When Claude has everything it needs, it returns <code class="inline">stop_reason == "end_turn"</code> with the final answer.</div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Step 1: Setup</h2></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import os
 import json
 import math
 from getpass import getpass
@@ -539,7 +618,7 @@ print(f"✓ Ready. Model: {MODEL}")</code></pre></div>
 <h2>Step 2: Expanded Tool Suite</h2>
 
 <p>A real agent needs multiple tools. Let's give ours five capabilities — enough to handle complex, multi-step tasks.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># ── Tool Definitions ──────────────────────────────────────────
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># ── Tool Definitions ──────────────────────────────────────────
 
 tools = [
     {
@@ -614,7 +693,7 @@ tools = [
 ]
 
 print(f"✓ Defined {len(tools)} tools: {[t['name'] for t in tools]}")</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># ── Tool Implementations ──────────────────────────────────────
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># ── Tool Implementations ──────────────────────────────────────
 
 def calculator(expression: str) -&gt; str:
     """Safely evaluate a math expression."""
@@ -681,7 +760,7 @@ print("✓ Tool functions implemented")</code></pre></div>
 <li>If Claude is done → return the final answer</li>
 
 <p>We add a <code class="inline">max_iterations</code> safety limit to prevent infinite loops.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def run_agent(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def run_agent(
     user_message: str,
     system_prompt: str = "You are a helpful assistant with access to tools. Use them to complete tasks step by step.",
     max_iterations: int = 10,
@@ -779,12 +858,12 @@ print("✓ Agent loop defined")</code></pre></div>
 <h2>Step 4: Test the Agent Loop — Single-Step Task</h2>
 
 <p>Let's verify the loop works with a simple task first.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_agent("What time is it right now?")
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">result = run_agent("What time is it right now?")
 print(f"\nFinal answer: {result}")</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Step 5: Multi-Step Task</h2>
 
 <p>Now the real test — a task that requires <strong>multiple tools in sequence</strong>.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_agent(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">result = run_agent(
     "Create a file called 'investment_report.txt' with the following: "
     "1) Today's date and time. "
     "2) If I invest $25,000 at 8% annual compound interest for 10 years, "
@@ -796,7 +875,7 @@ print(f"\nFinal answer: {result}")</code></pre></div>
 print(f"\n{'='*60}")
 print("FINAL RESPONSE:")
 print(result)</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Verify the file was created
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Verify the file was created
 if os.path.exists("investment_report.txt"):
     with open("investment_report.txt", "r") as f:
         print("=== Generated Report ===")
@@ -816,7 +895,7 @@ else:
 <p>So far our agent has <strong>conversation memory</strong> (the messages list within a single run). But when the function ends, that memory is gone.</p>
 
 <p>Let's add simple <strong>file-based persistent memory</strong> — the agent can save and recall notes across sessions.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Add memory tools to our existing tool suite
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Add memory tools to our existing tool suite
 
 memory_tools = [
     {
@@ -920,7 +999,7 @@ ALL_TOOL_FUNCTIONS = {
 
 print(f"✓ {len(all_tools)} tools ready (including memory tools)")</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Step 7: Updated Agent Loop with All Tools</h2></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def run_full_agent(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def run_full_agent(
     user_message: str,
     system_prompt: str = (
         "You are an intelligent assistant with tools for calculation, file operations, "
@@ -1016,7 +1095,7 @@ print("✓ Full agent loop ready")</code></pre></div>
 <h2>Step 8: Complex Multi-Step Task with Memory</h2>
 
 <p>Let's give the agent a genuinely complex task that requires planning, multiple tools, and memory.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_full_agent(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">result = run_full_agent(
     "I'm planning a savings goal. Here's what I need you to do:\n"
     "1. I want to save $50,000 in 3 years.\n"
     "2. Calculate how much I need to save per month (assuming no interest).\n"
@@ -1030,7 +1109,7 @@ print("✓ Full agent loop ready")</code></pre></div>
 print(f"\n{'='*60}")
 print("FINAL ANSWER:")
 print(result)</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Verify memory was saved
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Verify memory was saved
 print("=== Saved Memories ===")
 print(list_memories())
 
@@ -1041,7 +1120,7 @@ if os.path.exists("savings_plan.txt"):
 <div class="nb-cell nb-markdown"><h2>Step 9: Memory Recall Across "Sessions"</h2>
 
 <p>Now let's simulate a new session — the agent starts fresh but can recall saved memories.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Simulate a "new session" — no conversation history, but memory persists
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Simulate a "new session" — no conversation history, but memory persists
 result = run_full_agent(
     "Check your memory — do you have any saved information about my savings goals? "
     "If so, tell me what my goals are and calculate how much I would have "
@@ -1063,7 +1142,7 @@ print(result)</code></pre></div>
 <p>Give the agent this task: <em>"List all files in the current directory. Read any .txt files you find. Summarize what you learned and save a summary to memory."</em></p>
 
 <p>This tests multi-step reasoning: list → read → analyze → save.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Exercise 2: Add Iteration Tracking</h3>
 
 <p>Modify <code class="inline">run_full_agent</code> to return not just the final answer, but also:</p>
@@ -1072,7 +1151,7 @@ print(result)</code></pre></div>
 <li>Total tokens consumed (input + output)</li>
 
 <p>Return these as a dictionary alongside the answer.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Exercise 3: Guardrails</h3>
 
 <p>Add a safety check to the agent loop that:</p>
@@ -1081,7 +1160,7 @@ print(result)</code></pre></div>
 <li>Logs every tool call to a list that can be audited</li>
 
 <p>This is a preview of the <strong>evaluation and safety</strong> patterns from Section 4 of the curriculum.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE</code></pre></div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Key Takeaways</h2>
 
@@ -1110,7 +1189,7 @@ print(result)</code></pre></div>
 <h2>Cleanup</h2>
 
 <p>Run this cell to clean up files created during the lab.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Optional: Clean up generated files
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Optional: Clean up generated files
 for f in ["investment_report.txt", "savings_plan.txt", "agent_memory.json"]:
     if os.path.exists(f):
         os.remove(f)
@@ -1124,5 +1203,15 @@ print("✓ Cleanup complete")</code></pre></div>
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
 </body>
 </html>

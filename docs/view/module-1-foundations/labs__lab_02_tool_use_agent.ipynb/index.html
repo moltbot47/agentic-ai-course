@@ -255,6 +255,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -363,6 +369,64 @@ p { color: var(--color-text); }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
 
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
 .nb-markdown { }
@@ -456,6 +520,20 @@ p { color: var(--color-text); }
     .hero { padding: 4rem 1.5rem 3rem; }
 }
 </style>
+
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+
 </head>
 <body>
     <nav class="topnav">
@@ -472,7 +550,8 @@ p { color: var(--color-text); }
             </div>
 
             <div class="content-body">
-                <div class="nb-cell nb-markdown"><h1>Lab 2: Tool-Use Agent — Give Your Agent the Ability to Act</h1>
+                <div class="colab-banner"><a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_02_tool_use_agent.ipynb" target="_blank" class="colab-btn"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="28"></a><span class="colab-hint">Run this notebook interactively in Google Colab — free, no setup required</span></div>
+<div class="nb-cell nb-markdown"><h1>Lab 2: Tool-Use Agent — Give Your Agent the Ability to Act</h1>
 
 <strong>Module 1: Foundations of Agentic AI</strong>  
 <strong>Duration:</strong> 30 minutes  
@@ -491,7 +570,7 @@ p { color: var(--color-text); }
 
 <h2>How This Connects to the Agent Loop</h2>
 
-<pre><code>┌─────────────┐
+<pre class="line-numbers"><code>┌─────────────┐
 <p>│   PERCEIVE  │ ← User sends a task</p>
 <p>└──────┬──────┘</p>
 <p>│</p>
@@ -513,8 +592,8 @@ p { color: var(--color-text); }
 <strong>The big idea:</strong> In Lab 1, Claude could only <em>talk</em>. Now it can <em>do things</em>.</div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Step 1: Setup</h2></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import os
 import json
 import math
 from getpass import getpass
@@ -539,7 +618,7 @@ print(f"✓ Ready. Model: {MODEL}")</code></pre></div>
 <p>Claude reads these descriptions to decide which tool to use. <strong>Good descriptions = good tool selection.</strong> This is why tool design matters more than prompt engineering.</p>
 
 <p>Let's create three tools:</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Define the tools Claude can use
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Define the tools Claude can use
 tools = [
     {
         "name": "calculator",
@@ -594,7 +673,7 @@ print(f"✓ Defined {len(tools)} tools: {[t['name'] for t in tools]}")</code></p
 <div class="nb-cell nb-markdown"><h2>Step 3: Implement the Tool Functions</h2>
 
 <p>Each tool schema needs a corresponding Python function that actually does the work. The agent decides WHICH tool to call; your code EXECUTES it.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def calculator(expression: str) -&gt; str:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def calculator(expression: str) -&gt; str:
     """Safely evaluate a math expression.
     
     Args:
@@ -656,7 +735,7 @@ print("✓ Tool functions implemented")</code></pre></div>
 <h2>Step 4: Make a Tool-Use Request</h2>
 
 <p>Now let's send Claude a task that requires a tool. Watch how Claude <strong>decides</strong> to use a tool instead of guessing the answer.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">response = client.messages.create(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">response = client.messages.create(
     model=MODEL,
     max_tokens=1024,
     tools=tools,
@@ -688,7 +767,7 @@ for block in response.content:
 <h2>Step 5: Execute the Tool and Return the Result</h2>
 
 <p>Now we complete the loop: execute the tool, then send the result back to Claude so it can formulate its final answer.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def process_tool_call(response) -&gt; tuple[str, str, str]:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def process_tool_call(response) -&gt; tuple[str, str, str]:
     """Extract tool call details from a response.
     
     Args:
@@ -719,7 +798,7 @@ def execute_tool(tool_name: str, tool_input: dict) -&gt; str:
         return func(**tool_input)
     except Exception as e:
         return f"Error executing {tool_name}: {e}"</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Step 1: Extract the tool call
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Step 1: Extract the tool call
 tool_name, tool_input, tool_use_id = process_tool_call(response)
 print(f"Agent wants to call: {tool_name}({tool_input})")
 
@@ -752,7 +831,7 @@ final_response = client.messages.create(
 print(f"\nFinal answer: {final_response.content[0].text}")
 print(f"Stop reason: {final_response.stop_reason}")</code></pre></div>
 <div class="nb-cell nb-markdown"><strong>The complete flow:</strong>
-<pre><code>User: "What is 1847 * 293 + 17?"
+<pre class="line-numbers"><code>User: "What is 1847 * 293 + 17?"
 <p>│</p>
 <p>▼</p>
 <p>Claude REASONS: "I need the calculator tool"</p>
@@ -769,7 +848,7 @@ print(f"Stop reason: {final_response.stop_reason}")</code></pre></div>
 <h2>Step 6: Autonomous Tool Selection</h2>
 
 <p>The real power of tool-use is that <strong>the agent decides which tool to use</strong>. Let's give Claude different tasks and watch it choose the right tool each time.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def ask_agent(question: str) -&gt; str:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def ask_agent(question: str) -&gt; str:
     """Send a question to the agent, handle any tool calls, return final answer.
     
     Args:
@@ -820,7 +899,7 @@ print(f"Stop reason: {final_response.stop_reason}")</code></pre></div>
     answer = final.content[0].text
     print(f"\nAgent: {answer}")
     return answer</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Test 1: Should use calculator
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Test 1: Should use calculator
 ask_agent("If I invest $10,000 at 7% annual compound interest, how much will I have after 5 years?")
 
 # Test 2: Should use get_current_time
@@ -836,7 +915,7 @@ ask_agent("What is the capital of France?")</code></pre></div>
 <h2>Step 7: Handling Errors Gracefully</h2>
 
 <p>Real-world tools fail. A production agent needs to handle errors and recover. Let's see what happens when a tool returns an error.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Force a calculator error
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Force a calculator error
 result = calculator("1 / 0")
 print(f"Calculator error: {result}")
 
@@ -847,7 +926,7 @@ ask_agent("What is 100 divided by 0?")</code></pre></div>
 <h2>Step 8: Building a Reusable Tool-Use Agent</h2>
 
 <p>Let's wrap everything into a clean, reusable class that handles the full tool-use cycle.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">class ToolAgent:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">class ToolAgent:
     """An agent that can autonomously select and use tools to complete tasks."""
     
     def __init__(
@@ -960,7 +1039,7 @@ print(agent.run("How many seconds are in a year? (365 days)"))</code></pre></div
 <li>Write the Python function</li>
 <li>Add it to the tools list and TOOL_FUNCTIONS dict</li>
 <li>Test it with the agent</li></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 # 1. Define the tool schema
 # 2. Write the function
 # 3. Add to tools list and TOOL_FUNCTIONS
@@ -970,14 +1049,14 @@ print(agent.run("How many seconds are in a year? (365 days)"))</code></pre></div
 <p>Change the <code class="inline">calculator</code> tool's description to something vague like <code class="inline">"A math tool"</code>. Then test it with the same questions. Does Claude still choose it correctly? Now try a misleading description. What happens?</p>
 
 <strong>This demonstrates why tool design > prompt engineering.</strong></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 # Experiment with different tool descriptions and observe the effect</code></pre></div>
 <div class="nb-cell nb-markdown"><h3>Exercise 3: Multi-Tool Task</h3>
 
 <p>Ask the agent a question that logically requires TWO tools (e.g., "What's today's date, and how many days until December 31st?"). What happens with our current single-tool-call implementation? How would you fix it?</p>
 
 <em>(Hint: you'll solve this properly in Lab 3 with the agent loop)</em></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># YOUR CODE HERE
 # Try a multi-tool question and observe what happens</code></pre></div>
 <div class="nb-cell nb-markdown"><hr>
 <h2>Key Takeaways</h2>
@@ -1009,5 +1088,15 @@ print(agent.run("How many seconds are in a year? (365 days)"))</code></pre></div
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
 </body>
 </html>

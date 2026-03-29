@@ -255,6 +255,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -363,6 +369,64 @@ p { color: var(--color-text); }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
 
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
 .nb-markdown { }
@@ -456,6 +520,20 @@ p { color: var(--color-text); }
     .hero { padding: 4rem 1.5rem 3rem; }
 }
 </style>
+
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+
 </head>
 <body>
     <nav class="topnav">
@@ -472,7 +550,8 @@ p { color: var(--color-text); }
             </div>
 
             <div class="content-body">
-                <div class="nb-cell nb-markdown"><h1>Capstone: Build a Personal Research Agent</h1>
+                <div class="colab-banner"><a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/capstone_starter.ipynb" target="_blank" class="colab-btn"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="28"></a><span class="colab-hint">Run this notebook interactively in Google Colab — free, no setup required</span></div>
+<div class="nb-cell nb-markdown"><h1>Capstone: Build a Personal Research Agent</h1>
 
 <strong>Module 1: Foundations of Agentic AI</strong>  
 <strong>Duration:</strong> ~2 hours  
@@ -510,8 +589,8 @@ p { color: var(--color-text); }
 
 <p>The code below gives you the scaffolding. <strong>Your job is to fill in the marked sections.</strong> Everything you need was covered in Labs 1-3.</p></div>
 <div class="nb-cell nb-markdown"><h2>Part 1: Setup</h2></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">import os
 import json
 from getpass import getpass
 from datetime import datetime
@@ -530,7 +609,7 @@ print(f"✓ Ready. Model: {MODEL}")</code></pre></div>
 <p>You need <strong>at least 2 tools</strong> (Pass), ideally <strong>3+</strong> (Distinction). Here are suggested tools with schemas partially filled in.</p>
 
 <strong>TODO:</strong> Complete the tool definitions and add any additional tools you want.</div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">tools = [
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">tools = [
     # Tool 1: Web Search (simulated with Claude's knowledge)
     # In a production system, this would call a real search API.
     # For this capstone, we simulate it by asking Claude to retrieve
@@ -602,7 +681,7 @@ print(f"✓ Defined {len(tools)} tools: {[t['name'] for t in tools]}")</code></p
 <div class="nb-cell nb-markdown"><h2>Part 3: Implement Tool Functions</h2>
 
 <strong>TODO:</strong> Implement each tool function. The <code class="inline">search_knowledge</code> tool is pre-built as a simulated search. You need to implement the rest.</div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def search_knowledge(query: str) -&gt; str:
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def search_knowledge(query: str) -&gt; str:
     """Simulate a knowledge search using a separate Claude call.
     
     In production, this would be a real search API (Google, Bing, Tavily, etc.).
@@ -665,7 +744,7 @@ print("✓ Tool functions ready")</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Part 4: The Agent Loop</h2>
 
 <p>This is the same pattern from Lab 3. It's provided for you — but read it carefully and make sure you understand every line.</p></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def run_research_agent(
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python">def run_research_agent(
     topic: str,
     max_iterations: int = 20,
     verbose: bool = True,
@@ -780,7 +859,7 @@ print("✓ Research agent ready")</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Part 5: Run Your Agent!</h2>
 
 <strong>TODO:</strong> Choose a research topic and run your agent. Try multiple topics to test robustness.</div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Run your research agent
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Run your research agent
 # TODO: Replace with your topic of choice
 
 result = run_research_agent(
@@ -790,7 +869,7 @@ result = run_research_agent(
 print(f"\n{'='*60}")
 print("AGENT RESPONSE:")
 print(result)</code></pre></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Verify the report was saved
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Verify the report was saved
 # TODO: Check that your report file exists and display it</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Part 6: Evaluation</h2>
 
@@ -802,7 +881,7 @@ print(result)</code></pre></div>
 <li>Is the report well-structured each time?</li>
 <li>Does it handle errors if a tool fails?</li>
 <li>How many iterations does it typically take?</li></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># TODO: Run the agent multiple times and compare outputs
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># TODO: Run the agent multiple times and compare outputs
 # Consider: consistency, quality, tool usage patterns</code></pre></div>
 <div class="nb-cell nb-markdown"><h2>Part 7: Reflection</h2>
 
@@ -826,7 +905,7 @@ print(result)</code></pre></div>
 <hr>
 <em>Capstone — Module 1: Foundations of Agentic AI</em></div>
 <div class="nb-cell nb-markdown"><h2>Cleanup</h2></div>
-<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Optional: Clean up generated files after submission
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre class="line-numbers"><code class="language-python"># Optional: Clean up generated files after submission
 # import glob
 # for f in glob.glob("*.md") + glob.glob("*.json") + glob.glob("*.txt"):
 #     os.remove(f)
@@ -838,5 +917,15 @@ print(result)</code></pre></div>
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
 </body>
 </html>

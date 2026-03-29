@@ -26,12 +26,16 @@ def md_to_html(md: str) -> str:
     # Fenced code blocks (``` ... ```)
     def replace_code_block(m):
         lang = m.group(1) or ""
-        code = m.group(2).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        code = m.group(2)
+        # Mermaid blocks → render as diagrams
+        if lang == "mermaid":
+            return f'<div class="mermaid">{code.strip()}</div>'
+        code = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         # Collapse runs of 2+ blank lines into 1
         code = re.sub(r'\n{2,}', '\n', code)
         code = code.strip('\n')
         lang_class = f' class="language-{lang}"' if lang else ""
-        return f'<pre><code{lang_class}>{code}</code></pre>'
+        return f'<pre class="line-numbers"><code{lang_class}>{code}</code></pre>'
     html = re.sub(r'```(\w*)\n(.*?)```', replace_code_block, html, flags=re.DOTALL)
 
     # Inline code
@@ -107,7 +111,19 @@ def notebook_to_html(nb_path: Path) -> str:
     with open(nb_path) as f:
         nb = json.load(f)
 
-    cells_html = []
+    # Build Colab badge
+    rel_path = nb_path.relative_to(BASE)
+    colab_url = f"{COLAB_BASE}/{rel_path}"
+    badge = (
+        f'<div class="colab-banner">'
+        f'<a href="{colab_url}" target="_blank" class="colab-btn">'
+        f'<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="28">'
+        f'</a>'
+        f'<span class="colab-hint">Run this notebook interactively in Google Colab — free, no setup required</span>'
+        f'</div>'
+    )
+
+    cells_html = [badge]
     for cell in nb.get("cells", []):
         source = "".join(cell.get("source", []))
         if cell["cell_type"] == "markdown":
@@ -118,7 +134,7 @@ def notebook_to_html(nb_path: Path) -> str:
             cells_html.append(
                 f'<div class="nb-cell nb-code">'
                 f'<div class="cell-label">In [ ]:</div>'
-                f'<pre><code class="language-python">{code}</code></pre>'
+                f'<pre class="line-numbers"><code class="language-python">{code}</code></pre>'
                 f'</div>'
             )
 
@@ -187,6 +203,35 @@ MODULES = [
         "files": [],
     },
 ]
+
+GITHUB_REPO = "moltbot47/agentic-ai-course"
+COLAB_BASE = f"https://colab.research.google.com/github/{GITHUB_REPO}/blob/main"
+
+EXTRA_HEAD = """
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+"""
+
+EXTRA_SCRIPTS = """
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+"""
 
 # ── HTML Templates ─────────────────────────────────────────────
 
@@ -440,6 +485,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -547,6 +598,64 @@ p { color: var(--color-text); }
 }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
 
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
@@ -675,6 +784,7 @@ def landing_page() -> str:
     <title>Agentic AI Certification — ConsultBae India</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>{CSS}</style>
+{EXTRA_HEAD}
 </head>
 <body>
     <nav class="topnav">
@@ -734,6 +844,7 @@ def landing_page() -> str:
         Agentic AI Certification Program &mdash; Built for ConsultBae India by Durayveon B.<br>
         Powered by Claude API &bull; Anthropic Python SDK
     </footer>
+{EXTRA_SCRIPTS}
 </body>
 </html>'''
 
@@ -752,6 +863,14 @@ def module_page(module_id: str) -> str:
     for fname, title, ftype in mod["files"]:
         icon = file_icons.get(ftype, "📄")
         href = f'/view/{module_id}/{urllib.parse.quote(fname)}'
+        colab_badge = ""
+        if fname.endswith(".ipynb"):
+            colab_url = f"{COLAB_BASE}/{module_id}/{fname}"
+            colab_badge = (
+                f'<a href="{colab_url}" target="_blank" class="colab-link" '
+                f'title="Open in Google Colab" onclick="event.stopPropagation();">'
+                f'<img src="https://colab.research.google.com/assets/colab-badge.svg" height="20"></a>'
+            )
         file_links.append(f'''
         <a href="{href}" class="file-link">
             <span class="file-icon">{icon}</span>
@@ -759,6 +878,7 @@ def module_page(module_id: str) -> str:
                 <div class="file-title">{title}</div>
                 <div class="file-name">{fname}</div>
             </div>
+            {colab_badge}
             <span class="arrow">→</span>
         </a>''')
 
@@ -773,6 +893,7 @@ def module_page(module_id: str) -> str:
     <title>Module {mod["number"]}: {mod["title"]}</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>{CSS}</style>
+{EXTRA_HEAD}
 </head>
 <body>
     <nav class="topnav">
@@ -805,6 +926,7 @@ def module_page(module_id: str) -> str:
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+{EXTRA_SCRIPTS}
 </body>
 </html>'''
 
@@ -836,6 +958,7 @@ def content_page(module_id: str, filename: str) -> str:
     <title>{title} — Module {mod["number"]}</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>{CSS}</style>
+{EXTRA_HEAD}
 </head>
 <body>
     <nav class="topnav">
@@ -860,6 +983,7 @@ def content_page(module_id: str, filename: str) -> str:
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+{EXTRA_SCRIPTS}
 </body>
 </html>'''
 

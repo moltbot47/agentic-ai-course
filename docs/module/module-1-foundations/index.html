@@ -255,6 +255,12 @@ p { color: var(--color-text); }
 .file-link .file-title { font-weight: 500; color: var(--color-primary); }
 .file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
 .file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+.file-link .colab-link {
+    display: flex; align-items: center;
+    opacity: 0.7; transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+.file-link .colab-link:hover { opacity: 1; text-decoration: none; }
 
 /* ── Content View ── */
 .content-view {
@@ -363,6 +369,64 @@ p { color: var(--color-text); }
 .content-body .check { margin-right: 0.3rem; }
 .content-body strong { color: var(--color-text); font-weight: 600; }
 
+/* ── Colab Banner ── */
+.colab-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 1px solid #bee3f8;
+    border-radius: 10px;
+    padding: 0.9rem 1.4rem;
+    margin-bottom: 2rem;
+}
+.colab-btn { display: flex; align-items: center; flex-shrink: 0; }
+.colab-btn:hover { opacity: 0.85; text-decoration: none; }
+.colab-hint {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ── Prism.js Overrides ── */
+pre[class*="language-"] {
+    background: var(--color-bg-code) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.2rem !important;
+    margin: 1.2rem 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    max-height: 500px;
+    overflow-y: auto;
+}
+code[class*="language-"] {
+    font-family: var(--font-mono) !important;
+    font-size: 0.82rem !important;
+}
+.token.comment { color: #6b7280 !important; }
+.token.keyword { color: #c084fc !important; }
+.token.string { color: #86efac !important; }
+.token.function { color: #7dd3fc !important; }
+.token.number { color: #fbbf24 !important; }
+.token.operator { color: #94a3b8 !important; }
+.token.class-name { color: #67e8f9 !important; }
+.token.decorator { color: #f472b6 !important; }
+.token.builtin { color: #7dd3fc !important; }
+.token.boolean { color: #fbbf24 !important; }
+
+/* ── Mermaid Diagrams ── */
+.mermaid {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow-x: auto;
+}
+
 /* ── Notebook Cells ── */
 .nb-cell { margin: 1.5rem 0; }
 .nb-markdown { }
@@ -456,6 +520,20 @@ p { color: var(--color-text); }
     .hero { padding: 4rem 1.5rem 3rem; }
 }
 </style>
+
+    <!-- Prism.js Syntax Highlighting (One Dark theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Mermaid.js Diagrams -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+        primaryColor: '#e8f0fe', primaryBorderColor: '#3182ce', primaryTextColor: '#1a365d',
+        lineColor: '#718096', secondaryColor: '#f7fafc', tertiaryColor: '#ffffff',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px'
+      }});
+    </script>
+
 </head>
 <body>
     <nav class="topnav">
@@ -487,6 +565,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Module Overview</div>
                 <div class="file-name">README.md</div>
             </div>
+            
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/curriculum.md/index.html" class="file-link">
@@ -495,6 +574,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Full Curriculum</div>
                 <div class="file-name">curriculum.md</div>
             </div>
+            
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_01_hello_agent.ipynb/index.html" class="file-link">
@@ -503,6 +583,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Lab 1: Hello Agent</div>
                 <div class="file-name">labs/lab_01_hello_agent.ipynb</div>
             </div>
+            <a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_01_hello_agent.ipynb" target="_blank" class="colab-link" title="Open in Google Colab" onclick="event.stopPropagation();"><img src="https://colab.research.google.com/assets/colab-badge.svg" height="20"></a>
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_02_tool_use_agent.ipynb/index.html" class="file-link">
@@ -511,6 +592,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Lab 2: Tool-Use Agent</div>
                 <div class="file-name">labs/lab_02_tool_use_agent.ipynb</div>
             </div>
+            <a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_02_tool_use_agent.ipynb" target="_blank" class="colab-link" title="Open in Google Colab" onclick="event.stopPropagation();"><img src="https://colab.research.google.com/assets/colab-badge.svg" height="20"></a>
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/labs__lab_03_multi_step_agent.ipynb/index.html" class="file-link">
@@ -519,6 +601,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Lab 3: Multi-Step Agent</div>
                 <div class="file-name">labs/lab_03_multi_step_agent.ipynb</div>
             </div>
+            <a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/lab_03_multi_step_agent.ipynb" target="_blank" class="colab-link" title="Open in Google Colab" onclick="event.stopPropagation();"><img src="https://colab.research.google.com/assets/colab-badge.svg" height="20"></a>
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/labs__capstone_starter.ipynb/index.html" class="file-link">
@@ -527,6 +610,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Capstone Starter</div>
                 <div class="file-name">labs/capstone_starter.ipynb</div>
             </div>
+            <a href="https://colab.research.google.com/github/moltbot47/agentic-ai-course/blob/main/module-1-foundations/labs/capstone_starter.ipynb" target="_blank" class="colab-link" title="Open in Google Colab" onclick="event.stopPropagation();"><img src="https://colab.research.google.com/assets/colab-badge.svg" height="20"></a>
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/capstone.md/index.html" class="file-link">
@@ -535,6 +619,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Capstone Brief</div>
                 <div class="file-name">capstone.md</div>
             </div>
+            
             <span class="arrow">→</span>
         </a>
         <a href="/agentic-ai-course/view/module-1-foundations/case_study.md/index.html" class="file-link">
@@ -543,6 +628,7 @@ p { color: var(--color-text); }
                 <div class="file-title">Case Study: OpenClaw</div>
                 <div class="file-name">case_study.md</div>
             </div>
+            
             <span class="arrow">→</span>
         </a>
             </div>
@@ -552,5 +638,15 @@ p { color: var(--color-text); }
     <footer class="footer">
         Agentic AI Certification Program &mdash; Built for ConsultBae India
     </footer>
+
+    <!-- Prism.js Core + Python + JSON + Bash -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
 </body>
 </html>
