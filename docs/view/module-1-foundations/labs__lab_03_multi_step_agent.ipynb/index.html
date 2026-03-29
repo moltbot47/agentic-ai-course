@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3: Multi-Step Agent — Module 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ── ARIA Academic Design System ────────────────────────────── */
+:root {
+    --color-primary: #1a365d;
+    --color-secondary: #2c5282;
+    --color-accent: #3182ce;
+    --color-accent-light: #63b3ed;
+    --color-warm: #dd6b20;
+    --color-success: #38a169;
+    --color-text: #1a202c;
+    --color-text-secondary: #2d3748;
+    --color-text-muted: #5a6577;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-bg-code: #1e293b;
+    --color-border: #e2e8f0;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.7;
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-primary);
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--color-secondary); }
+
+p { color: var(--color-text); }
+
+/* ── Top Nav ── */
+.topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.topnav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600; color: var(--color-primary);
+    text-decoration: none;
+}
+.topnav .brand:hover { text-decoration: none; }
+.topnav .brand span { color: var(--color-accent); }
+.topnav .client-badge {
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Layout ── */
+.main { padding-top: 64px; }
+
+/* ── Landing Page ── */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+}
+.hero-badge {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+.hero .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+.hero p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin: 0 auto 1rem;
+    line-height: 1.7;
+}
+.hero .meta {
+    display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+.hero .meta-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.hero .meta-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(49, 130, 206, 0.08);
+}
+.hero .meta-item .number {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 600; color: var(--color-accent-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.hero .meta-item .label {
+    font-size: 0.75rem; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+/* ── Module Cards ── */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+.module-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.module-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(49, 130, 206, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.module-card .card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .module-num {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-muted); margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.module-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.status {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.status.complete { background: #f0fff4; color: var(--color-success); border: 1px solid #c6f6d5; }
+.status.in_progress { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status.planned { background: var(--color-bg-alt); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+/* ── Module Detail ── */
+.module-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.breadcrumb {
+    font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--color-text-muted); }
+.breadcrumb a:hover { color: var(--color-accent); text-decoration: none; }
+.module-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.module-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+.module-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-header .subtitle { color: var(--color-text-muted); font-size: 1.05rem; font-family: var(--font-serif); font-style: italic; }
+
+.file-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.file-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--color-text);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.file-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(49, 130, 206, 0.08);
+    text-decoration: none;
+}
+.file-link .file-icon { font-size: 1.4rem; }
+.file-link .file-info { flex: 1; }
+.file-link .file-title { font-weight: 500; color: var(--color-primary); }
+.file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+
+/* ── Content View ── */
+.content-view {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.content-body {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem;
+}
+.content-body h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 500; margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+}
+.content-body h1:first-child { margin-top: 0; }
+.content-body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500; margin: 2.5rem 0 0.8rem;
+    color: var(--color-primary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+.content-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 500; margin: 1.5rem 0 0.6rem;
+    color: var(--color-secondary);
+}
+.content-body h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 500; margin: 1.2rem 0 0.5rem;
+    color: var(--color-text);
+}
+.content-body p {
+    margin: 0.6rem 0;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+.content-body li {
+    margin: 0.4rem 0; padding-left: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+.content-body blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text);
+}
+.content-body hr {
+    border: none; border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+.content-body pre {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.content-body code.inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
+}
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+.content-body th {
+    background: var(--color-bg-alt);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.content-body td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+.content-body .check { margin-right: 0.3rem; }
+.content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Notebook Cells ── */
+.nb-cell { margin: 1.5rem 0; }
+.nb-markdown { }
+.nb-code {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.nb-code .cell-label {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    background: #162032;
+    border-bottom: 1px solid #334155;
+}
+.nb-code pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    background: var(--color-primary);
+    padding: 2rem 0;
+}
+.stats-bar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Progress Bar ── */
+.progress-section {
+    max-width: var(--max-width);
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+}
+.progress-bar-outer {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+}
+.progress-bar-outer h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.progress-track {
+    background: #edf2f7;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 0.5s;
+}
+.progress-stats {
+    display: flex; gap: 2rem; font-size: 0.85rem; color: var(--color-text-muted);
+}
+.progress-stats strong { color: var(--color-text); }
+
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 2.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .content-body { padding: 1.5rem; }
+    .hero .meta { gap: 0.8rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/agentic-ai-course/index.html" class="brand"><span>⬡</span> Agentic AI Certification</a>
+        <div class="client-badge">ConsultBae India — Client Preview</div>
+    </nav>
+
+    <div class="main">
+        <div class="content-view">
+            <div class="breadcrumb">
+                <a href="/agentic-ai-course/index.html">All Modules</a> /
+                <a href="/agentic-ai-course/module/module-1-foundations/index.html">Module 1</a> /
+                Lab 3: Multi-Step Agent
+            </div>
+
+            <div class="content-body">
+                <div class="nb-cell nb-markdown"><h1>Lab 3: Multi-Step Agent — Chain Reasoning and Actions</h1>
+
+<strong>Module 1: Foundations of Agentic AI</strong>  
+<strong>Duration:</strong> 30 minutes  
+<strong>Difficulty:</strong> Intermediate-Advanced  
+<strong>Prerequisites:</strong> Lab 1 (Hello Agent), Lab 2 (Tool-Use Agent)
+
+<hr>
+
+<h2>What You'll Learn</h2>
+
+<li>Build an <strong>agent loop</strong> that runs until the task is complete</li>
+<li>Handle multiple sequential tool calls in a single conversation</li>
+<li>Implement conversation memory that persists across the loop</li>
+<li>Add simple file-based persistent memory</li>
+<li>Give the agent 5+ tools and a complex multi-step task</li>
+
+<h2>The Complete Agent Loop</h2>
+
+<pre><code>          ┌─────────────────────────────┐
+<p>│       USER TASK             │</p>
+<p>└──────────┬──────────────────┘</p>
+<p>│</p>
+<p>▼</p>
+<p>┌─────────────────────────────┐</p>
+<p>┌───►│  Send messages to Claude    │</p>
+<p>│    └──────────┬──────────────────┘</p>
+<p>│               │</p>
+<p>│               ▼</p>
+<p>│    ┌─────────────────────────────┐</p>
+<p>│    │  Claude responds            │</p>
+<p>│    └──────────┬──────────────────┘</p>
+<p>│               │</p>
+<p>│        ┌──────┴──────┐</p>
+<p>│        │             │</p>
+<p>│   stop_reason    stop_reason</p>
+<p>│   == tool_use    == end_turn</p>
+<p>│        │             │</p>
+<p>│        ▼             ▼</p>
+<p>│   Execute tool   ┌───────────┐</p>
+<p>│   Append result  │   DONE    │</p>
+<p>│        │         └───────────┘</p>
+<p>└────────┘</code></pre></p>
+
+<strong>The key insight:</strong> The loop continues as long as Claude returns <code class="inline">stop_reason == "tool_use"</code>. When Claude has everything it needs, it returns <code class="inline">stop_reason == "end_turn"</code> with the final answer.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 1: Setup</h2></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+import json
+import math
+from getpass import getpass
+from datetime import datetime
+
+import anthropic
+
+if not os.environ.get("ANTHROPIC_API_KEY"):
+    os.environ["ANTHROPIC_API_KEY"] = getpass("Enter your Anthropic API key: ")
+
+client = anthropic.Anthropic()
+MODEL = "claude-sonnet-4-5-20241022"
+
+print(f"✓ Ready. Model: {MODEL}")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 2: Expanded Tool Suite</h2>
+
+<p>A real agent needs multiple tools. Let's give ours five capabilities — enough to handle complex, multi-step tasks.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># ── Tool Definitions ──────────────────────────────────────────
+
+tools = [
+    {
+        "name": "calculator",
+        "description": "Perform mathematical calculations. Supports arithmetic, exponents, sqrt, trig, and log functions.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "expression": {
+                    "type": "string",
+                    "description": "Math expression to evaluate, e.g. 'sqrt(144) + 2**3'"
+                }
+            },
+            "required": ["expression"]
+        }
+    },
+    {
+        "name": "get_current_time",
+        "description": "Get the current date and time. Use for timestamps or date-related queries.",
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "read_file",
+        "description": "Read the contents of a text file. Returns the file contents or an error if file doesn't exist.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Path to the file to read"
+                }
+            },
+            "required": ["filename"]
+        }
+    },
+    {
+        "name": "write_file",
+        "description": "Write content to a text file. Creates the file if it doesn't exist, overwrites if it does.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Path to the file to write"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to write to the file"
+                }
+            },
+            "required": ["filename", "content"]
+        }
+    },
+    {
+        "name": "list_files",
+        "description": "List all files in the current directory. Use to discover available files.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "directory": {
+                    "type": "string",
+                    "description": "Directory path to list (defaults to current directory)"
+                }
+            },
+            "required": []
+        }
+    }
+]
+
+print(f"✓ Defined {len(tools)} tools: {[t['name'] for t in tools]}")</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># ── Tool Implementations ──────────────────────────────────────
+
+def calculator(expression: str) -&gt; str:
+    """Safely evaluate a math expression."""
+    allowed = {
+        "sqrt": math.sqrt, "abs": abs, "round": round,
+        "min": min, "max": max, "pow": pow,
+        "pi": math.pi, "e": math.e,
+        "sin": math.sin, "cos": math.cos, "tan": math.tan,
+        "log": math.log, "log10": math.log10,
+    }
+    try:
+        return str(eval(expression, {"__builtins__": {}}, allowed))
+    except Exception as e:
+        return f"Error: {e}"
+
+def get_current_time() -&gt; str:
+    """Get the current date and time."""
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S (%A)")
+
+def read_file(filename: str) -&gt; str:
+    """Read a text file and return its contents."""
+    try:
+        with open(filename, "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return f"Error: File '{filename}' not found."
+    except Exception as e:
+        return f"Error reading file: {e}"
+
+def write_file(filename: str, content: str) -&gt; str:
+    """Write content to a text file."""
+    try:
+        with open(filename, "w") as f:
+            f.write(content)
+        return f"Successfully wrote {len(content)} characters to '{filename}'."
+    except Exception as e:
+        return f"Error writing file: {e}"
+
+def list_files(directory: str = ".") -&gt; str:
+    """List files in a directory."""
+    try:
+        files = os.listdir(directory)
+        if not files:
+            return "Directory is empty."
+        return "\n".join(sorted(files))
+    except Exception as e:
+        return f"Error: {e}"
+
+TOOL_FUNCTIONS = {
+    "calculator": calculator,
+    "get_current_time": get_current_time,
+    "read_file": read_file,
+    "write_file": write_file,
+    "list_files": list_files,
+}
+
+print("✓ Tool functions implemented")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 3: The Agent Loop</h2>
+
+<p>This is the core pattern of every agentic system. The loop:</p>
+<li>Sends messages to Claude</li>
+<li>If Claude wants a tool → execute it, append result, loop back</li>
+<li>If Claude is done → return the final answer</li>
+
+<p>We add a <code class="inline">max_iterations</code> safety limit to prevent infinite loops.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def run_agent(
+    user_message: str,
+    system_prompt: str = "You are a helpful assistant with access to tools. Use them to complete tasks step by step.",
+    max_iterations: int = 10,
+    verbose: bool = True,
+) -&gt; str:
+    """Run a multi-step agent loop until the task is complete.
+    
+    Args:
+        user_message: The task for the agent to complete.
+        system_prompt: System prompt defining agent behavior.
+        max_iterations: Maximum tool-use cycles before stopping.
+        verbose: If True, print each step of the agent's reasoning.
+    
+    Returns:
+        The agent's final text response.
+    """
+    messages = [{"role": "user", "content": user_message}]
+    iteration = 0
+    
+    if verbose:
+        print(f"\n{'='*60}")
+        print(f"TASK: {user_message}")
+        print(f"{'='*60}")
+    
+    while iteration &lt; max_iterations:
+        iteration += 1
+        
+        if verbose:
+            print(f"\n── Step {iteration} ──")
+        
+        # Call Claude
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system=system_prompt,
+            tools=tools,
+            messages=messages
+        )
+        
+        # Check if we're done
+        if response.stop_reason == "end_turn":
+            # Extract final text
+            final_text = ""
+            for block in response.content:
+                if hasattr(block, "text"):
+                    final_text += block.text
+            if verbose:
+                print(f"\n✓ Agent completed in {iteration} step(s)")
+            return final_text
+        
+        # Process tool calls
+        # Claude might return text AND tool_use in the same response
+        tool_results = []
+        for block in response.content:
+            if hasattr(block, "text") and block.text:
+                if verbose:
+                    print(f"  💭 Thinking: {block.text[:200]}")
+            
+            if block.type == "tool_use":
+                tool_name = block.name
+                tool_input = block.input
+                tool_use_id = block.id
+                
+                if verbose:
+                    print(f"  🔧 Tool: {tool_name}({json.dumps(tool_input)})")
+                
+                # Execute the tool
+                func = TOOL_FUNCTIONS.get(tool_name)
+                if func:
+                    try:
+                        result = func(**tool_input)
+                    except Exception as e:
+                        result = f"Error: {e}"
+                else:
+                    result = f"Error: Unknown tool '{tool_name}'"
+                
+                if verbose:
+                    display = result[:200] + "..." if len(result) &gt; 200 else result
+                    print(f"  📋 Result: {display}")
+                
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": tool_use_id,
+                    "content": result
+                })
+        
+        # Append Claude's response and tool results to conversation
+        messages.append({"role": "assistant", "content": response.content})
+        messages.append({"role": "user", "content": tool_results})
+    
+    return "Error: Agent reached maximum iterations without completing the task."
+
+print("✓ Agent loop defined")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 4: Test the Agent Loop — Single-Step Task</h2>
+
+<p>Let's verify the loop works with a simple task first.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_agent("What time is it right now?")
+print(f"\nFinal answer: {result}")</code></pre></div>
+<div class="nb-cell nb-markdown"><h2>Step 5: Multi-Step Task</h2>
+
+<p>Now the real test — a task that requires <strong>multiple tools in sequence</strong>.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_agent(
+    "Create a file called 'investment_report.txt' with the following: "
+    "1) Today's date and time. "
+    "2) If I invest $25,000 at 8% annual compound interest for 10 years, "
+    "calculate the final amount and the total interest earned. "
+    "3) Also calculate what it would be at 6% and 10% for comparison. "
+    "Format it as a nice report."
+)
+
+print(f"\n{'='*60}")
+print("FINAL RESPONSE:")
+print(result)</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Verify the file was created
+if os.path.exists("investment_report.txt"):
+    with open("investment_report.txt", "r") as f:
+        print("=== Generated Report ===")
+        print(f.read())
+else:
+    print("File was not created. Check the agent output above.")</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>What just happened:</strong>
+<li>Claude called <code class="inline">get_current_time</code> to get today's date</li>
+<li>Claude called <code class="inline">calculator</code> multiple times for each interest rate scenario</li>
+<li>Claude called <code class="inline">write_file</code> to save the formatted report</li>
+<li>Claude returned a final summary</li>
+
+<strong>That's the agent loop in action</strong> — multiple tools, sequential reasoning, autonomous decisions.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 6: Adding Persistent Memory</h2>
+
+<p>So far our agent has <strong>conversation memory</strong> (the messages list within a single run). But when the function ends, that memory is gone.</p>
+
+<p>Let's add simple <strong>file-based persistent memory</strong> — the agent can save and recall notes across sessions.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Add memory tools to our existing tool suite
+
+memory_tools = [
+    {
+        "name": "save_memory",
+        "description": (
+            "Save a note to persistent memory. Use this to remember important "
+            "information, user preferences, or task results for future reference. "
+            "Each memory has a key (topic) and value (the information to remember)."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "A short topic label for this memory, e.g. 'user_name' or 'project_goal'"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The information to remember"
+                }
+            },
+            "required": ["key", "value"]
+        }
+    },
+    {
+        "name": "recall_memory",
+        "description": (
+            "Recall a previously saved memory by its key. Use this to retrieve "
+            "information you saved earlier."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "The topic label of the memory to recall"
+                }
+            },
+            "required": ["key"]
+        }
+    },
+    {
+        "name": "list_memories",
+        "description": "List all saved memory keys. Use this to see what information has been stored.",
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+]
+
+# Combine all tools
+all_tools = tools + memory_tools
+
+# ── Memory implementations ──
+
+MEMORY_FILE = "agent_memory.json"
+
+def _load_memory() -&gt; dict:
+    """Load the memory store from disk."""
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def _save_memory_store(store: dict) -&gt; None:
+    """Persist the memory store to disk."""
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(store, f, indent=2)
+
+def save_memory(key: str, value: str) -&gt; str:
+    """Save a key-value pair to persistent memory."""
+    store = _load_memory()
+    store[key] = {"value": value, "saved_at": datetime.now().isoformat()}
+    _save_memory_store(store)
+    return f"Saved memory: '{key}'"
+
+def recall_memory(key: str) -&gt; str:
+    """Recall a value from persistent memory."""
+    store = _load_memory()
+    if key in store:
+        entry = store[key]
+        return f"{entry['value']} (saved at {entry['saved_at']})"
+    return f"No memory found for key '{key}'."
+
+def list_memories() -&gt; str:
+    """List all memory keys."""
+    store = _load_memory()
+    if not store:
+        return "No memories saved yet."
+    return "\n".join(f"- {k}: {v['value'][:50]}..." if len(v['value']) &gt; 50 else f"- {k}: {v['value']}" for k, v in store.items())
+
+# Update the function dispatch map
+ALL_TOOL_FUNCTIONS = {
+    **TOOL_FUNCTIONS,
+    "save_memory": save_memory,
+    "recall_memory": recall_memory,
+    "list_memories": list_memories,
+}
+
+print(f"✓ {len(all_tools)} tools ready (including memory tools)")</code></pre></div>
+<div class="nb-cell nb-markdown"><h2>Step 7: Updated Agent Loop with All Tools</h2></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def run_full_agent(
+    user_message: str,
+    system_prompt: str = (
+        "You are an intelligent assistant with tools for calculation, file operations, "
+        "and persistent memory. Use tools step by step to complete tasks thoroughly. "
+        "Save important results to memory for future reference. "
+        "Always verify your work before reporting results."
+    ),
+    max_iterations: int = 15,
+    verbose: bool = True,
+) -&gt; str:
+    """Run the full agent with all tools including memory.
+    
+    Args:
+        user_message: The task for the agent.
+        system_prompt: Agent behavior definition.
+        max_iterations: Safety limit for tool-use cycles.
+        verbose: Print reasoning steps.
+    
+    Returns:
+        The agent's final response.
+    """
+    messages = [{"role": "user", "content": user_message}]
+    iteration = 0
+    
+    if verbose:
+        print(f"\n{'='*60}")
+        print(f"TASK: {user_message[:100]}..." if len(user_message) &gt; 100 else f"TASK: {user_message}")
+        print(f"{'='*60}")
+    
+    while iteration &lt; max_iterations:
+        iteration += 1
+        
+        if verbose:
+            print(f"\n── Step {iteration} ──")
+        
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system=system_prompt,
+            tools=all_tools,
+            messages=messages
+        )
+        
+        if response.stop_reason == "end_turn":
+            final = ""
+            for block in response.content:
+                if hasattr(block, "text"):
+                    final += block.text
+            if verbose:
+                print(f"\n✓ Agent completed in {iteration} step(s)")
+                print(f"  Tokens used: {response.usage.input_tokens} in / {response.usage.output_tokens} out")
+            return final
+        
+        tool_results = []
+        for block in response.content:
+            if hasattr(block, "text") and block.text:
+                if verbose:
+                    print(f"  💭 {block.text[:150]}")
+            
+            if block.type == "tool_use":
+                name = block.name
+                inp = block.input
+                
+                if verbose:
+                    print(f"  🔧 {name}({json.dumps(inp)[:100]})")
+                
+                func = ALL_TOOL_FUNCTIONS.get(name)
+                if func:
+                    try:
+                        result = func(**inp)
+                    except Exception as e:
+                        result = f"Error: {e}"
+                else:
+                    result = f"Error: Unknown tool '{name}'"
+                
+                if verbose:
+                    display = result[:150] + "..." if len(result) &gt; 150 else result
+                    print(f"  📋 {display}")
+                
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": result
+                })
+        
+        messages.append({"role": "assistant", "content": response.content})
+        messages.append({"role": "user", "content": tool_results})
+    
+    return "Error: Agent hit maximum iteration limit."
+
+print("✓ Full agent loop ready")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 8: Complex Multi-Step Task with Memory</h2>
+
+<p>Let's give the agent a genuinely complex task that requires planning, multiple tools, and memory.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">result = run_full_agent(
+    "I'm planning a savings goal. Here's what I need you to do:\n"
+    "1. I want to save $50,000 in 3 years.\n"
+    "2. Calculate how much I need to save per month (assuming no interest).\n"
+    "3. Now calculate how much per month if I invest in an account earning 5% annually (compounded monthly).\n"
+    "4. Calculate the difference — how much I SAVE by investing vs. just saving.\n"
+    "5. Save my savings goal and the monthly investment amount to memory.\n"
+    "6. Write a summary report to 'savings_plan.txt'.\n"
+    "7. Give me a final summary."
+)
+
+print(f"\n{'='*60}")
+print("FINAL ANSWER:")
+print(result)</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Verify memory was saved
+print("=== Saved Memories ===")
+print(list_memories())
+
+# Verify file was written
+if os.path.exists("savings_plan.txt"):
+    print("\n=== Savings Plan Report ===")
+    print(read_file("savings_plan.txt"))</code></pre></div>
+<div class="nb-cell nb-markdown"><h2>Step 9: Memory Recall Across "Sessions"</h2>
+
+<p>Now let's simulate a new session — the agent starts fresh but can recall saved memories.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Simulate a "new session" — no conversation history, but memory persists
+result = run_full_agent(
+    "Check your memory — do you have any saved information about my savings goals? "
+    "If so, tell me what my goals are and calculate how much I would have "
+    "after 5 years instead of 3, at the same monthly investment amount."
+)
+
+print(f"\n{'='*60}")
+print("ANSWER:")
+print(result)</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>This is what makes agents powerful:</strong>
+<li>Conversation memory lets them reason across multiple steps within a task</li>
+<li>Persistent memory lets them carry knowledge across sessions</li>
+<li>Tool-use lets them act on the world, not just talk about it</li></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Exercises</h2>
+
+<h3>Exercise 1: Research Agent</h3>
+
+<p>Give the agent this task: <em>"List all files in the current directory. Read any .txt files you find. Summarize what you learned and save a summary to memory."</em></p>
+
+<p>This tests multi-step reasoning: list → read → analyze → save.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-markdown"><h3>Exercise 2: Add Iteration Tracking</h3>
+
+<p>Modify <code class="inline">run_full_agent</code> to return not just the final answer, but also:</p>
+<li>Total number of iterations</li>
+<li>List of tools used (in order)</li>
+<li>Total tokens consumed (input + output)</li>
+
+<p>Return these as a dictionary alongside the answer.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-markdown"><h3>Exercise 3: Guardrails</h3>
+
+<p>Add a safety check to the agent loop that:</p>
+<li>Blocks <code class="inline">write_file</code> if the filename contains <code class="inline">..</code> (path traversal)</li>
+<li>Limits file writes to files under 10,000 characters</li>
+<li>Logs every tool call to a list that can be audited</li>
+
+<p>This is a preview of the <strong>evaluation and safety</strong> patterns from Section 4 of the curriculum.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Key Takeaways</h2>
+
+<li><strong>The agent loop is the core pattern</strong> — send → check stop_reason → execute tools → loop</li>
+<li><strong>Conversation memory is the message list</strong> — every API call replays the full history</li>
+<li><strong>Persistent memory uses files/databases</strong> — survives across agent sessions</li>
+<li><strong>Safety limits are critical</strong> — max_iterations prevents infinite loops, guardrails prevent harm</li>
+<li><strong>Complex tasks emerge from simple tools</strong> — 5 basic tools can handle sophisticated workflows</li>
+
+<h2>You've Built a Real Agent!</h2>
+
+<p>Across three labs, you've gone from zero to a working multi-step agent with:</p>
+<li>✅ LLM brain (Claude API)</li>
+<li>✅ Tool-use (5+ tools with autonomous selection)</li>
+<li>✅ Memory (conversation + persistent file-based)</li>
+<li>✅ Planning (multi-step task decomposition)</li>
+<li>✅ The agent loop (perceive → reason → act → observe → repeat)</li>
+
+<h2>What's Next: Capstone Project</h2>
+
+<p>Use everything you've learned to build a <strong>Personal Research Agent</strong> — see <code class="inline">capstone_starter.ipynb</code> and <code class="inline">capstone.md</code> for the project brief.</p>
+
+<hr>
+<em>Lab 3 Complete — Module 1: Foundations of Agentic AI</em></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Cleanup</h2>
+
+<p>Run this cell to clean up files created during the lab.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Optional: Clean up generated files
+for f in ["investment_report.txt", "savings_plan.txt", "agent_memory.json"]:
+    if os.path.exists(f):
+        os.remove(f)
+        print(f"Removed {f}")
+
+print("✓ Cleanup complete")</code></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Agentic AI Certification Program &mdash; Built for ConsultBae India
+    </footer>
+</body>
+</html>

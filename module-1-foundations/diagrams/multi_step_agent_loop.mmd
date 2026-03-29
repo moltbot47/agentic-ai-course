@@ -1,0 +1,20 @@
+---
+title: Multi-Step Agent Loop (Lab 3)
+---
+flowchart TD
+    START[📥 User Task] --> SEND[Send messages<br/>to Claude API]
+    SEND --> RESPONSE[Claude responds]
+    RESPONSE --> CHECK{stop_reason?}
+    CHECK -->|tool_use| EXTRACT[Extract tool_use block<br/>name + input + id]
+    CHECK -->|end_turn| DONE[✅ Return final text]
+    EXTRACT --> EXEC[Execute tool function<br/>with input params]
+    EXEC --> RESULT[Get tool result]
+    RESULT --> APPEND[Append to messages:<br/>1. assistant response<br/>2. tool_result]
+    APPEND --> GUARD{iteration <<br/> max_limit?}
+    GUARD -->|Yes| SEND
+    GUARD -->|No| ERROR[⚠️ Max iterations<br/>reached]
+
+    style START fill:#3498db,color:#fff
+    style DONE fill:#27ae60,color:#fff
+    style ERROR fill:#e74c3c,color:#fff
+    style EXEC fill:#e67e22,color:#fff

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Brief — Module 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ── ARIA Academic Design System ────────────────────────────── */
+:root {
+    --color-primary: #1a365d;
+    --color-secondary: #2c5282;
+    --color-accent: #3182ce;
+    --color-accent-light: #63b3ed;
+    --color-warm: #dd6b20;
+    --color-success: #38a169;
+    --color-text: #1a202c;
+    --color-text-secondary: #2d3748;
+    --color-text-muted: #5a6577;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-bg-code: #1e293b;
+    --color-border: #e2e8f0;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.7;
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-primary);
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--color-secondary); }
+
+p { color: var(--color-text); }
+
+/* ── Top Nav ── */
+.topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.topnav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600; color: var(--color-primary);
+    text-decoration: none;
+}
+.topnav .brand:hover { text-decoration: none; }
+.topnav .brand span { color: var(--color-accent); }
+.topnav .client-badge {
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Layout ── */
+.main { padding-top: 64px; }
+
+/* ── Landing Page ── */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+}
+.hero-badge {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+.hero .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+.hero p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin: 0 auto 1rem;
+    line-height: 1.7;
+}
+.hero .meta {
+    display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+.hero .meta-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.hero .meta-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(49, 130, 206, 0.08);
+}
+.hero .meta-item .number {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 600; color: var(--color-accent-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.hero .meta-item .label {
+    font-size: 0.75rem; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+/* ── Module Cards ── */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+.module-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.module-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(49, 130, 206, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.module-card .card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .module-num {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-muted); margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.module-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.status {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.status.complete { background: #f0fff4; color: var(--color-success); border: 1px solid #c6f6d5; }
+.status.in_progress { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status.planned { background: var(--color-bg-alt); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+/* ── Module Detail ── */
+.module-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.breadcrumb {
+    font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--color-text-muted); }
+.breadcrumb a:hover { color: var(--color-accent); text-decoration: none; }
+.module-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.module-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+.module-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-header .subtitle { color: var(--color-text-muted); font-size: 1.05rem; font-family: var(--font-serif); font-style: italic; }
+
+.file-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.file-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--color-text);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.file-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(49, 130, 206, 0.08);
+    text-decoration: none;
+}
+.file-link .file-icon { font-size: 1.4rem; }
+.file-link .file-info { flex: 1; }
+.file-link .file-title { font-weight: 500; color: var(--color-primary); }
+.file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+
+/* ── Content View ── */
+.content-view {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.content-body {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem;
+}
+.content-body h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 500; margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+}
+.content-body h1:first-child { margin-top: 0; }
+.content-body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500; margin: 2.5rem 0 0.8rem;
+    color: var(--color-primary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+.content-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 500; margin: 1.5rem 0 0.6rem;
+    color: var(--color-secondary);
+}
+.content-body h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 500; margin: 1.2rem 0 0.5rem;
+    color: var(--color-text);
+}
+.content-body p {
+    margin: 0.6rem 0;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+.content-body li {
+    margin: 0.4rem 0; padding-left: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+.content-body blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text);
+}
+.content-body hr {
+    border: none; border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+.content-body pre {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.content-body code.inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
+}
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+.content-body th {
+    background: var(--color-bg-alt);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.content-body td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+.content-body .check { margin-right: 0.3rem; }
+.content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Notebook Cells ── */
+.nb-cell { margin: 1.5rem 0; }
+.nb-markdown { }
+.nb-code {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.nb-code .cell-label {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    background: #162032;
+    border-bottom: 1px solid #334155;
+}
+.nb-code pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    background: var(--color-primary);
+    padding: 2rem 0;
+}
+.stats-bar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Progress Bar ── */
+.progress-section {
+    max-width: var(--max-width);
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+}
+.progress-bar-outer {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+}
+.progress-bar-outer h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.progress-track {
+    background: #edf2f7;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 0.5s;
+}
+.progress-stats {
+    display: flex; gap: 2rem; font-size: 0.85rem; color: var(--color-text-muted);
+}
+.progress-stats strong { color: var(--color-text); }
+
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 2.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .content-body { padding: 1.5rem; }
+    .hero .meta { gap: 0.8rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/agentic-ai-course/index.html" class="brand"><span>⬡</span> Agentic AI Certification</a>
+        <div class="client-badge">ConsultBae India — Client Preview</div>
+    </nav>
+
+    <div class="main">
+        <div class="content-view">
+            <div class="breadcrumb">
+                <a href="/agentic-ai-course/index.html">All Modules</a> /
+                <a href="/agentic-ai-course/module/module-1-foundations/index.html">Module 1</a> /
+                Capstone Brief
+            </div>
+
+            <div class="content-body">
+                <h1>Capstone Project: Build a Personal Research Agent</h1>
+
+<h2>Project Brief</h2>
+
+<p>Build a fully functional AI agent that takes a research topic, autonomously investigates it using multiple tools, and produces a structured research report — all without human intervention after the initial prompt.</p>
+
+<p>This capstone synthesizes everything from Module 1: the agent loop, tool-use, memory, multi-step reasoning, and evaluation.</p>
+
+<h2>Requirements</h2>
+
+<h3>Minimum Viable Agent (Pass)</h3>
+<span class="check">☐</span> Accepts a research topic from the user
+<span class="check">☐</span> Generates at least 3 research questions about the topic
+<span class="check">☐</span> Uses at least 2 tools to gather information (e.g., web search, file read, API call)
+<span class="check">☐</span> Produces a structured report with sections: Summary, Key Findings, Sources
+<span class="check">☐</span> Saves the report to a file
+
+<h3>Enhanced Agent (Distinction)</h3>
+<span class="check">☐</span> All minimum requirements plus:
+<span class="check">☐</span> Agent evaluates its own confidence level per finding (high/medium/low)
+<span class="check">☐</span> Agent identifies gaps in its research and suggests follow-up questions
+<span class="check">☐</span> Agent uses 3+ different tools
+<span class="check">☐</span> Agent handles tool failures gracefully (retries or alternative approach)
+<span class="check">☐</span> Report includes a methodology section explaining the agent's approach
+
+<h3>Outstanding Agent (Honors)</h3>
+<span class="check">☐</span> All enhanced requirements plus:
+<span class="check">☐</span> Agent maintains persistent memory across sessions
+<span class="check">☐</span> Agent can compare new research with previous research on the same topic
+<span class="check">☐</span> Agent produces output in multiple formats (markdown report + JSON data)
+<span class="check">☐</span> Agent includes a self-evaluation section rating its own performance
+
+<h2>Suggested Tools to Implement</h2>
+
+<pre><code class="language-python"># Tool 1: Web Search (simulated or real)
+<p>def search_web(query: str) -&gt; str:</p>
+<p>"""Search the web for information about a topic."""</p>
+<h1>Tool 2: Read Document</h1>
+<p>def read_document(url_or_path: str) -&gt; str:</p>
+<p>"""Read and extract text from a document or webpage."""</p>
+<h1>Tool 3: Save Report</h1>
+<p>def save_report(filename: str, content: str) -&gt; str:</p>
+<p>"""Save the research report to a file."""</p>
+<h1>Tool 4: Get Current Date/Time</h1>
+<p>def get_current_datetime() -&gt; str:</p>
+<p>"""Get the current date and time for timestamping reports."""</p>
+<h1>Tool 5 (Bonus): Query a Database</h1>
+<p>def query_knowledge_base(query: str) -&gt; str:</p>
+<p>"""Search a local knowledge base for previously saved research."""</code></pre></p>
+
+<h2>Evaluation Rubric</h2>
+
+<table><thead><tr><th>Criteria</th><th>Points</th><th>Description</th></tr></thead><tbody><tr><td><strong>Agent Loop Implementation</strong></td><td>20</td><td>Agent correctly implements perceive → reason → act → observe loop</td></tr><tr><td><strong>Tool-Use</strong></td><td>20</td><td>Agent autonomously selects and uses appropriate tools</td></tr><tr><td><strong>Output Quality</strong></td><td>20</td><td>Report is well-structured, accurate, and useful</td></tr><tr><td><strong>Error Handling</strong></td><td>15</td><td>Agent handles failures, edge cases, and unexpected input</td></tr><tr><td><strong>Code Quality</strong></td><td>15</td><td>Clean, readable, well-commented code</td></tr><tr><td><strong>Creativity</strong></td><td>10</td><td>Novel approaches, additional features, thoughtful design</td></tr><tr><td><strong>Total</strong></td><td><strong>100</strong></td><td></td></tr></tbody></table>
+<strong>Grading Scale:</strong>
+<li>90-100: Honors — exceptional work, production-quality agent</li>
+<li>80-89: Distinction — strong implementation with enhanced features</li>
+<li>70-79: Pass — meets all minimum requirements</li>
+<li>Below 70: Incomplete — revise and resubmit</li>
+
+<h2>Starter Template</h2>
+
+<p>A starter notebook is provided in <code class="inline">labs/capstone_starter.ipynb</code> with:</p>
+<li>API setup boilerplate</li>
+<li>Tool definition templates</li>
+<li>Agent loop skeleton</li>
+<li>Report formatting helpers</li>
+
+<h2>Submission</h2>
+
+<p>Submit the following:</p>
+<li>Your completed Jupyter notebook (<code class="inline">.ipynb</code>)</li>
+<li>Any generated reports from test runs</li>
+<li>A brief reflection (3-5 sentences): What worked? What was hardest? What would you improve?</li>
+
+<h2>Time Estimate</h2>
+<li><strong>Setup & planning:</strong> 20 minutes</li>
+<li><strong>Building the agent:</strong> 60 minutes</li>
+<li><strong>Testing & refining:</strong> 30 minutes</li>
+<li><strong>Documentation & reflection:</strong> 10 minutes</li>
+<li><strong>Total:</strong> ~2 hours</li>
+
+<hr>
+
+<h1>Alternative Capstone: Intelligent Meeting Notes Agent</h1>
+
+<p>Choose this capstone if you want a different challenge. It covers the same Module 1 skills.</p>
+
+<h2>Project Brief</h2>
+
+<p>Build an agent that takes meeting input (text transcript, pasted notes, or audio file), processes it autonomously, and produces structured meeting notes with action items, decisions, key discussion points, and follow-ups — all without human intervention after the initial input.</p>
+
+<h2>What Makes This Agentic</h2>
+
+<p>A simple summarizer just shortens text. This agent:</p>
+<li><strong>Decides</strong> what's an action item vs. a discussion point vs. a decision</li>
+<li><strong>Extracts</strong> structured data (owners, deadlines, topics) from unstructured conversation</li>
+<li><strong>Uses tools</strong> to transcribe audio, analyze text, and save outputs</li>
+<li><strong>Evaluates</strong> its own output (did it catch everything?)</li>
+
+<h2>Requirements</h2>
+
+<h3>Minimum Viable Agent (Pass)</h3>
+<span class="check">☐</span> Accepts meeting transcript as text input
+<span class="check">☐</span> Extracts action items with assigned owners (if mentioned)
+<span class="check">☐</span> Identifies decisions made during the meeting
+<span class="check">☐</span> Produces a structured summary with sections: Attendees, Key Discussion Points, Decisions, Action Items
+<span class="check">☐</span> Saves the meeting notes to a file
+
+<h3>Enhanced Agent (Distinction)</h3>
+<span class="check">☐</span> All minimum requirements plus:
+<span class="check">☐</span> Transcribes audio files (MP3/WAV) to text using a transcription tool (Whisper API, AssemblyAI, or simulated)
+<span class="check">☐</span> Detects deadlines and due dates mentioned in conversation
+<span class="check">☐</span> Tags topics by category (engineering, design, business, etc.)
+<span class="check">☐</span> Assigns priority (high/medium/low) to each action item
+<span class="check">☐</span> Handles multiple meetings — saves to memory, can compare across sessions
+
+<h3>Outstanding Agent (Honors)</h3>
+<span class="check">☐</span> All enhanced requirements plus:
+<span class="check">☐</span> Generates follow-up email draft based on the action items
+<span class="check">☐</span> Tracks action item completion across meetings (persistent memory)
+<span class="check">☐</span> Produces output in multiple formats (Markdown notes + JSON data)
+<span class="check">☐</span> Includes a "missed items" self-check — agent re-reads the transcript to verify it didn't miss anything
+<span class="check">☐</span> Supports both audio file input AND pasted text input seamlessly
+
+<h2>Suggested Tools</h2>
+
+<pre><code class="language-python"># Tool 1: Transcribe Audio (simulated or real)
+<p>def transcribe_audio(file_path: str) -&gt; str:</p>
+<p>"""Transcribe an audio file to text.</p>
+<p>For the capstone, you can simulate this by reading a .txt file</p>
+<p>that represents a transcript. For Honors level, integrate a</p>
+<p>real transcription API (OpenAI Whisper, AssemblyAI, or Deepgram).</p>
+<p>"""</p>
+<h1>Tool 2: Extract Action Items</h1>
+<p>def extract_action_items(transcript: str) -&gt; str:</p>
+<p>"""Analyze transcript and extract action items with owners and deadlines."""</p>
+<h1>Tool 3: Save Meeting Notes</h1>
+<p>def save_notes(filename: str, content: str) -&gt; str:</p>
+<p>"""Save structured meeting notes to a file."""</p>
+<h1>Tool 4: Get Current Date/Time</h1>
+<p>def get_current_datetime() -&gt; str:</p>
+<p>"""Get the current date and time for timestamping notes."""</p>
+<h1>Tool 5: Save/Recall Memory</h1>
+<p>def save_memory(key: str, value: str) -&gt; str:</p>
+<p>"""Save meeting data to persistent memory for cross-session tracking."""</p>
+<p>def recall_memory(key: str) -&gt; str:</p>
+<p>"""Recall previous meeting data."""</p>
+<h1>Tool 6 (Bonus): Generate Follow-Up Email</h1>
+<p>def draft_email(recipients: str, action_items: str) -&gt; str:</p>
+<p>"""Draft a follow-up email summarizing action items and next steps."""</code></pre></p>
+
+<h2>Audio Transcription Options</h2>
+
+<p>For the audio transcription feature, choose one approach:</p>
+
+<table><thead><tr><th>Approach</th><th>Difficulty</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Simulated</strong> (read .txt file)</td><td>Easy</td><td>Good for Pass level — just reads a pre-made transcript file</td></tr><tr><td><strong>OpenAI Whisper API</strong></td><td>Medium</td><td><code class="inline">pip install openai</code> — reliable, supports MP3/WAV/M4A</td></tr><tr><td><strong>Local Whisper</strong></td><td>Advanced</td><td><code class="inline">pip install openai-whisper</code> — runs locally, no API key needed, slower</td></tr><tr><td><strong>AssemblyAI</strong></td><td>Medium</td><td><code class="inline">pip install assemblyai</code> — good accuracy, free tier available</td></tr></tbody></table>
+<strong>Simulated approach (recommended for most students):</strong>
+<pre><code class="language-python">def transcribe_audio(file_path: str) -&gt; str:
+<p>"""Simulate transcription by reading a text file."""</p>
+<p>try:</p>
+<p>with open(file_path, "r") as f:</p>
+<p>return f.read()</p>
+<p>except FileNotFoundError:</p>
+<p>return f"Error: Audio file '{file_path}' not found."</code></pre></p>
+
+<h2>Sample Meeting Transcript (for testing)</h2>
+
+<p>Use this sample or paste your own:</p>
+
+<pre><code>Meeting: Sprint Planning — March 15, 2025
+<p>Attendees: Sarah (PM), James (Dev Lead), Priya (Designer), Marco (QA)</p>
+<p>Sarah: Let's go through the backlog. The client wants the dashboard</p>
+<p>redesign shipped by end of month. James, where are we on the API changes?</p>
+<p>James: Backend is 80% done. I need two more days for the pagination</p>
+<p>endpoint. I'll have it ready by Wednesday.</p>
+<p>Sarah: Good. Priya, how's the new design system coming?</p>
+<p>Priya: Components are done. I need to finalize the color tokens with</p>
+<p>the client. I'll schedule a review call for Thursday.</p>
+<p>Marco: I want to flag that we don't have test coverage for the new</p>
+<p>filtering logic. I think we should add integration tests before we ship.</p>
+<p>Sarah: Agreed. Marco, can you write up the test plan by Friday? James,</p>
+<p>make sure the API responses match the new schema Priya designed.</p>
+<p>James: Will do. One concern — the current deployment pipeline takes</p>
+<p>45 minutes. Can we look at optimizing that?</p>
+<p>Sarah: Let's make that a separate ticket. Not blocking for this sprint</p>
+<p>but important. I'll create the ticket.</p>
+<p>Decision: Ship dashboard redesign by March 31. Deployment optimization</p>
+<p>is next sprint.</p>
+<p>Sarah: Anything else? No? Let's wrap up. Next standup is Monday 10am.</code></pre></p>
+
+<h2>Evaluation Rubric</h2>
+
+<table><thead><tr><th>Criteria</th><th>Points</th><th>Description</th></tr></thead><tbody><tr><td><strong>Transcript Processing</strong></td><td>15</td><td>Correctly ingests and parses meeting transcripts</td></tr><tr><td><strong>Information Extraction</strong></td><td>25</td><td>Accurately identifies action items, decisions, owners, deadlines</td></tr><tr><td><strong>Audio Support</strong></td><td>10</td><td>Handles audio input (simulated or real transcription)</td></tr><tr><td><strong>Agent Loop</strong></td><td>15</td><td>Multi-step processing with autonomous tool selection</td></tr><tr><td><strong>Output Quality</strong></td><td>15</td><td>Well-structured, actionable meeting notes</td></tr><tr><td><strong>Memory & Persistence</strong></td><td>10</td><td>Saves notes to file, optional cross-session tracking</td></tr><tr><td><strong>Code Quality</strong></td><td>10</td><td>Clean, documented, maintainable code</td></tr><tr><td><strong>Total</strong></td><td><strong>100</strong></td><td></td></tr></tbody></table>
+<h2>Submission</h2>
+
+<p>Same as the Research Agent capstone:</p>
+<li>Your completed Jupyter notebook (<code class="inline">.ipynb</code>)</li>
+<li>Generated meeting notes from at least 2 test runs</li>
+<li>Reflection (3-5 sentences)</li>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Agentic AI Certification Program &mdash; Built for ConsultBae India
+    </footer>
+</body>
+</html>

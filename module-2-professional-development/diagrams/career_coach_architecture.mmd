@@ -1,0 +1,44 @@
+---
+title: Personal Career Coach — Multi-Agent Architecture
+---
+flowchart TB
+    User[👤 User] -->|Resume + Goals| Orchestrator
+
+    subgraph Orchestrator["🎯 Career Coach Orchestrator"]
+        Router[Route Request<br/>to Specialist]
+    end
+
+    Router --> RA
+    Router --> JM
+    Router --> IC
+    Router --> LP
+    Router --> CP
+
+    subgraph Agents["Specialist Agents"]
+        RA[📄 Resume<br/>Analyzer]
+        JM[🔍 Job<br/>Matcher]
+        IC[🎤 Interview<br/>Coach]
+        LP[🌐 LinkedIn<br/>Advisor]
+        CP[📈 Career<br/>Planner]
+    end
+
+    RA --> Memory
+    JM --> Memory
+    IC --> Memory
+    LP --> Memory
+    CP --> Memory
+
+    subgraph Memory["💾 Shared Memory"]
+        Profile[User Profile]
+        History[Analysis History]
+        Goals[Career Goals]
+    end
+
+    Orchestrator -->|Report| User
+
+    style Orchestrator fill:#7B68EE,color:#fff
+    style RA fill:#3498db,color:#fff
+    style JM fill:#e67e22,color:#fff
+    style IC fill:#2ecc71,color:#fff
+    style LP fill:#9b59b6,color:#fff
+    style CP fill:#e74c3c,color:#fff

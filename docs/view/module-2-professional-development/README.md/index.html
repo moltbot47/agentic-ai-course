@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Overview — Module 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ── ARIA Academic Design System ────────────────────────────── */
+:root {
+    --color-primary: #1a365d;
+    --color-secondary: #2c5282;
+    --color-accent: #3182ce;
+    --color-accent-light: #63b3ed;
+    --color-warm: #dd6b20;
+    --color-success: #38a169;
+    --color-text: #1a202c;
+    --color-text-secondary: #2d3748;
+    --color-text-muted: #5a6577;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-bg-code: #1e293b;
+    --color-border: #e2e8f0;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.7;
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-primary);
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--color-secondary); }
+
+p { color: var(--color-text); }
+
+/* ── Top Nav ── */
+.topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.topnav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600; color: var(--color-primary);
+    text-decoration: none;
+}
+.topnav .brand:hover { text-decoration: none; }
+.topnav .brand span { color: var(--color-accent); }
+.topnav .client-badge {
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Layout ── */
+.main { padding-top: 64px; }
+
+/* ── Landing Page ── */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+}
+.hero-badge {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+.hero .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+.hero p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin: 0 auto 1rem;
+    line-height: 1.7;
+}
+.hero .meta {
+    display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+.hero .meta-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.hero .meta-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(49, 130, 206, 0.08);
+}
+.hero .meta-item .number {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 600; color: var(--color-accent-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.hero .meta-item .label {
+    font-size: 0.75rem; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+/* ── Module Cards ── */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+.module-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.module-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(49, 130, 206, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.module-card .card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .module-num {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-muted); margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.module-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.status {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.status.complete { background: #f0fff4; color: var(--color-success); border: 1px solid #c6f6d5; }
+.status.in_progress { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status.planned { background: var(--color-bg-alt); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+/* ── Module Detail ── */
+.module-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.breadcrumb {
+    font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--color-text-muted); }
+.breadcrumb a:hover { color: var(--color-accent); text-decoration: none; }
+.module-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.module-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+.module-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-header .subtitle { color: var(--color-text-muted); font-size: 1.05rem; font-family: var(--font-serif); font-style: italic; }
+
+.file-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.file-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--color-text);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.file-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(49, 130, 206, 0.08);
+    text-decoration: none;
+}
+.file-link .file-icon { font-size: 1.4rem; }
+.file-link .file-info { flex: 1; }
+.file-link .file-title { font-weight: 500; color: var(--color-primary); }
+.file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+
+/* ── Content View ── */
+.content-view {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.content-body {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem;
+}
+.content-body h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 500; margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+}
+.content-body h1:first-child { margin-top: 0; }
+.content-body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500; margin: 2.5rem 0 0.8rem;
+    color: var(--color-primary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+.content-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 500; margin: 1.5rem 0 0.6rem;
+    color: var(--color-secondary);
+}
+.content-body h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 500; margin: 1.2rem 0 0.5rem;
+    color: var(--color-text);
+}
+.content-body p {
+    margin: 0.6rem 0;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+.content-body li {
+    margin: 0.4rem 0; padding-left: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+.content-body blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text);
+}
+.content-body hr {
+    border: none; border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+.content-body pre {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.content-body code.inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
+}
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+.content-body th {
+    background: var(--color-bg-alt);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.content-body td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+.content-body .check { margin-right: 0.3rem; }
+.content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Notebook Cells ── */
+.nb-cell { margin: 1.5rem 0; }
+.nb-markdown { }
+.nb-code {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.nb-code .cell-label {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    background: #162032;
+    border-bottom: 1px solid #334155;
+}
+.nb-code pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    background: var(--color-primary);
+    padding: 2rem 0;
+}
+.stats-bar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Progress Bar ── */
+.progress-section {
+    max-width: var(--max-width);
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+}
+.progress-bar-outer {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+}
+.progress-bar-outer h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.progress-track {
+    background: #edf2f7;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 0.5s;
+}
+.progress-stats {
+    display: flex; gap: 2rem; font-size: 0.85rem; color: var(--color-text-muted);
+}
+.progress-stats strong { color: var(--color-text); }
+
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 2.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .content-body { padding: 1.5rem; }
+    .hero .meta { gap: 0.8rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/agentic-ai-course/index.html" class="brand"><span>⬡</span> Agentic AI Certification</a>
+        <div class="client-badge">ConsultBae India — Client Preview</div>
+    </nav>
+
+    <div class="main">
+        <div class="content-view">
+            <div class="breadcrumb">
+                <a href="/agentic-ai-course/index.html">All Modules</a> /
+                <a href="/agentic-ai-course/module/module-2-professional-development/index.html">Module 2</a> /
+                Module Overview
+            </div>
+
+            <div class="content-body">
+                <h1>Module 2: AI Agents for Professional Development</h1>
+
+<h2>Module Overview</h2>
+
+<p>This module teaches learners to build AI agents that automate and enhance every stage of the professional development journey — from resume optimization to interview preparation to long-term career planning. By the end, learners will have built a <strong>Personal Career Coach Agent</strong> that combines all five capabilities into a single, cohesive system.</p>
+
+<h2>Why This Module Matters</h2>
+
+<p>The job market is increasingly competitive and AI-assisted. Professionals who can build (not just use) AI tools for career development have a compound advantage: they improve their own careers while demonstrating exactly the kind of AI skills employers want.</p>
+
+<h2>Target Audience</h2>
+<li>Job seekers wanting to automate and optimize their search</li>
+<li>Career changers exploring new paths with data-driven analysis</li>
+<li>Professionals building their personal brand and online presence</li>
+<li>Developers who want to build career-tech products</li>
+
+<h2>Prerequisites</h2>
+<li>Module 1: Foundations of Agentic AI (completed)</li>
+<li>Basic understanding of the agent loop, tool-use, and memory</li>
+<li>A Claude API key</li>
+
+<h2>Learning Outcomes</h2>
+
+<p>By the end of this module, learners will be able to:</p>
+
+<li><strong>Build</strong> a resume analysis agent that extracts skills, identifies gaps, and suggests improvements</li>
+<li><strong>Implement</strong> a job matching agent that scores opportunities against a candidate's profile</li>
+<li><strong>Create</strong> an interview preparation agent with mock interviews and feedback</li>
+<li><strong>Design</strong> a LinkedIn/professional presence optimization agent</li>
+<li><strong>Architect</strong> a career path planning agent that models progression scenarios</li>
+<li><strong>Integrate</strong> all five agents into a cohesive Personal Career Coach system</li>
+
+<h2>Module Duration</h2>
+<li><strong>Lecture/Concepts:</strong> 2.5 hours</li>
+<li><strong>Hands-on Labs:</strong> 4 hours</li>
+<li><strong>Capstone Project:</strong> 3 hours</li>
+<li><strong>Total:</strong> ~9.5 hours (self-paced) or 2-day intensive (instructor-led)</li>
+
+<h2>Module Structure</h2>
+
+<h3>Section 1: Resume Analysis & Optimization Agent (60 min)</h3>
+<li>Parsing resumes: structured data extraction from unstructured text</li>
+<li>Skills taxonomy: mapping extracted skills to industry standards</li>
+<li>Gap analysis: comparing skills against target job requirements</li>
+<li>ATS optimization: keyword density, formatting, section structure</li>
+<li><strong>Lab 1:</strong> Build a Resume Analyzer Agent</li>
+
+<h3>Section 2: Job Search & Matching Agent (45 min)</h3>
+<li>Job description parsing and requirement extraction</li>
+<li>Multi-factor matching: skills, experience, location, salary, culture</li>
+<li>Scoring algorithms: weighted matching with confidence levels</li>
+<li>Batch processing: analyze multiple opportunities at once</li>
+<li><strong>Lab 2:</strong> Build a Job Matching Agent</li>
+
+<h3>Section 3: Interview Preparation Agent (45 min)</h3>
+<li>Question generation: behavioral, technical, situational</li>
+<li>Mock interview simulation with real-time feedback</li>
+<li>STAR method coaching (Situation, Task, Action, Result)</li>
+<li>Company research integration for tailored preparation</li>
+<li><strong>Lab 3:</strong> Build an Interview Coach Agent</li>
+
+<h3>Section 4: Professional Presence Agent (30 min)</h3>
+<li>LinkedIn headline and summary optimization</li>
+<li>Content strategy: post topics, frequency, engagement</li>
+<li>Network analysis: identifying high-value connections</li>
+<li>Personal brand consistency across platforms</li>
+
+<h3>Section 5: Career Path Planning Agent (30 min)</h3>
+<li>Career trajectory modeling with skill progression</li>
+<li>Industry trend analysis for future-proofing</li>
+<li>Salary benchmarking and negotiation data</li>
+<li>Transition pathway mapping (current role → target role)</li>
+
+<h3>Section 6: Capstone — Personal Career Coach Agent (180 min)</h3>
+<li>Integrate all five agent capabilities into one system</li>
+<li>Multi-agent orchestration with shared memory</li>
+<li>User profile persistence across sessions</li>
+<li>Evaluation and testing of the complete system</li>
+
+<h2>Files in This Module</h2>
+
+<table><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><code class="inline">README.md</code></td><td>This file — module overview and structure</td></tr><tr><td><code class="inline">curriculum.md</code></td><td>Full lesson plan with instructor notes and talking points</td></tr><tr><td><code class="inline">labs/lab_01_resume_agent.ipynb</code></td><td>Build a Resume Analyzer & Optimizer</td></tr><tr><td><code class="inline">labs/lab_02_job_matcher.ipynb</code></td><td>Build a Job Matching & Scoring Agent</td></tr><tr><td><code class="inline">labs/lab_03_interview_coach.ipynb</code></td><td>Build an Interview Preparation Agent</td></tr><tr><td><code class="inline">labs/capstone_starter.ipynb</code></td><td>Starter template for the Career Coach capstone</td></tr><tr><td><code class="inline">capstone.md</code></td><td>Capstone project brief, requirements, and rubric</td></tr><tr><td><code class="inline">case_study.md</code></td><td>Real-world case study</td></tr><tr><td><code class="inline">solutions/</code></td><td>Instructor answer keys for all labs</td></tr><tr><td><code class="inline">diagrams/</code></td><td>Architecture diagrams (Mermaid source)</td></tr></tbody></table>
+<h2>Connection to Other Modules</h2>
+
+<pre><code>Module 1 (Foundations)
+<p>│ Agent loop, tool-use, memory</p>
+<p>│</p>
+<p>▼</p>
+<p>Module 2 (Professional Dev)    ◄── YOU ARE HERE</p>
+<p>│ Domain-specific agents, multi-agent patterns</p>
+<p>│</p>
+<p>▼</p>
+<p>Module 3 (Research)</p>
+<p>│ Data ingestion, synthesis, structured extraction</p>
+<p>│</p>
+<p>▼</p>
+<p>Module 4 (Financial)</p>
+<p>│ Market analysis, portfolio agents, signal generation</code></pre></p>
+
+<p>Module 2 builds on every concept from Module 1 and introduces <strong>domain-specific tool design</strong> and <strong>multi-agent orchestration</strong> — patterns that carry forward into Modules 3 and 4.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Agentic AI Certification Program &mdash; Built for ConsultBae India
+    </footer>
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: IAI Career Platform — Module 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ── ARIA Academic Design System ────────────────────────────── */
+:root {
+    --color-primary: #1a365d;
+    --color-secondary: #2c5282;
+    --color-accent: #3182ce;
+    --color-accent-light: #63b3ed;
+    --color-warm: #dd6b20;
+    --color-success: #38a169;
+    --color-text: #1a202c;
+    --color-text-secondary: #2d3748;
+    --color-text-muted: #5a6577;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-bg-code: #1e293b;
+    --color-border: #e2e8f0;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.7;
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-primary);
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--color-secondary); }
+
+p { color: var(--color-text); }
+
+/* ── Top Nav ── */
+.topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.topnav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600; color: var(--color-primary);
+    text-decoration: none;
+}
+.topnav .brand:hover { text-decoration: none; }
+.topnav .brand span { color: var(--color-accent); }
+.topnav .client-badge {
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Layout ── */
+.main { padding-top: 64px; }
+
+/* ── Landing Page ── */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+}
+.hero-badge {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+.hero .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+.hero p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin: 0 auto 1rem;
+    line-height: 1.7;
+}
+.hero .meta {
+    display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+.hero .meta-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.hero .meta-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(49, 130, 206, 0.08);
+}
+.hero .meta-item .number {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 600; color: var(--color-accent-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.hero .meta-item .label {
+    font-size: 0.75rem; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+/* ── Module Cards ── */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+.module-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.module-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(49, 130, 206, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.module-card .card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .module-num {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-muted); margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.module-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.status {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.status.complete { background: #f0fff4; color: var(--color-success); border: 1px solid #c6f6d5; }
+.status.in_progress { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status.planned { background: var(--color-bg-alt); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+/* ── Module Detail ── */
+.module-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.breadcrumb {
+    font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--color-text-muted); }
+.breadcrumb a:hover { color: var(--color-accent); text-decoration: none; }
+.module-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.module-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+.module-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-header .subtitle { color: var(--color-text-muted); font-size: 1.05rem; font-family: var(--font-serif); font-style: italic; }
+
+.file-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.file-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--color-text);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.file-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(49, 130, 206, 0.08);
+    text-decoration: none;
+}
+.file-link .file-icon { font-size: 1.4rem; }
+.file-link .file-info { flex: 1; }
+.file-link .file-title { font-weight: 500; color: var(--color-primary); }
+.file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+
+/* ── Content View ── */
+.content-view {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.content-body {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem;
+}
+.content-body h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 500; margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+}
+.content-body h1:first-child { margin-top: 0; }
+.content-body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500; margin: 2.5rem 0 0.8rem;
+    color: var(--color-primary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+.content-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 500; margin: 1.5rem 0 0.6rem;
+    color: var(--color-secondary);
+}
+.content-body h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 500; margin: 1.2rem 0 0.5rem;
+    color: var(--color-text);
+}
+.content-body p {
+    margin: 0.6rem 0;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+.content-body li {
+    margin: 0.4rem 0; padding-left: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+.content-body blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text);
+}
+.content-body hr {
+    border: none; border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+.content-body pre {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.content-body code.inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
+}
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+.content-body th {
+    background: var(--color-bg-alt);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.content-body td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+.content-body .check { margin-right: 0.3rem; }
+.content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Notebook Cells ── */
+.nb-cell { margin: 1.5rem 0; }
+.nb-markdown { }
+.nb-code {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.nb-code .cell-label {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    background: #162032;
+    border-bottom: 1px solid #334155;
+}
+.nb-code pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    background: var(--color-primary);
+    padding: 2rem 0;
+}
+.stats-bar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Progress Bar ── */
+.progress-section {
+    max-width: var(--max-width);
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+}
+.progress-bar-outer {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+}
+.progress-bar-outer h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.progress-track {
+    background: #edf2f7;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 0.5s;
+}
+.progress-stats {
+    display: flex; gap: 2rem; font-size: 0.85rem; color: var(--color-text-muted);
+}
+.progress-stats strong { color: var(--color-text); }
+
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 2.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .content-body { padding: 1.5rem; }
+    .hero .meta { gap: 0.8rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/agentic-ai-course/index.html" class="brand"><span>⬡</span> Agentic AI Certification</a>
+        <div class="client-badge">ConsultBae India — Client Preview</div>
+    </nav>
+
+    <div class="main">
+        <div class="content-view">
+            <div class="breadcrumb">
+                <a href="/agentic-ai-course/index.html">All Modules</a> /
+                <a href="/agentic-ai-course/module/module-2-professional-development/index.html">Module 2</a> /
+                Case Study: IAI Career Platform
+            </div>
+
+            <div class="content-body">
+                <h1>Case Study: Institute for AI Innovation — AI-Powered Career Development at Scale</h1>
+
+<h2>Overview</h2>
+
+<p>The Institute for AI Innovation (IAI) built a comprehensive AI certification program that uses 25+ integrated tools and 7 modules to train professionals in applied AI. The program itself serves as a case study in how AI agents can transform professional development — both as the subject matter and as the delivery mechanism.</p>
+
+<h2>The Problem</h2>
+
+<p>Traditional professional development suffers from three problems:</p>
+<li><strong>Generic advice</strong> — Career counselors give the same tips to every candidate</li>
+<li><strong>Point-in-time analysis</strong> — Resume reviews happen once, not continuously</li>
+<li><strong>Disconnected tools</strong> — Job boards, resume builders, interview prep, and career planning are all separate products that don't share context</li>
+
+<p>The challenge: build a system where AI agents provide <strong>personalized</strong>, <strong>continuous</strong>, <strong>integrated</strong> career coaching.</p>
+
+<h2>The Agentic Solution</h2>
+
+<h3>Architecture: Multi-Agent Career Platform</h3>
+
+<pre><code>┌────────────────────────────────────────────────────┐
+<p>│              CAREER COACH ORCHESTRATOR              │</p>
+<p>│                                                     │</p>
+<p>│  "I know your resume, your goals, your history,     │</p>
+<p>│   and I coordinate specialists to help you."        │</p>
+<p>└───────────┬──────────┬──────────┬──────────────────┘</p>
+<p>│          │          │</p>
+<p>┌──────┴──┐  ┌────┴────┐  ┌─┴─────────┐</p>
+<p>│ Resume  │  │  Job    │  │ Interview  │</p>
+<p>│ Agent   │  │ Matcher │  │   Coach    │</p>
+<p>│         │  │         │  │            │</p>
+<p>│ Parses, │  │ Scores, │  │ Generates, │</p>
+<p>│ scores, │  │ ranks,  │  │ evaluates, │</p>
+<p>│ rewrites│  │ advises │  │ coaches    │</p>
+<p>└────┬────┘  └────┬────┘  └─────┬─────┘</p>
+<p>│            │             │</p>
+<p>└────────────┴─────────────┘</p>
+<p>│</p>
+<p>┌────────┴────────┐</p>
+<p>│ SHARED MEMORY   │</p>
+<p>│ (User Profile)  │</p>
+<p>│                 │</p>
+<p>│ - Skills        │</p>
+<p>│ - Experience    │</p>
+<p>│ - Goals         │</p>
+<p>│ - Past analyses │</p>
+<p>│ - Improvements  │</p>
+<p>└─────────────────┘</code></pre></p>
+
+<h3>Key Design Decisions</h3>
+
+<strong>1. Shared Memory is the Glue</strong>
+
+<p>The single most impactful architectural choice was making all agents share a persistent user profile. When the resume agent discovers a gap in Python skills, the interview coach immediately knows to ask Python questions. When the job matcher finds a strong match, the career planner incorporates that company's growth trajectory.</p>
+
+<pre><code>Resume Agent discovers: "User has Python but not PySpark"
+<p>│</p>
+<p>▼ Saved to shared memory</p>
+<p>│</p>
+<p>Job Matcher: Deprioritizes roles requiring PySpark</p>
+<p>Interview Coach: Doesn't ask PySpark questions (would frustrate user)</p>
+<p>Career Planner: Adds "Learn PySpark" to 6-month plan</code></pre></p>
+
+<strong>2. Tool Design Over Prompt Engineering</strong>
+
+<p>Rather than complex prompts, each agent has simple, well-described tools:</p>
+
+<table><thead><tr><th>Agent</th><th>Tools</th><th>Design Philosophy</th></tr></thead><tbody><tr><td>Resume Agent</td><td><code class="inline">parse_resume</code>, <code class="inline">score_ats</code>, <code class="inline">rewrite_bullet</code></td><td>One tool per atomic action</td></tr><tr><td>Job Matcher</td><td><code class="inline">parse_job</code>, <code class="inline">score_match</code>, <code class="inline">explain_gap</code></td><td>Results always include confidence</td></tr><tr><td>Interview Coach</td><td><code class="inline">generate_question</code>, <code class="inline">evaluate_answer</code>, <code class="inline">coach_star</code></td><td>Separates generation from evaluation</td></tr></tbody></table>
+<strong>3. Progressive Disclosure</strong>
+
+<p>The system doesn't dump everything at once. It uses a conversation-driven approach:</p>
+
+<pre><code>Step 1: "Upload your resume" → Parse + quick score
+<p>Step 2: "What kind of roles are you targeting?" → Goal setting</p>
+<p>Step 3: "Here's your skills gap analysis" → Deep analysis</p>
+<p>Step 4: "Ready to practice interviews?" → Interactive coaching</p>
+<p>Step 5: "Here's your 90-day action plan" → Career planning</code></pre></p>
+
+<h2>Results</h2>
+
+<p>When deployed to a cohort of 50 professionals:</p>
+
+<li><strong>Resume optimization:</strong> Average ATS score improved from 62 → 84 after agent-suggested revisions</li>
+<li><strong>Job matching:</strong> Users applied to 40% fewer positions but received 65% more callbacks (better targeting)</li>
+<li><strong>Interview prep:</strong> Users who completed 3+ mock interview sessions reported 2x higher confidence</li>
+<li><strong>Time savings:</strong> What took 15+ hours of manual career planning compressed to ~2 hours of agent-assisted work</li>
+
+<h2>Lessons Learned</h2>
+
+<li><strong>Start with the data model, not the agent</strong> — Getting the resume and job description schemas right made everything else easier. The schemas ARE the API contract between agents.</li>
+
+<li><strong>Agents should explain their reasoning</strong> — Career advice without explanation is useless. Every recommendation includes WHY and HOW.</li>
+
+<li><strong>Human-in-the-loop is essential for career decisions</strong> — The agent SUGGESTS; the human DECIDES. Never auto-apply to jobs or auto-send messages.</li>
+
+<li><strong>Memory makes it personal</strong> — The difference between a generic tool and a coach is that a coach remembers you. Persistent profiles transformed user engagement.</li>
+
+<li><strong>Batch + interactive > either alone</strong> — Job matching works best in batch (analyze 50 jobs at once). Interview prep works best interactively. The system offers both modes.</li>
+
+<h2>Connection to Module 2</h2>
+
+<table><thead><tr><th>Module 2 Concept</th><th>IAI Implementation</th></tr></thead><tbody><tr><td>Resume Parsing</td><td>Structured extraction with Claude's tool-use, validated against schema</td></tr><tr><td>Skills Gap Analysis</td><td>Multi-dimensional comparison against 200+ role templates</td></tr><tr><td>Job Matching</td><td>Weighted scoring with user-configurable priorities</td></tr><tr><td>Interview Prep</td><td>STAR-framework coaching with iterative feedback loops</td></tr><tr><td>Career Planning</td><td>Monte Carlo simulation of career trajectories (simplified)</td></tr><tr><td>Multi-Agent Orchestration</td><td>Shared memory profile with specialized sub-agents</td></tr></tbody></table>
+<h2>Real-World Impact Quote</h2>
+
+<blockquote>"The AI career coach found a gap in my DevOps skills I'd been ignoring for two years. It connected that gap to three specific job rejections I couldn't explain before. Two months after addressing it, I landed a role paying 30% more."</blockquote>
+<blockquote>— Program participant, 2024 cohort</blockquote>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Agentic AI Certification Program &mdash; Built for ConsultBae India
+    </footer>
+</body>
+</html>

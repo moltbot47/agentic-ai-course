@@ -1,0 +1,16 @@
+---
+title: The Agent Loop
+---
+flowchart TD
+    A[📥 PERCEIVE<br/>Receive input] --> B[🧠 REASON<br/>LLM thinks via chain-of-thought]
+    B --> C[⚡ ACT<br/>Execute tool or produce output]
+    C --> D[👁️ OBSERVE<br/>Check the result]
+    D --> E{Task<br/>complete?}
+    E -->|No| A
+    E -->|Yes| F[✅ DONE<br/>Return final answer]
+
+    style A fill:#4A90D9,color:#fff
+    style B fill:#7B68EE,color:#fff
+    style C fill:#E67E22,color:#fff
+    style D fill:#2ECC71,color:#fff
+    style F fill:#27AE60,color:#fff

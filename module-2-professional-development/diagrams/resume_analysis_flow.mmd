@@ -1,0 +1,16 @@
+---
+title: Resume Analysis Pipeline
+---
+flowchart LR
+    A[📄 Raw Resume<br/>Text] --> B[🔧 parse_resume<br/>Extract structure]
+    B --> C[📊 Parsed Data<br/>Skills, Experience,<br/>Education]
+    C --> D[🔧 analyze_skills<br/>Gap analysis vs<br/>target role]
+    C --> E[🔧 score_ats<br/>ATS compatibility<br/>check]
+    D --> F[📋 Gap Report<br/>Missing skills,<br/>Transferable skills]
+    E --> G[📋 ATS Score<br/>Keyword match,<br/>Format issues]
+    F --> H[🔧 suggest_improvements<br/>Actionable rewrites]
+    G --> H
+    H --> I[✅ Final Report<br/>Score + Recommendations]
+
+    style A fill:#95a5a6,color:#fff
+    style I fill:#27ae60,color:#fff

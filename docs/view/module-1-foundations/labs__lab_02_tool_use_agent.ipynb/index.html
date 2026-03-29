@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2: Tool-Use Agent — Module 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+/* ── ARIA Academic Design System ────────────────────────────── */
+:root {
+    --color-primary: #1a365d;
+    --color-secondary: #2c5282;
+    --color-accent: #3182ce;
+    --color-accent-light: #63b3ed;
+    --color-warm: #dd6b20;
+    --color-success: #38a169;
+    --color-text: #1a202c;
+    --color-text-secondary: #2d3748;
+    --color-text-muted: #5a6577;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-bg-code: #1e293b;
+    --color-border: #e2e8f0;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: 1.7;
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-primary);
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--color-secondary); }
+
+p { color: var(--color-text); }
+
+/* ── Top Nav ── */
+.topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.topnav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600; color: var(--color-primary);
+    text-decoration: none;
+}
+.topnav .brand:hover { text-decoration: none; }
+.topnav .brand span { color: var(--color-accent); }
+.topnav .client-badge {
+    background: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Layout ── */
+.main { padding-top: 64px; }
+
+/* ── Landing Page ── */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+}
+.hero-badge {
+    display: inline-block;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+.hero .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+.hero p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin: 0 auto 1rem;
+    line-height: 1.7;
+}
+.hero .meta {
+    display: flex; gap: 1.5rem; justify-content: center; margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+.hero .meta-item {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.hero .meta-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(49, 130, 206, 0.08);
+}
+.hero .meta-item .number {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 600; color: var(--color-accent-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.hero .meta-item .label {
+    font-size: 0.75rem; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+/* ── Module Cards ── */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+.module-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.module-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(49, 130, 206, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.module-card .card-accent {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .module-num {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-muted); margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.module-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.status {
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.status.complete { background: #f0fff4; color: var(--color-success); border: 1px solid #c6f6d5; }
+.status.in_progress { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status.planned { background: var(--color-bg-alt); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+/* ── Module Detail ── */
+.module-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.breadcrumb {
+    font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--color-text-muted); }
+.breadcrumb a:hover { color: var(--color-accent); text-decoration: none; }
+.module-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.module-header .icon { font-size: 3rem; margin-bottom: 1rem; }
+.module-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 500; margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+.module-header .subtitle { color: var(--color-text-muted); font-size: 1.05rem; font-family: var(--font-serif); font-style: italic; }
+
+.file-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.file-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    color: var(--color-text);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.file-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 12px rgba(49, 130, 206, 0.08);
+    text-decoration: none;
+}
+.file-link .file-icon { font-size: 1.4rem; }
+.file-link .file-info { flex: 1; }
+.file-link .file-title { font-weight: 500; color: var(--color-primary); }
+.file-link .file-name { font-size: 0.8rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.file-link .arrow { color: var(--color-text-muted); font-size: 1.1rem; }
+
+/* ── Content View ── */
+.content-view {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.content-body {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 3rem;
+}
+.content-body h1 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 500; margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+}
+.content-body h1:first-child { margin-top: 0; }
+.content-body h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500; margin: 2.5rem 0 0.8rem;
+    color: var(--color-primary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+.content-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem; font-weight: 500; margin: 1.5rem 0 0.6rem;
+    color: var(--color-secondary);
+}
+.content-body h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem; font-weight: 500; margin: 1.2rem 0 0.5rem;
+    color: var(--color-text);
+}
+.content-body p {
+    margin: 0.6rem 0;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+.content-body li {
+    margin: 0.4rem 0; padding-left: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.7;
+}
+.content-body blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: var(--color-bg-alt);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text);
+}
+.content-body hr {
+    border: none; border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+.content-body pre {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.content-body code.inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
+}
+.content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.9rem;
+}
+.content-body th {
+    background: var(--color-bg-alt);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.content-body td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+.content-body .check { margin-right: 0.3rem; }
+.content-body strong { color: var(--color-text); font-weight: 600; }
+
+/* ── Notebook Cells ── */
+.nb-cell { margin: 1.5rem 0; }
+.nb-markdown { }
+.nb-code {
+    background: var(--color-bg-code);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.nb-code .cell-label {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+    background: #162032;
+    border-bottom: 1px solid #334155;
+}
+.nb-code pre {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+    background: var(--color-primary);
+    padding: 2rem 0;
+}
+.stats-bar .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Progress Bar ── */
+.progress-section {
+    max-width: var(--max-width);
+    margin: 0 auto 3rem;
+    padding: 0 2rem;
+}
+.progress-bar-outer {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+}
+.progress-bar-outer h3 {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.progress-track {
+    background: #edf2f7;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 0.5s;
+}
+.progress-stats {
+    display: flex; gap: 2rem; font-size: 0.85rem; color: var(--color-text-muted);
+}
+.progress-stats strong { color: var(--color-text); }
+
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 2.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .content-body { padding: 1.5rem; }
+    .hero .meta { gap: 0.8rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+}
+</style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/agentic-ai-course/index.html" class="brand"><span>⬡</span> Agentic AI Certification</a>
+        <div class="client-badge">ConsultBae India — Client Preview</div>
+    </nav>
+
+    <div class="main">
+        <div class="content-view">
+            <div class="breadcrumb">
+                <a href="/agentic-ai-course/index.html">All Modules</a> /
+                <a href="/agentic-ai-course/module/module-1-foundations/index.html">Module 1</a> /
+                Lab 2: Tool-Use Agent
+            </div>
+
+            <div class="content-body">
+                <div class="nb-cell nb-markdown"><h1>Lab 2: Tool-Use Agent — Give Your Agent the Ability to Act</h1>
+
+<strong>Module 1: Foundations of Agentic AI</strong>  
+<strong>Duration:</strong> 30 minutes  
+<strong>Difficulty:</strong> Intermediate  
+<strong>Prerequisite:</strong> Lab 1 (Hello Agent)
+
+<hr>
+
+<h2>What You'll Learn</h2>
+
+<li>Define tools using Claude's tool-use JSON schema</li>
+<li>Send requests that trigger autonomous tool selection</li>
+<li>Handle <code class="inline">tool_use</code> responses and return <code class="inline">tool_result</code> messages</li>
+<li>Watch the agent reason → select tool → act → observe in real time</li>
+<li>Understand why tool design matters more than prompt engineering</li>
+
+<h2>How This Connects to the Agent Loop</h2>
+
+<pre><code>┌─────────────┐
+<p>│   PERCEIVE  │ ← User sends a task</p>
+<p>└──────┬──────┘</p>
+<p>│</p>
+<p>▼</p>
+<p>┌─────────────┐</p>
+<p>│   REASON    │ ← Claude decides WHICH TOOL to use    ◄── THIS LAB</p>
+<p>└──────┬──────┘</p>
+<p>│</p>
+<p>▼</p>
+<p>┌─────────────┐</p>
+<p>│     ACT     │ ← Your code executes the tool          ◄── THIS LAB</p>
+<p>└──────┬──────┘</p>
+<p>│</p>
+<p>▼</p>
+<p>┌─────────────┐</p>
+<p>│   OBSERVE   │ ← Claude sees the result               ◄── THIS LAB</p>
+<p>└─────────────┘</code></pre></p>
+
+<strong>The big idea:</strong> In Lab 1, Claude could only <em>talk</em>. Now it can <em>do things</em>.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 1: Setup</h2></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">!pip install -q anthropic</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">import os
+import json
+import math
+from getpass import getpass
+from datetime import datetime
+
+import anthropic
+
+if not os.environ.get("ANTHROPIC_API_KEY"):
+    os.environ["ANTHROPIC_API_KEY"] = getpass("Enter your Anthropic API key: ")
+
+client = anthropic.Anthropic()
+MODEL = "claude-sonnet-4-5-20241022"
+
+print(f"✓ Ready. Model: {MODEL}")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 2: Define Your Tools</h2>
+
+<p>Tools are defined as JSON schemas that tell Claude:</p>
+<li><strong>What</strong> the tool does (name + description)</li>
+<li><strong>What inputs</strong> it needs (parameters with types and descriptions)</li>
+
+<p>Claude reads these descriptions to decide which tool to use. <strong>Good descriptions = good tool selection.</strong> This is why tool design matters more than prompt engineering.</p>
+
+<p>Let's create three tools:</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Define the tools Claude can use
+tools = [
+    {
+        "name": "calculator",
+        "description": (
+            "Perform mathematical calculations. Supports basic arithmetic "
+            "(+, -, *, /), exponents (**), square roots (sqrt), and common "
+            "math functions. Use this whenever you need to compute a number."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "expression": {
+                    "type": "string",
+                    "description": "The math expression to evaluate, e.g. '(15 * 24) + 7'"
+                }
+            },
+            "required": ["expression"]
+        }
+    },
+    {
+        "name": "get_current_time",
+        "description": (
+            "Get the current date and time. Use this when the user asks about "
+            "today's date, current time, or when you need to timestamp something."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "word_counter",
+        "description": (
+            "Count the number of words, characters, and sentences in a given text. "
+            "Use this for text analysis tasks."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "The text to analyze"
+                }
+            },
+            "required": ["text"]
+        }
+    }
+]
+
+print(f"✓ Defined {len(tools)} tools: {[t['name'] for t in tools]}")</code></pre></div>
+<div class="nb-cell nb-markdown"><h2>Step 3: Implement the Tool Functions</h2>
+
+<p>Each tool schema needs a corresponding Python function that actually does the work. The agent decides WHICH tool to call; your code EXECUTES it.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def calculator(expression: str) -&gt; str:
+    """Safely evaluate a math expression.
+    
+    Args:
+        expression: A math expression string like '(15 * 24) + 7'.
+    
+    Returns:
+        The result as a string, or an error message.
+    """
+    # Allow only safe math operations
+    allowed_names = {
+        "sqrt": math.sqrt, "abs": abs, "round": round,
+        "min": min, "max": max, "pow": pow,
+        "pi": math.pi, "e": math.e,
+        "sin": math.sin, "cos": math.cos, "tan": math.tan,
+        "log": math.log, "log10": math.log10,
+    }
+    try:
+        result = eval(expression, {"__builtins__": {}}, allowed_names)
+        return str(result)
+    except Exception as e:
+        return f"Error: {e}"
+
+def get_current_time() -&gt; str:
+    """Get the current date and time.
+    
+    Returns:
+        Formatted date/time string.
+    """
+    now = datetime.now()
+    return now.strftime("%Y-%m-%d %H:%M:%S (%A)")
+
+def word_counter(text: str) -&gt; str:
+    """Count words, characters, and sentences in text.
+    
+    Args:
+        text: The text to analyze.
+    
+    Returns:
+        JSON string with word, character, and sentence counts.
+    """
+    words = len(text.split())
+    characters = len(text)
+    sentences = text.count('.') + text.count('!') + text.count('?')
+    return json.dumps({
+        "words": words,
+        "characters": characters,
+        "sentences": max(sentences, 1)
+    })
+
+# Map tool names to functions for easy dispatch
+TOOL_FUNCTIONS = {
+    "calculator": calculator,
+    "get_current_time": get_current_time,
+    "word_counter": word_counter,
+}
+
+print("✓ Tool functions implemented")</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 4: Make a Tool-Use Request</h2>
+
+<p>Now let's send Claude a task that requires a tool. Watch how Claude <strong>decides</strong> to use a tool instead of guessing the answer.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">response = client.messages.create(
+    model=MODEL,
+    max_tokens=1024,
+    tools=tools,
+    messages=[{
+        "role": "user",
+        "content": "What is 1847 * 293 + 17?"
+    }]
+)
+
+print(f"Stop reason: {response.stop_reason}")
+print(f"Number of content blocks: {len(response.content)}")
+print()
+
+for block in response.content:
+    if block.type == "text":
+        print(f"[TEXT] {block.text}")
+    elif block.type == "tool_use":
+        print(f"[TOOL_USE] Tool: {block.name}")
+        print(f"           ID:   {block.id}")
+        print(f"           Input: {json.dumps(block.input)}")</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>What just happened:</strong>
+<li>Claude received the math question and the list of available tools</li>
+<li>Claude <strong>reasoned</strong> that this needs calculation, not guessing</li>
+<li>Claude returned a <code class="inline">tool_use</code> content block with the tool name and input</li>
+<li>The <code class="inline">stop_reason</code> is <code class="inline">"tool_use"</code> — Claude is pausing, waiting for the result</li>
+
+<strong>Claude did NOT compute the answer. It asked YOU to run the calculator.</strong> This is the tool-use pattern.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 5: Execute the Tool and Return the Result</h2>
+
+<p>Now we complete the loop: execute the tool, then send the result back to Claude so it can formulate its final answer.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def process_tool_call(response) -&gt; tuple[str, str, str]:
+    """Extract tool call details from a response.
+    
+    Args:
+        response: The Claude API response containing a tool_use block.
+    
+    Returns:
+        Tuple of (tool_name, tool_input, tool_use_id).
+    """
+    for block in response.content:
+        if block.type == "tool_use":
+            return block.name, block.input, block.id
+    raise ValueError("No tool_use block found in response")
+
+def execute_tool(tool_name: str, tool_input: dict) -&gt; str:
+    """Execute a tool function and return the result.
+    
+    Args:
+        tool_name: Name of the tool to execute.
+        tool_input: Dictionary of input parameters.
+    
+    Returns:
+        The tool's output as a string.
+    """
+    func = TOOL_FUNCTIONS.get(tool_name)
+    if not func:
+        return f"Error: Unknown tool '{tool_name}'"
+    try:
+        return func(**tool_input)
+    except Exception as e:
+        return f"Error executing {tool_name}: {e}"</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Step 1: Extract the tool call
+tool_name, tool_input, tool_use_id = process_tool_call(response)
+print(f"Agent wants to call: {tool_name}({tool_input})")
+
+# Step 2: Execute the tool
+tool_result = execute_tool(tool_name, tool_input)
+print(f"Tool result: {tool_result}")
+
+# Step 3: Send the result back to Claude
+final_response = client.messages.create(
+    model=MODEL,
+    max_tokens=1024,
+    tools=tools,
+    messages=[
+        # Original user message
+        {"role": "user", "content": "What is 1847 * 293 + 17?"},
+        # Claude's response (including the tool_use block)
+        {"role": "assistant", "content": response.content},
+        # The tool result
+        {
+            "role": "user",
+            "content": [{
+                "type": "tool_result",
+                "tool_use_id": tool_use_id,
+                "content": tool_result
+            }]
+        }
+    ]
+)
+
+print(f"\nFinal answer: {final_response.content[0].text}")
+print(f"Stop reason: {final_response.stop_reason}")</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>The complete flow:</strong>
+<pre><code>User: "What is 1847 * 293 + 17?"
+<p>│</p>
+<p>▼</p>
+<p>Claude REASONS: "I need the calculator tool"</p>
+<p>│</p>
+<p>▼</p>
+<p>Claude returns: tool_use(calculator, {expression: "1847 * 293 + 17"})</p>
+<p>│</p>
+<p>▼</p>
+<p>Your code EXECUTES: calculator("1847 * 293 + 17") → "541388"</p>
+<p>│</p>
+<p>▼</p>
+<p>Claude OBSERVES the result and gives the final answer</code></pre></p></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 6: Autonomous Tool Selection</h2>
+
+<p>The real power of tool-use is that <strong>the agent decides which tool to use</strong>. Let's give Claude different tasks and watch it choose the right tool each time.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">def ask_agent(question: str) -&gt; str:
+    """Send a question to the agent, handle any tool calls, return final answer.
+    
+    Args:
+        question: The user's question.
+    
+    Returns:
+        The agent's final response after tool execution.
+    """
+    print(f"\n{'='*60}")
+    print(f"User: {question}")
+    print(f"{'='*60}")
+    
+    messages = [{"role": "user", "content": question}]
+    
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=1024,
+        tools=tools,
+        messages=messages
+    )
+    
+    # If no tool was used, return the text directly
+    if response.stop_reason == "end_turn":
+        print(f"[No tool needed]")
+        return response.content[0].text
+    
+    # Handle tool use
+    tool_name, tool_input, tool_use_id = process_tool_call(response)
+    print(f"[Agent chose: {tool_name}] Input: {tool_input}")
+    
+    tool_result = execute_tool(tool_name, tool_input)
+    print(f"[Tool result: {tool_result}]")
+    
+    # Send result back for final answer
+    messages.append({"role": "assistant", "content": response.content})
+    messages.append({
+        "role": "user",
+        "content": [{"type": "tool_result", "tool_use_id": tool_use_id, "content": tool_result}]
+    })
+    
+    final = client.messages.create(
+        model=MODEL,
+        max_tokens=1024,
+        tools=tools,
+        messages=messages
+    )
+    
+    answer = final.content[0].text
+    print(f"\nAgent: {answer}")
+    return answer</code></pre></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Test 1: Should use calculator
+ask_agent("If I invest $10,000 at 7% annual compound interest, how much will I have after 5 years?")
+
+# Test 2: Should use get_current_time
+ask_agent("What day of the week is it today?")
+
+# Test 3: Should use word_counter
+ask_agent("How many words are in: 'The quick brown fox jumps over the lazy dog near the river bank'")
+
+# Test 4: Should NOT use any tool
+ask_agent("What is the capital of France?")</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>Key observation:</strong> Claude autonomously selected the right tool for each task — and knew when NO tool was needed (Test 4). This is <strong>agentic behavior</strong>: the model makes decisions about its own actions.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 7: Handling Errors Gracefully</h2>
+
+<p>Real-world tools fail. A production agent needs to handle errors and recover. Let's see what happens when a tool returns an error.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># Force a calculator error
+result = calculator("1 / 0")
+print(f"Calculator error: {result}")
+
+# The agent should handle this gracefully
+ask_agent("What is 100 divided by 0?")</code></pre></div>
+<div class="nb-cell nb-markdown"><strong>Notice:</strong> Claude receives the error message from the tool and explains the problem to the user instead of crashing. This error-handling flow is essential for production agents.</div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Step 8: Building a Reusable Tool-Use Agent</h2>
+
+<p>Let's wrap everything into a clean, reusable class that handles the full tool-use cycle.</p></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python">class ToolAgent:
+    """An agent that can autonomously select and use tools to complete tasks."""
+    
+    def __init__(
+        self,
+        tools: list[dict],
+        tool_functions: dict,
+        system_prompt: str = "You are a helpful assistant with access to tools. Use them when needed.",
+        model: str = MODEL,
+    ):
+        """Initialize the tool-use agent.
+        
+        Args:
+            tools: List of tool definitions (JSON schemas).
+            tool_functions: Dict mapping tool names to Python callables.
+            system_prompt: System prompt defining agent behavior.
+            model: The Claude model to use.
+        """
+        self.client = anthropic.Anthropic()
+        self.model = model
+        self.tools = tools
+        self.tool_functions = tool_functions
+        self.system_prompt = system_prompt
+    
+    def run(self, user_message: str, verbose: bool = True) -&gt; str:
+        """Send a task to the agent. Handles one round of tool use.
+        
+        Args:
+            user_message: The user's request.
+            verbose: If True, print the tool selection process.
+        
+        Returns:
+            The agent's final response.
+        """
+        messages = [{"role": "user", "content": user_message}]
+        
+        response = self.client.messages.create(
+            model=self.model,
+            max_tokens=1024,
+            system=self.system_prompt,
+            tools=self.tools,
+            messages=messages
+        )
+        
+        # No tool needed — return text directly
+        if response.stop_reason == "end_turn":
+            return response.content[0].text
+        
+        # Handle tool use
+        tool_name, tool_input, tool_use_id = None, None, None
+        for block in response.content:
+            if block.type == "tool_use":
+                tool_name = block.name
+                tool_input = block.input
+                tool_use_id = block.id
+                break
+        
+        if verbose:
+            print(f"  🔧 Using tool: {tool_name}({json.dumps(tool_input)})")
+        
+        # Execute the tool
+        func = self.tool_functions.get(tool_name)
+        if func:
+            try:
+                tool_result = func(**tool_input)
+            except Exception as e:
+                tool_result = f"Error: {e}"
+        else:
+            tool_result = f"Error: Unknown tool '{tool_name}'"
+        
+        if verbose:
+            print(f"  📋 Result: {tool_result}")
+        
+        # Return result to Claude
+        messages.append({"role": "assistant", "content": response.content})
+        messages.append({
+            "role": "user",
+            "content": [{"type": "tool_result", "tool_use_id": tool_use_id, "content": tool_result}]
+        })
+        
+        final = self.client.messages.create(
+            model=self.model,
+            max_tokens=1024,
+            system=self.system_prompt,
+            tools=self.tools,
+            messages=messages
+        )
+        
+        return final.content[0].text
+
+# Create the agent
+agent = ToolAgent(
+    tools=tools,
+    tool_functions=TOOL_FUNCTIONS,
+    system_prompt=(
+        "You are a precise assistant. When you need to compute something, "
+        "always use the calculator — never do mental math. "
+        "When asked about the current date/time, use the time tool."
+    )
+)
+
+# Test it
+print(agent.run("How many seconds are in a year? (365 days)"))</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Exercises</h2>
+
+<h3>Exercise 1: Add a New Tool</h3>
+
+<p>Add a <code class="inline">string_reverser</code> tool that reverses any given text. You need to:</p>
+<li>Define the tool schema (JSON)</li>
+<li>Write the Python function</li>
+<li>Add it to the tools list and TOOL_FUNCTIONS dict</li>
+<li>Test it with the agent</li></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+# 1. Define the tool schema
+# 2. Write the function
+# 3. Add to tools list and TOOL_FUNCTIONS
+# 4. Test with: agent.run("Reverse the text: 'Hello World'")</code></pre></div>
+<div class="nb-cell nb-markdown"><h3>Exercise 2: Tool Description Experiment</h3>
+
+<p>Change the <code class="inline">calculator</code> tool's description to something vague like <code class="inline">"A math tool"</code>. Then test it with the same questions. Does Claude still choose it correctly? Now try a misleading description. What happens?</p>
+
+<strong>This demonstrates why tool design > prompt engineering.</strong></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+# Experiment with different tool descriptions and observe the effect</code></pre></div>
+<div class="nb-cell nb-markdown"><h3>Exercise 3: Multi-Tool Task</h3>
+
+<p>Ask the agent a question that logically requires TWO tools (e.g., "What's today's date, and how many days until December 31st?"). What happens with our current single-tool-call implementation? How would you fix it?</p>
+
+<em>(Hint: you'll solve this properly in Lab 3 with the agent loop)</em></div>
+<div class="nb-cell nb-code"><div class="cell-label">In [ ]:</div><pre><code class="language-python"># YOUR CODE HERE
+# Try a multi-tool question and observe what happens</code></pre></div>
+<div class="nb-cell nb-markdown"><hr>
+<h2>Key Takeaways</h2>
+
+<li><strong>Tools transform a chatbot into an agent</strong> — they let the LLM interact with the real world</li>
+<li><strong>Claude decides which tool to use</strong> — you define the tools, Claude selects autonomously</li>
+<li><strong>The tool-use protocol</strong> is: <code class="inline">tool_use</code> response → execute tool → send <code class="inline">tool_result</code> → get final answer</li>
+<li><strong>Tool descriptions are critical</strong> — clear descriptions lead to correct tool selection</li>
+<li><strong>Error handling is essential</strong> — tools fail in production; agents must recover gracefully</li>
+
+<h2>Limitation of This Lab</h2>
+
+<p>Our agent handles only <strong>one</strong> tool call per request. What if a task requires multiple tools in sequence? That's exactly what Lab 3 solves with the <strong>agent loop</strong>.</p>
+
+<h2>What's Next</h2>
+
+<p>In <strong>Lab 3</strong>, we'll build a <strong>multi-step agent</strong> that:</p>
+<li>Loops until the task is complete</li>
+<li>Uses multiple tools in sequence</li>
+<li>Maintains conversation memory across tool calls</li>
+<li>Decides when it's done</li>
+
+<hr>
+<em>Lab 2 Complete — Module 1: Foundations of Agentic AI</em></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Agentic AI Certification Program &mdash; Built for ConsultBae India
+    </footer>
+</body>
+</html>

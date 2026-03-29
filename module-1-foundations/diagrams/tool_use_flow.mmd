@@ -1,0 +1,18 @@
+---
+title: Claude Tool-Use Protocol
+---
+sequenceDiagram
+    participant U as 👤 User
+    participant C as 🧠 Claude
+    participant T as 🔧 Tool (Your Code)
+
+    U->>C: "What is 1847 * 293 + 17?"
+    Note over C: REASON: I need the calculator
+    C->>U: tool_use(calculator, "1847 * 293 + 17")
+    Note over U: stop_reason = "tool_use"
+    U->>T: Execute calculator("1847 * 293 + 17")
+    T->>U: "541388"
+    U->>C: tool_result(id, "541388")
+    Note over C: OBSERVE: Result is 541,388
+    C->>U: "1847 × 293 + 17 = 541,388"
+    Note over U: stop_reason = "end_turn"

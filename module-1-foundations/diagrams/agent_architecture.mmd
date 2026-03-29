@@ -1,0 +1,36 @@
+---
+title: Anatomy of an AI Agent
+---
+flowchart TB
+    subgraph Agent["🤖 AI AGENT"]
+        direction TB
+        subgraph Brain["🧠 Brain (LLM)"]
+            LLM[Claude / GPT-4o / Gemini<br/>Reasoning Engine]
+        end
+        subgraph Tools["🔧 Tools"]
+            T1[APIs]
+            T2[File System]
+            T3[Databases]
+            T4[Web Search]
+        end
+        subgraph Memory["💾 Memory"]
+            M1[Conversation<br/>Current chat]
+            M2[Short-term<br/>Context window]
+            M3[Long-term<br/>Persistent storage]
+        end
+        subgraph Planning["📋 Planning"]
+            P1[ReAct Pattern]
+            P2[Chain-of-Thought]
+            P3[Tree-of-Thought]
+        end
+    end
+
+    User[👤 User] -->|Task| Agent
+    Agent -->|Result| User
+    Tools -->|Actions| World[🌍 External World]
+    World -->|Observations| Tools
+
+    style Brain fill:#7B68EE,color:#fff
+    style Tools fill:#E67E22,color:#fff
+    style Memory fill:#2ECC71,color:#fff
+    style Planning fill:#3498DB,color:#fff

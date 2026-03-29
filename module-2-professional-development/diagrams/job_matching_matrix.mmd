@@ -1,0 +1,34 @@
+---
+title: Multi-Factor Job Matching
+---
+flowchart TB
+    subgraph Input
+        R[📄 Parsed Resume]
+        J[📋 Parsed Job Description]
+    end
+
+    R --> Compare
+    J --> Compare
+
+    subgraph Compare["⚖️ Multi-Factor Comparison"]
+        S[Skills Match<br/>Weight: 40%]
+        E[Experience Level<br/>Weight: 25%]
+        L[Location Fit<br/>Weight: 15%]
+        SA[Salary Alignment<br/>Weight: 10%]
+        C[Culture Fit<br/>Weight: 10%]
+    end
+
+    S --> Score
+    E --> Score
+    L --> Score
+    SA --> Score
+    C --> Score
+
+    Score[📊 Weighted Score<br/>0-100] --> Decision{Score?}
+    Decision -->|85+| Strong[✅ Strong Match<br/>Apply immediately]
+    Decision -->|70-84| Good[🟡 Good Match<br/>Worth applying]
+    Decision -->|Below 70| Weak[🔴 Weak Match<br/>Consider gaps first]
+
+    style Strong fill:#27ae60,color:#fff
+    style Good fill:#f39c12,color:#fff
+    style Weak fill:#e74c3c,color:#fff
