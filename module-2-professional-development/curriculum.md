@@ -256,7 +256,7 @@ flowchart LR
     style A fill:#bbf7d0,color:#1a202c
     style B fill:#fef3c7,color:#1a202c
     style C fill:#fecaca,color:#1a202c
-    style D fill:#38a169,color:#fff
+    style D fill:#c6f6d5,color:#1a202c
 ```
 
 ---

@@ -22,8 +22,8 @@ flowchart TD
     style A fill:#e2e8f0,color:#1a202c
     style B fill:#bee3f8,color:#1a202c
     style C fill:#90cdf4,color:#1a202c
-    style D fill:#3182ce,color:#fff
-    style E fill:#1a365d,color:#fff
+    style D fill:#63b3ed,color:#1a202c
+    style E fill:#4299e1,color:#1a202c
 ```
 
 **Discussion Question:** "Think about your daily work. Name one task where you follow the exact same steps every time (automation candidate) and one where you have to make judgment calls (agent candidate)."
@@ -46,7 +46,7 @@ flowchart TD
     style B fill:#c4b5fd,color:#1a202c
     style C fill:#fed7aa,color:#1a202c
     style D fill:#bbf7d0,color:#1a202c
-    style F fill:#38a169,color:#fff
+    style F fill:#c6f6d5,color:#1a202c
 ```
 
 **Instructor Note:** Draw this on the whiteboard. Every lab in this module maps back to this loop. Students should be able to identify each phase in their own agents by the end.
@@ -224,7 +224,7 @@ flowchart TD
     style B fill:#e2e8f0,color:#1a202c
     style D fill:#e2e8f0,color:#1a202c
     style F fill:#bee3f8,color:#1a202c
-    style G fill:#38a169,color:#fff,stroke:#2f855a,stroke-width:3px
+    style G fill:#c6f6d5,color:#1a202c,stroke:#2f855a,stroke-width:3px
 ```
 
 ---

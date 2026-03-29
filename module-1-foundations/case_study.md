@@ -28,7 +28,7 @@ flowchart TD
     style Reason fill:#c4b5fd,color:#1a202c
     style Act fill:#fed7aa,color:#1a202c
     style Observe fill:#bbf7d0,color:#1a202c
-    style Deliver fill:#38a169,color:#fff
+    style Deliver fill:#c6f6d5,color:#1a202c
 ```
 
 ## Key Agentic Patterns Demonstrated

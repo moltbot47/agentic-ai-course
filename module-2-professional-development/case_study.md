@@ -25,7 +25,7 @@ flowchart TD
     RA --> Mem["SHARED MEMORY\nSkills, Experience, Goals,\nPast analyses, Improvements"]
     JM --> Mem
     IC --> Mem
-    style Orch fill:#1a365d,color:#fff
+    style Orch fill:#bee3f8,color:#1a202c
     style RA fill:#bee3f8,color:#1a202c
     style JM fill:#fed7aa,color:#1a202c
     style IC fill:#bbf7d0,color:#1a202c
