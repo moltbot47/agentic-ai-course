@@ -564,32 +564,23 @@ code[class*="language-"] {
 <li>An agent can do what traditional parsers can't: infer implied skills, understand context, handle ambiguity</li>
 
 <strong>Data Model for a Parsed Resume:</strong>
-<pre class="line-numbers"><code>┌──────────────────────────────────────────────────┐
-<p>│                  PARSED RESUME                    │</p>
-<p>│                                                   │</p>
-<p>│  contact_info:                                    │</p>
-<p>│    name, email, phone, location, linkedin         │</p>
-<p>│                                                   │</p>
-<p>│  summary: str                                     │</p>
-<p>│                                                   │</p>
-<p>│  work_experience: [                               │</p>
-<p>│    { company, title, dates, bullets: [str] }      │</p>
-<p>│  ]                                                │</p>
-<p>│                                                   │</p>
-<p>│  education: [                                     │</p>
-<p>│    { institution, degree, field, year }            │</p>
-<p>│  ]                                                │</p>
-<p>│                                                   │</p>
-<p>│  skills: {                                        │</p>
-<p>│    technical: [str],                              │</p>
-<p>│    soft: [str],                                   │</p>
-<p>│    tools: [str],                                  │</p>
-<p>│    certifications: [str]                          │</p>
-<p>│  }                                                │</p>
-<p>│                                                   │</p>
-<p>│  metadata:                                        │</p>
-<p>│    years_experience, career_level, industries     │</p>
-<p>└──────────────────────────────────────────────────┘</code></pre></p>
+<pre class="line-numbers"><code class="language-python">{
+<p>"contact_info": {"name", "email", "phone", "location", "linkedin"},</p>
+<p>"summary": "str",</p>
+<p>"work_experience": [</p>
+<p>{"company": "str", "title": "str", "dates": "str", "bullets": ["str"]}</p>
+<p>],</p>
+<p>"education": [</p>
+<p>{"institution": "str", "degree": "str", "field": "str", "year": "int"}</p>
+<p>],</p>
+<p>"skills": {</p>
+<p>"technical": ["str"],</p>
+<p>"soft": ["str"],</p>
+<p>"tools": ["str"],</p>
+<p>"certifications": ["str"]</p>
+<p>},</p>
+<p>"metadata": {"years_experience": "int", "career_level": "str", "industries": ["str"]}</p>
+<p>}</code></pre></p>
 
 <hr>
 
@@ -598,13 +589,16 @@ code[class*="language-"] {
 <strong>Key Concept:</strong> Raw skill extraction is step one. The real value is mapping those skills against a target — a specific job, an industry standard, or a career goal.
 
 <strong>Gap Analysis Pattern:</strong>
-<pre class="line-numbers"><code>Candidate Skills ──┐
-<p>├──► COMPARE ──► Gap Report</p>
-<p>Target Job Reqs ───┘               │</p>
-<p>├── Missing skills</p>
-<p>├── Transferable skills</p>
-<p>├── Strength areas</p>
-<p>└── Priority recommendations</code></pre></p>
+<div class="mermaid">flowchart LR
+<p>A["Candidate Skills"] --> C["COMPARE"]</p>
+<p>B["Target Job Reqs"] --> C</p>
+<p>C --> D["Gap Report"]</p>
+<p>D --> E["Missing skills"]</p>
+<p>D --> F["Transferable skills"]</p>
+<p>D --> G["Strength areas"]</p>
+<p>D --> H["Priority recommendations"]</p>
+<p>style C fill:#c4b5fd,color:#1a202c</p>
+<p>style D fill:#fed7aa,color:#1a202c</div></p>
 
 <strong>Discussion:</strong> "If you were hiring for your own team, what skills would you look for that AREN'T usually listed in job descriptions?"
 
@@ -701,13 +695,12 @@ code[class*="language-"] {
 
 <strong>Agent Design Pattern:</strong> The interview coach uses a <strong>role-switching</strong> system prompt — it plays the interviewer, then switches to coach mode for feedback.
 
-<pre class="line-numbers"><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-<p>│ INTERVIEWER  │────►│  CANDIDATE  │────►│   COACH     │</p>
-<p>│ (Agent)      │     │  (User)     │     │  (Agent)    │</p>
-<p>│              │     │             │     │             │</p>
-<p>│ Asks question│     │ Answers     │     │ Gives       │</p>
-<p>│ Follow-ups   │     │             │     │ feedback    │</p>
-<p>└─────────────┘     └─────────────┘     └─────────────┘</code></pre></p>
+<div class="mermaid">flowchart LR
+<p>A["INTERVIEWER\n(Agent)\nAsks questions\nFollow-ups"] --> B["CANDIDATE\n(User)\nAnswers"]</p>
+<p>B --> C["COACH\n(Agent)\nGives feedback"]</p>
+<p>style A fill:#bee3f8,color:#1a202c</p>
+<p>style B fill:#fef3c7,color:#1a202c</p>
+<p>style C fill:#bbf7d0,color:#1a202c</div></p>
 
 <hr>
 
@@ -759,17 +752,16 @@ code[class*="language-"] {
 <h3>5.1 — Career Trajectory Modeling (15 min)</h3>
 
 <strong>Progression Path Template:</strong>
-<pre class="line-numbers"><code>Current Role: Senior Developer (Year 0)
-<p>│</p>
-<p>├── Path A: Engineering Manager (Year 2-3)</p>
-<p>│     └── Director of Engineering (Year 5-7)</p>
-<p>│</p>
-<p>├── Path B: Staff Engineer (Year 2-3)</p>
-<p>│     └── Principal Engineer (Year 5-7)</p>
-<p>│</p>
-<p>└── Path C: Product Manager (Year 1-2)  [Career Change]</p>
-<p>└── Senior PM (Year 3-4)</p>
-<p>└── Director of Product (Year 5-7)</code></pre></p>
+<div class="mermaid">flowchart TD
+<p>A["Senior Developer\n(Year 0)"] --> B["Engineering Manager\n(Year 2-3)"]</p>
+<p>A --> C["Staff Engineer\n(Year 2-3)"]</p>
+<p>A --> D["Product Manager\n(Year 1-2)"]</p>
+<p>B --> E["Director of Engineering\n(Year 5-7)"]</p>
+<p>C --> F["Principal Engineer\n(Year 5-7)"]</p>
+<p>D --> G["Senior PM\n(Year 3-4)"]</p>
+<p>G --> H["Director of Product\n(Year 5-7)"]</p>
+<p>style A fill:#bee3f8,color:#1a202c</p>
+<p>style D fill:#fef3c7,color:#1a202c</div></p>
 
 <strong>Agent capabilities:</strong>
 <li>Map skills to multiple career paths</li>
@@ -780,9 +772,14 @@ code[class*="language-"] {
 <h3>5.2 — Transition Planning (15 min)</h3>
 
 <strong>The Bridge Model:</strong>
-<pre class="line-numbers"><code>Current Skills ──► Transferable Skills ──► Gap Skills ──► Target Role
-<p>90%                  60%                  30%</p>
-<p>owned              identified            to acquire</code></pre></p>
+<div class="mermaid">flowchart LR
+<p>A["Current Skills\n90% owned"] --> B["Transferable Skills\n60% identified"]</p>
+<p>B --> C["Gap Skills\n30% to acquire"]</p>
+<p>C --> D["Target Role"]</p>
+<p>style A fill:#bbf7d0,color:#1a202c</p>
+<p>style B fill:#fef3c7,color:#1a202c</p>
+<p>style C fill:#fecaca,color:#1a202c</p>
+<p>style D fill:#38a169,color:#fff</div></p>
 
 <hr>
 
@@ -803,24 +800,26 @@ code[class*="language-"] {
 <li>Orchestrates between specialized sub-agents</li>
 
 <strong>Architecture:</strong>
-<pre class="line-numbers"><code>┌──────────────────────────────────────────┐
-<p>│         CAREER COACH AGENT               │</p>
-<p>│         (Orchestrator)                   │</p>
-<p>│                                          │</p>
-<p>│  ┌──────────┐ ┌──────────┐ ┌─────────┐ │</p>
-<p>│  │ Resume   │ │ Job      │ │Interview│ │</p>
-<p>│  │ Analyzer │ │ Matcher  │ │ Coach   │ │</p>
-<p>│  └──────────┘ └──────────┘ └─────────┘ │</p>
-<p>│                                          │</p>
-<p>│  ┌──────────┐ ┌──────────┐              │</p>
-<p>│  │ LinkedIn │ │ Career   │              │</p>
-<p>│  │ Advisor  │ │ Planner  │              │</p>
-<p>│  └──────────┘ └──────────┘              │</p>
-<p>│                                          │</p>
-<p>│  ┌──────────────────────────────────┐   │</p>
-<p>│  │     SHARED MEMORY (User Profile) │   │</p>
-<p>│  └──────────────────────────────────┘   │</p>
-<p>└──────────────────────────────────────────┘</code></pre></p>
+<div class="mermaid">flowchart TB
+<p>subgraph Coach["CAREER COACH AGENT (Orchestrator)"]</p>
+<p>direction TB</p>
+<p>subgraph Agents[" "]</p>
+<p>direction LR</p>
+<p>RA["Resume\nAnalyzer"]</p>
+<p>JM["Job\nMatcher"]</p>
+<p>IC["Interview\nCoach"]</p>
+<p>LA["LinkedIn\nAdvisor"]</p>
+<p>CP["Career\nPlanner"]</p>
+<p>end</p>
+<p>Memory["SHARED MEMORY (User Profile)"]</p>
+<p>end</p>
+<p>style RA fill:#bee3f8,color:#1a202c</p>
+<p>style JM fill:#fed7aa,color:#1a202c</p>
+<p>style IC fill:#bbf7d0,color:#1a202c</p>
+<p>style LA fill:#c4b5fd,color:#1a202c</p>
+<p>style CP fill:#fecaca,color:#1a202c</p>
+<p>style Memory fill:#fef3c7,color:#1a202c</p>
+<p>style Agents fill:transparent,stroke:none</div></p>
 
             </div>
         </div>

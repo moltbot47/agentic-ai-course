@@ -10,53 +10,25 @@ A content creator needed to automate a complex pipeline: take a YouTube video, e
 
 ## The Agent Architecture
 
-```
-User drops YouTube link in Discord
-         │
-         ▼
-┌─────────────────────┐
-│   Spirit Agent       │ ← PERCEIVE: receives link
-│   (Claude Sonnet)    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│   REASON: What       │ ← Plan the pipeline steps
-│   tools do I need?   │
-└──────────┬──────────┘
-           │
-           ▼
-    ┌──────┴──────┐
-    │  ACT: Use   │
-    │  13 MCP     │
-    │  Tools      │
-    └──────┬──────┘
-           │
-    ┌──────┼──────────────────┐
-    │      │                  │
-    ▼      ▼                  ▼
- yt-dlp  Whisper          Claude
- extract  transcribe       analyze
- audio    → SRT/TXT        emotions
-    │      │                  │
-    └──────┴──────────────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ OBSERVE: Check       │ ← Verify outputs are valid
-│ results, continue    │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Generate prompts     │ ← Image + video prompts per segment
-│ Build assembly guide │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Deliver via Discord  │ ← Files + formatted messages
-└─────────────────────┘
+```mermaid
+flowchart TD
+    Input["User drops YouTube link\nin Discord"] --> Perceive["PERCEIVE\nSpirit Agent receives link"]
+    Perceive --> Reason["REASON\nPlan pipeline steps"]
+    Reason --> Act["ACT\nUse 13 MCP Tools"]
+    Act --> T1["yt-dlp\nextract audio"]
+    Act --> T2["Whisper\ntranscribe"]
+    Act --> T3["Claude\nanalyze emotions"]
+    T1 --> Observe["OBSERVE\nVerify outputs are valid"]
+    T2 --> Observe
+    T3 --> Observe
+    Observe --> Generate["Generate prompts\nBuild assembly guide"]
+    Generate --> Deliver["Deliver via Discord\nFiles + formatted messages"]
+    style Input fill:#bee3f8,color:#1a202c
+    style Perceive fill:#bee3f8,color:#1a202c
+    style Reason fill:#c4b5fd,color:#1a202c
+    style Act fill:#fed7aa,color:#1a202c
+    style Observe fill:#bbf7d0,color:#1a202c
+    style Deliver fill:#38a169,color:#fff
 ```
 
 ## Key Agentic Patterns Demonstrated

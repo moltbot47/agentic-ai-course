@@ -570,19 +570,14 @@ code[class*="language-"] {
 
 <h2>How This Connects to the Agent Loop</h2>
 
-<pre class="line-numbers"><code>┌─────────────┐
-<p>│   PERCEIVE  │ ← You send a message (user role)</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│   REASON    │ ← Claude thinks (guided by system prompt)</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────┐</p>
-<p>│     ACT     │ ← Claude responds (assistant role)    ◄── THIS LAB</p>
-<p>└─────────────┘</code></pre></p>
+<div class="mermaid">flowchart TD
+<p>A["PERCEIVE\nYou send a message (user role)"] --> B["REASON\nClaude thinks (guided by system prompt)"]</p>
+<p>B --> C["ACT\nClaude responds (assistant role)"]</p>
+<p>style A fill:#bee3f8,color:#1a202c</p>
+<p>style B fill:#c4b5fd,color:#1a202c</p>
+<p>style C fill:#fed7aa,color:#1a202c,stroke:#dd6b20,stroke-width:3px</div></p>
+
+<blockquote><strong>This lab focuses on the ACT step</strong> — the LLM brain. In Labs 2 and 3, we add tools and multi-step reasoning.</blockquote>
 
 <p>In this lab we focus on the <strong>brain</strong> of the agent — the LLM. In Labs 2 and 3, we'll add tools and multi-step reasoning.</p></div>
 <div class="nb-cell nb-markdown"><hr>

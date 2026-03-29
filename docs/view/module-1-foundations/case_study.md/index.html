@@ -562,52 +562,24 @@ code[class*="language-"] {
 
 <h2>The Agent Architecture</h2>
 
-<pre class="line-numbers"><code>User drops YouTube link in Discord
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────────────┐</p>
-<p>│   Spirit Agent       │ ← PERCEIVE: receives link</p>
-<p>│   (Claude Sonnet)    │</p>
-<p>└──────────┬──────────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────────────┐</p>
-<p>│   REASON: What       │ ← Plan the pipeline steps</p>
-<p>│   tools do I need?   │</p>
-<p>└──────────┬──────────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌──────┴──────┐</p>
-<p>│  ACT: Use   │</p>
-<p>│  13 MCP     │</p>
-<p>│  Tools      │</p>
-<p>└──────┬──────┘</p>
-<p>│</p>
-<p>┌──────┼──────────────────┐</p>
-<p>│      │                  │</p>
-<p>▼      ▼                  ▼</p>
-<p>yt-dlp  Whisper          Claude</p>
-<p>extract  transcribe       analyze</p>
-<p>audio    → SRT/TXT        emotions</p>
-<p>│      │                  │</p>
-<p>└──────┴──────────────────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────────────┐</p>
-<p>│ OBSERVE: Check       │ ← Verify outputs are valid</p>
-<p>│ results, continue    │</p>
-<p>└──────────┬──────────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────────────┐</p>
-<p>│ Generate prompts     │ ← Image + video prompts per segment</p>
-<p>│ Build assembly guide │</p>
-<p>└──────────┬──────────┘</p>
-<p>│</p>
-<p>▼</p>
-<p>┌─────────────────────┐</p>
-<p>│ Deliver via Discord  │ ← Files + formatted messages</p>
-<p>└─────────────────────┘</code></pre></p>
+<div class="mermaid">flowchart TD
+<p>Input["User drops YouTube link\nin Discord"] --> Perceive["PERCEIVE\nSpirit Agent receives link"]</p>
+<p>Perceive --> Reason["REASON\nPlan pipeline steps"]</p>
+<p>Reason --> Act["ACT\nUse 13 MCP Tools"]</p>
+<p>Act --> T1["yt-dlp\nextract audio"]</p>
+<p>Act --> T2["Whisper\ntranscribe"]</p>
+<p>Act --> T3["Claude\nanalyze emotions"]</p>
+<p>T1 --> Observe["OBSERVE\nVerify outputs are valid"]</p>
+<p>T2 --> Observe</p>
+<p>T3 --> Observe</p>
+<p>Observe --> Generate["Generate prompts\nBuild assembly guide"]</p>
+<p>Generate --> Deliver["Deliver via Discord\nFiles + formatted messages"]</p>
+<p>style Input fill:#bee3f8,color:#1a202c</p>
+<p>style Perceive fill:#bee3f8,color:#1a202c</p>
+<p>style Reason fill:#c4b5fd,color:#1a202c</p>
+<p>style Act fill:#fed7aa,color:#1a202c</p>
+<p>style Observe fill:#bbf7d0,color:#1a202c</p>
+<p>style Deliver fill:#38a169,color:#fff</div></p>
 
 <h2>Key Agentic Patterns Demonstrated</h2>
 

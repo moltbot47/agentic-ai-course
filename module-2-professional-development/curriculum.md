@@ -12,33 +12,24 @@
 - An agent can do what traditional parsers can't: infer implied skills, understand context, handle ambiguity
 
 **Data Model for a Parsed Resume:**
-```
-┌──────────────────────────────────────────────────┐
-│                  PARSED RESUME                    │
-│                                                   │
-│  contact_info:                                    │
-│    name, email, phone, location, linkedin         │
-│                                                   │
-│  summary: str                                     │
-│                                                   │
-│  work_experience: [                               │
-│    { company, title, dates, bullets: [str] }      │
-│  ]                                                │
-│                                                   │
-│  education: [                                     │
-│    { institution, degree, field, year }            │
-│  ]                                                │
-│                                                   │
-│  skills: {                                        │
-│    technical: [str],                              │
-│    soft: [str],                                   │
-│    tools: [str],                                  │
-│    certifications: [str]                          │
-│  }                                                │
-│                                                   │
-│  metadata:                                        │
-│    years_experience, career_level, industries     │
-└──────────────────────────────────────────────────┘
+```python
+{
+    "contact_info": {"name", "email", "phone", "location", "linkedin"},
+    "summary": "str",
+    "work_experience": [
+        {"company": "str", "title": "str", "dates": "str", "bullets": ["str"]}
+    ],
+    "education": [
+        {"institution": "str", "degree": "str", "field": "str", "year": "int"}
+    ],
+    "skills": {
+        "technical": ["str"],
+        "soft": ["str"],
+        "tools": ["str"],
+        "certifications": ["str"]
+    },
+    "metadata": {"years_experience": "int", "career_level": "str", "industries": ["str"]}
+}
 ```
 
 ---
@@ -48,14 +39,17 @@
 **Key Concept:** Raw skill extraction is step one. The real value is mapping those skills against a target — a specific job, an industry standard, or a career goal.
 
 **Gap Analysis Pattern:**
-```
-Candidate Skills ──┐
-                   ├──► COMPARE ──► Gap Report
-Target Job Reqs ───┘               │
-                                   ├── Missing skills
-                                   ├── Transferable skills
-                                   ├── Strength areas
-                                   └── Priority recommendations
+```mermaid
+flowchart LR
+    A["Candidate Skills"] --> C["COMPARE"]
+    B["Target Job Reqs"] --> C
+    C --> D["Gap Report"]
+    D --> E["Missing skills"]
+    D --> F["Transferable skills"]
+    D --> G["Strength areas"]
+    D --> H["Priority recommendations"]
+    style C fill:#c4b5fd,color:#1a202c
+    style D fill:#fed7aa,color:#1a202c
 ```
 
 **Discussion:** "If you were hiring for your own team, what skills would you look for that AREN'T usually listed in job descriptions?"
@@ -171,14 +165,13 @@ R — Result: What was the measurable outcome?
 
 **Agent Design Pattern:** The interview coach uses a **role-switching** system prompt — it plays the interviewer, then switches to coach mode for feedback.
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ INTERVIEWER  │────►│  CANDIDATE  │────►│   COACH     │
-│ (Agent)      │     │  (User)     │     │  (Agent)    │
-│              │     │             │     │             │
-│ Asks question│     │ Answers     │     │ Gives       │
-│ Follow-ups   │     │             │     │ feedback    │
-└─────────────┘     └─────────────┘     └─────────────┘
+```mermaid
+flowchart LR
+    A["INTERVIEWER\n(Agent)\nAsks questions\nFollow-ups"] --> B["CANDIDATE\n(User)\nAnswers"]
+    B --> C["COACH\n(Agent)\nGives feedback"]
+    style A fill:#bee3f8,color:#1a202c
+    style B fill:#fef3c7,color:#1a202c
+    style C fill:#bbf7d0,color:#1a202c
 ```
 
 ---
@@ -233,18 +226,17 @@ NARRATIVE ─── VISIBILITY
 ### 5.1 — Career Trajectory Modeling (15 min)
 
 **Progression Path Template:**
-```
-Current Role: Senior Developer (Year 0)
-  │
-  ├── Path A: Engineering Manager (Year 2-3)
-  │     └── Director of Engineering (Year 5-7)
-  │
-  ├── Path B: Staff Engineer (Year 2-3)
-  │     └── Principal Engineer (Year 5-7)
-  │
-  └── Path C: Product Manager (Year 1-2)  [Career Change]
-        └── Senior PM (Year 3-4)
-              └── Director of Product (Year 5-7)
+```mermaid
+flowchart TD
+    A["Senior Developer\n(Year 0)"] --> B["Engineering Manager\n(Year 2-3)"]
+    A --> C["Staff Engineer\n(Year 2-3)"]
+    A --> D["Product Manager\n(Year 1-2)"]
+    B --> E["Director of Engineering\n(Year 5-7)"]
+    C --> F["Principal Engineer\n(Year 5-7)"]
+    D --> G["Senior PM\n(Year 3-4)"]
+    G --> H["Director of Product\n(Year 5-7)"]
+    style A fill:#bee3f8,color:#1a202c
+    style D fill:#fef3c7,color:#1a202c
 ```
 
 **Agent capabilities:**
@@ -256,10 +248,15 @@ Current Role: Senior Developer (Year 0)
 ### 5.2 — Transition Planning (15 min)
 
 **The Bridge Model:**
-```
-Current Skills ──► Transferable Skills ──► Gap Skills ──► Target Role
-     90%                  60%                  30%
-     owned              identified            to acquire
+```mermaid
+flowchart LR
+    A["Current Skills\n90% owned"] --> B["Transferable Skills\n60% identified"]
+    B --> C["Gap Skills\n30% to acquire"]
+    C --> D["Target Role"]
+    style A fill:#bbf7d0,color:#1a202c
+    style B fill:#fef3c7,color:#1a202c
+    style C fill:#fecaca,color:#1a202c
+    style D fill:#38a169,color:#fff
 ```
 
 ---
@@ -281,23 +278,25 @@ See `capstone.md` for full project brief.
 5. Orchestrates between specialized sub-agents
 
 **Architecture:**
-```
-┌──────────────────────────────────────────┐
-│         CAREER COACH AGENT               │
-│         (Orchestrator)                   │
-│                                          │
-│  ┌──────────┐ ┌──────────┐ ┌─────────┐ │
-│  │ Resume   │ │ Job      │ │Interview│ │
-│  │ Analyzer │ │ Matcher  │ │ Coach   │ │
-│  └──────────┘ └──────────┘ └─────────┘ │
-│                                          │
-│  ┌──────────┐ ┌──────────┐              │
-│  │ LinkedIn │ │ Career   │              │
-│  │ Advisor  │ │ Planner  │              │
-│  └──────────┘ └──────────┘              │
-│                                          │
-│  ┌──────────────────────────────────┐   │
-│  │     SHARED MEMORY (User Profile) │   │
-│  └──────────────────────────────────┘   │
-└──────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Coach["CAREER COACH AGENT (Orchestrator)"]
+        direction TB
+        subgraph Agents[" "]
+            direction LR
+            RA["Resume\nAnalyzer"]
+            JM["Job\nMatcher"]
+            IC["Interview\nCoach"]
+            LA["LinkedIn\nAdvisor"]
+            CP["Career\nPlanner"]
+        end
+        Memory["SHARED MEMORY (User Profile)"]
+    end
+    style RA fill:#bee3f8,color:#1a202c
+    style JM fill:#fed7aa,color:#1a202c
+    style IC fill:#bbf7d0,color:#1a202c
+    style LA fill:#c4b5fd,color:#1a202c
+    style CP fill:#fecaca,color:#1a202c
+    style Memory fill:#fef3c7,color:#1a202c
+    style Agents fill:transparent,stroke:none
 ```

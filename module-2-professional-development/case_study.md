@@ -17,35 +17,19 @@ The challenge: build a system where AI agents provide **personalized**, **contin
 
 ### Architecture: Multi-Agent Career Platform
 
-```
-┌────────────────────────────────────────────────────┐
-│              CAREER COACH ORCHESTRATOR              │
-│                                                     │
-│  "I know your resume, your goals, your history,     │
-│   and I coordinate specialists to help you."        │
-└───────────┬──────────┬──────────┬──────────────────┘
-            │          │          │
-     ┌──────┴──┐  ┌────┴────┐  ┌─┴─────────┐
-     │ Resume  │  │  Job    │  │ Interview  │
-     │ Agent   │  │ Matcher │  │   Coach    │
-     │         │  │         │  │            │
-     │ Parses, │  │ Scores, │  │ Generates, │
-     │ scores, │  │ ranks,  │  │ evaluates, │
-     │ rewrites│  │ advises │  │ coaches    │
-     └────┬────┘  └────┬────┘  └─────┬─────┘
-          │            │             │
-          └────────────┴─────────────┘
-                       │
-              ┌────────┴────────┐
-              │ SHARED MEMORY   │
-              │ (User Profile)  │
-              │                 │
-              │ - Skills        │
-              │ - Experience    │
-              │ - Goals         │
-              │ - Past analyses │
-              │ - Improvements  │
-              └─────────────────┘
+```mermaid
+flowchart TD
+    Orch["CAREER COACH ORCHESTRATOR\nCoordinates specialists with shared context"] --> RA["Resume Agent\nParses, scores, rewrites"]
+    Orch --> JM["Job Matcher\nScores, ranks, advises"]
+    Orch --> IC["Interview Coach\nGenerates, evaluates, coaches"]
+    RA --> Mem["SHARED MEMORY\nSkills, Experience, Goals,\nPast analyses, Improvements"]
+    JM --> Mem
+    IC --> Mem
+    style Orch fill:#1a365d,color:#fff
+    style RA fill:#bee3f8,color:#1a202c
+    style JM fill:#fed7aa,color:#1a202c
+    style IC fill:#bbf7d0,color:#1a202c
+    style Mem fill:#fef3c7,color:#1a202c
 ```
 
 ### Key Design Decisions
