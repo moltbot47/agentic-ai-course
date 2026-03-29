@@ -758,9 +758,9 @@ p { color: var(--color-text); }
 /* ── Module Cards ── */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    max-width: var(--max-width);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem 4rem;
 }
@@ -768,7 +768,7 @@ p { color: var(--color-text); }
     background: white;
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1.3rem;
     transition: all 0.2s;
     text-decoration: none;
     color: var(--color-text);
@@ -785,7 +785,7 @@ p { color: var(--color-text); }
 .module-card .card-accent {
     position: absolute; top: 0; left: 0; right: 0; height: 3px;
 }
-.module-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-card .icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
 .module-card .module-num {
     font-family: var(--font-sans);
     font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
@@ -794,17 +794,17 @@ p { color: var(--color-text); }
 }
 .module-card h3 {
     font-family: var(--font-serif);
-    font-size: 1.25rem; font-weight: 500; margin-bottom: 0.5rem;
+    font-size: 1.05rem; font-weight: 500; margin-bottom: 0.4rem;
     color: var(--color-primary);
 }
-.module-card .subtitle { color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+.module-card .subtitle { color: var(--color-text-muted); font-size: 0.8rem; margin-bottom: 0.6rem; line-height: 1.4; }
 .module-card .card-footer {
     display: flex; justify-content: space-between; align-items: center;
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid var(--color-border);
 }
-.module-card .duration { font-size: 0.85rem; color: var(--color-text-muted); }
+.module-card .duration { font-size: 0.8rem; color: var(--color-text-muted); }
 .status {
     font-family: var(--font-sans);
     font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
@@ -1280,7 +1280,7 @@ code[class*="language-"] {
 @media (max-width: 768px) {
     html { font-size: 16px; }
     .hero h1 { font-size: 2.2rem; }
-    .modules-grid { grid-template-columns: 1fr; }
+    .modules-grid { grid-template-columns: repeat(2, 1fr); }
     .content-body { padding: 1.5rem; }
     .hero .meta { gap: 0.8rem; }
     .hero { padding: 4rem 1.5rem 3rem; }
