@@ -574,8 +574,8 @@ code[class*="language-"] {
 <p>A["USER TASK"] --> B["Send messages to Claude"]</p>
 <p>B --> C["Claude responds"]</p>
 <p>C --> D{"stop_reason?"}</p>
-<p>D -->|"tool_use"| E["Execute tool\nAppend result to messages"]</p>
-<p>D -->|"end_turn"| F["DONE\nReturn final answer"]</p>
+<p>D -->|"tool_use"| E["Execute tool<br>Append result to messages"]</p>
+<p>D -->|"end_turn"| F["DONE<br>Return final answer"]</p>
 <p>E --> B</p>
 <p>style A fill:#bee3f8,color:#1a202c</p>
 <p>style D fill:#fef3c7,color:#1a202c</p>
