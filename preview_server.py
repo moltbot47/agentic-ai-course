@@ -770,8 +770,9 @@ def landing_page() -> str:
     for m in MODULES:
         status_class = m["status"]
         status_label = {"complete": "Complete", "in_progress": "In Progress", "planned": "Planned"}[m["status"]]
-        href = f'/module/{m["id"]}' if m["files"] else "#"
-        opacity = "opacity: 0.5;" if m["status"] == "planned" else ""
+        clickable = m["status"] == "complete"
+        href = f'/module/{m["id"]}' if clickable else "#"
+        opacity = "" if clickable else "opacity: 0.5; pointer-events: none;"
         cards.append(f'''
         <a href="{href}" class="module-card" style="{opacity}">
             <div class="card-accent" style="background: {m['color']};"></div>
