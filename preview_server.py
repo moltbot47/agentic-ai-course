@@ -23,13 +23,18 @@ def md_to_html(md: str) -> str:
     """Convert markdown to HTML with support for common patterns."""
     html = md
 
+    # Extract mermaid blocks FIRST and protect them from further processing
+    mermaid_blocks = {}
+    def stash_mermaid(m):
+        key = f"%%MERMAID_{len(mermaid_blocks)}%%"
+        mermaid_blocks[key] = f'<div class="mermaid">{m.group(1).strip()}</div>'
+        return key
+    html = re.sub(r'```mermaid\n(.*?)```', stash_mermaid, html, flags=re.DOTALL)
+
     # Fenced code blocks (``` ... ```)
     def replace_code_block(m):
         lang = m.group(1) or ""
         code = m.group(2)
-        # Mermaid blocks → render as diagrams
-        if lang == "mermaid":
-            return f'<div class="mermaid">{code.strip()}</div>'
         code = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         # Collapse runs of 2+ blank lines into 1
         code = re.sub(r'\n{2,}', '\n', code)
@@ -97,11 +102,15 @@ def md_to_html(md: str) -> str:
     result = []
     for line in lines:
         stripped = line.strip()
-        if stripped and not stripped.startswith("<"):
+        if stripped and not stripped.startswith("<") and not stripped.startswith("%%MERMAID_"):
             result.append(f"<p>{stripped}</p>")
         else:
             result.append(line)
     html = "\n".join(result)
+
+    # Restore mermaid blocks (protected from paragraph wrapping)
+    for key, block in mermaid_blocks.items():
+        html = html.replace(key, block)
 
     return html
 

@@ -570,17 +570,17 @@ code[class*="language-"] {
 <h3>Architecture: Multi-Agent Career Platform</h3>
 
 <div class="mermaid">flowchart TD
-<p>Orch["CAREER COACH ORCHESTRATOR\nCoordinates specialists with shared context"] --> RA["Resume Agent\nParses, scores, rewrites"]</p>
-<p>Orch --> JM["Job Matcher\nScores, ranks, advises"]</p>
-<p>Orch --> IC["Interview Coach\nGenerates, evaluates, coaches"]</p>
-<p>RA --> Mem["SHARED MEMORY\nSkills, Experience, Goals,\nPast analyses, Improvements"]</p>
-<p>JM --> Mem</p>
-<p>IC --> Mem</p>
-<p>style Orch fill:#1a365d,color:#fff</p>
-<p>style RA fill:#bee3f8,color:#1a202c</p>
-<p>style JM fill:#fed7aa,color:#1a202c</p>
-<p>style IC fill:#bbf7d0,color:#1a202c</p>
-<p>style Mem fill:#fef3c7,color:#1a202c</div></p>
+    Orch["CAREER COACH ORCHESTRATOR\nCoordinates specialists with shared context"] --> RA["Resume Agent\nParses, scores, rewrites"]
+    Orch --> JM["Job Matcher\nScores, ranks, advises"]
+    Orch --> IC["Interview Coach\nGenerates, evaluates, coaches"]
+    RA --> Mem["SHARED MEMORY\nSkills, Experience, Goals,\nPast analyses, Improvements"]
+    JM --> Mem
+    IC --> Mem
+    style Orch fill:#1a365d,color:#fff
+    style RA fill:#bee3f8,color:#1a202c
+    style JM fill:#fed7aa,color:#1a202c
+    style IC fill:#bbf7d0,color:#1a202c
+    style Mem fill:#fef3c7,color:#1a202c</div>
 
 <h3>Key Design Decisions</h3>
 

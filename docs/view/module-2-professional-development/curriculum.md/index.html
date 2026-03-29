@@ -590,15 +590,15 @@ code[class*="language-"] {
 
 <strong>Gap Analysis Pattern:</strong>
 <div class="mermaid">flowchart LR
-<p>A["Candidate Skills"] --> C["COMPARE"]</p>
-<p>B["Target Job Reqs"] --> C</p>
-<p>C --> D["Gap Report"]</p>
-<p>D --> E["Missing skills"]</p>
-<p>D --> F["Transferable skills"]</p>
-<p>D --> G["Strength areas"]</p>
-<p>D --> H["Priority recommendations"]</p>
-<p>style C fill:#c4b5fd,color:#1a202c</p>
-<p>style D fill:#fed7aa,color:#1a202c</div></p>
+    A["Candidate Skills"] --> C["COMPARE"]
+    B["Target Job Reqs"] --> C
+    C --> D["Gap Report"]
+    D --> E["Missing skills"]
+    D --> F["Transferable skills"]
+    D --> G["Strength areas"]
+    D --> H["Priority recommendations"]
+    style C fill:#c4b5fd,color:#1a202c
+    style D fill:#fed7aa,color:#1a202c</div>
 
 <strong>Discussion:</strong> "If you were hiring for your own team, what skills would you look for that AREN'T usually listed in job descriptions?"
 
@@ -696,11 +696,11 @@ code[class*="language-"] {
 <strong>Agent Design Pattern:</strong> The interview coach uses a <strong>role-switching</strong> system prompt — it plays the interviewer, then switches to coach mode for feedback.
 
 <div class="mermaid">flowchart LR
-<p>A["INTERVIEWER\n(Agent)\nAsks questions\nFollow-ups"] --> B["CANDIDATE\n(User)\nAnswers"]</p>
-<p>B --> C["COACH\n(Agent)\nGives feedback"]</p>
-<p>style A fill:#bee3f8,color:#1a202c</p>
-<p>style B fill:#fef3c7,color:#1a202c</p>
-<p>style C fill:#bbf7d0,color:#1a202c</div></p>
+    A["INTERVIEWER\n(Agent)\nAsks questions\nFollow-ups"] --> B["CANDIDATE\n(User)\nAnswers"]
+    B --> C["COACH\n(Agent)\nGives feedback"]
+    style A fill:#bee3f8,color:#1a202c
+    style B fill:#fef3c7,color:#1a202c
+    style C fill:#bbf7d0,color:#1a202c</div>
 
 <hr>
 
@@ -753,15 +753,15 @@ code[class*="language-"] {
 
 <strong>Progression Path Template:</strong>
 <div class="mermaid">flowchart TD
-<p>A["Senior Developer\n(Year 0)"] --> B["Engineering Manager\n(Year 2-3)"]</p>
-<p>A --> C["Staff Engineer\n(Year 2-3)"]</p>
-<p>A --> D["Product Manager\n(Year 1-2)"]</p>
-<p>B --> E["Director of Engineering\n(Year 5-7)"]</p>
-<p>C --> F["Principal Engineer\n(Year 5-7)"]</p>
-<p>D --> G["Senior PM\n(Year 3-4)"]</p>
-<p>G --> H["Director of Product\n(Year 5-7)"]</p>
-<p>style A fill:#bee3f8,color:#1a202c</p>
-<p>style D fill:#fef3c7,color:#1a202c</div></p>
+    A["Senior Developer\n(Year 0)"] --> B["Engineering Manager\n(Year 2-3)"]
+    A --> C["Staff Engineer\n(Year 2-3)"]
+    A --> D["Product Manager\n(Year 1-2)"]
+    B --> E["Director of Engineering\n(Year 5-7)"]
+    C --> F["Principal Engineer\n(Year 5-7)"]
+    D --> G["Senior PM\n(Year 3-4)"]
+    G --> H["Director of Product\n(Year 5-7)"]
+    style A fill:#bee3f8,color:#1a202c
+    style D fill:#fef3c7,color:#1a202c</div>
 
 <strong>Agent capabilities:</strong>
 <li>Map skills to multiple career paths</li>
@@ -773,13 +773,13 @@ code[class*="language-"] {
 
 <strong>The Bridge Model:</strong>
 <div class="mermaid">flowchart LR
-<p>A["Current Skills\n90% owned"] --> B["Transferable Skills\n60% identified"]</p>
-<p>B --> C["Gap Skills\n30% to acquire"]</p>
-<p>C --> D["Target Role"]</p>
-<p>style A fill:#bbf7d0,color:#1a202c</p>
-<p>style B fill:#fef3c7,color:#1a202c</p>
-<p>style C fill:#fecaca,color:#1a202c</p>
-<p>style D fill:#38a169,color:#fff</div></p>
+    A["Current Skills\n90% owned"] --> B["Transferable Skills\n60% identified"]
+    B --> C["Gap Skills\n30% to acquire"]
+    C --> D["Target Role"]
+    style A fill:#bbf7d0,color:#1a202c
+    style B fill:#fef3c7,color:#1a202c
+    style C fill:#fecaca,color:#1a202c
+    style D fill:#38a169,color:#fff</div>
 
 <hr>
 
@@ -801,25 +801,25 @@ code[class*="language-"] {
 
 <strong>Architecture:</strong>
 <div class="mermaid">flowchart TB
-<p>subgraph Coach["CAREER COACH AGENT (Orchestrator)"]</p>
-<p>direction TB</p>
-<p>subgraph Agents[" "]</p>
-<p>direction LR</p>
-<p>RA["Resume\nAnalyzer"]</p>
-<p>JM["Job\nMatcher"]</p>
-<p>IC["Interview\nCoach"]</p>
-<p>LA["LinkedIn\nAdvisor"]</p>
-<p>CP["Career\nPlanner"]</p>
-<p>end</p>
-<p>Memory["SHARED MEMORY (User Profile)"]</p>
-<p>end</p>
-<p>style RA fill:#bee3f8,color:#1a202c</p>
-<p>style JM fill:#fed7aa,color:#1a202c</p>
-<p>style IC fill:#bbf7d0,color:#1a202c</p>
-<p>style LA fill:#c4b5fd,color:#1a202c</p>
-<p>style CP fill:#fecaca,color:#1a202c</p>
-<p>style Memory fill:#fef3c7,color:#1a202c</p>
-<p>style Agents fill:transparent,stroke:none</div></p>
+    subgraph Coach["CAREER COACH AGENT (Orchestrator)"]
+        direction TB
+        subgraph Agents[" "]
+            direction LR
+            RA["Resume\nAnalyzer"]
+            JM["Job\nMatcher"]
+            IC["Interview\nCoach"]
+            LA["LinkedIn\nAdvisor"]
+            CP["Career\nPlanner"]
+        end
+        Memory["SHARED MEMORY (User Profile)"]
+    end
+    style RA fill:#bee3f8,color:#1a202c
+    style JM fill:#fed7aa,color:#1a202c
+    style IC fill:#bbf7d0,color:#1a202c
+    style LA fill:#c4b5fd,color:#1a202c
+    style CP fill:#fecaca,color:#1a202c
+    style Memory fill:#fef3c7,color:#1a202c
+    style Agents fill:transparent,stroke:none</div>
 
             </div>
         </div>

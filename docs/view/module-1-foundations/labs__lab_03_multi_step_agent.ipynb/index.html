@@ -571,16 +571,16 @@ code[class*="language-"] {
 <h2>The Complete Agent Loop</h2>
 
 <div class="mermaid">flowchart TD
-<p>A["USER TASK"] --> B["Send messages to Claude"]</p>
-<p>B --> C["Claude responds"]</p>
-<p>C --> D{"stop_reason?"}</p>
-<p>D -->|"tool_use"| E["Execute tool<br>Append result to messages"]</p>
-<p>D -->|"end_turn"| F["DONE<br>Return final answer"]</p>
-<p>E --> B</p>
-<p>style A fill:#bee3f8,color:#1a202c</p>
-<p>style D fill:#fef3c7,color:#1a202c</p>
-<p>style E fill:#fed7aa,color:#1a202c</p>
-<p>style F fill:#38a169,color:#fff</div></p>
+    A["USER TASK"] --> B["Send messages to Claude"]
+    B --> C["Claude responds"]
+    C --> D{"stop_reason?"}
+    D -->|"tool_use"| E["Execute tool<br>Append result to messages"]
+    D -->|"end_turn"| F["DONE<br>Return final answer"]
+    E --> B
+    style A fill:#bee3f8,color:#1a202c
+    style D fill:#fef3c7,color:#1a202c
+    style E fill:#fed7aa,color:#1a202c
+    style F fill:#38a169,color:#fff</div>
 
 <strong>The key insight:</strong> The loop continues as long as Claude returns <code class="inline">stop_reason == "tool_use"</code>. When Claude has everything it needs, it returns <code class="inline">stop_reason == "end_turn"</code> with the final answer.</div>
 <div class="nb-cell nb-markdown"><hr>
